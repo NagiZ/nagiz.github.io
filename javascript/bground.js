@@ -39,8 +39,10 @@
 		bgroundHeight = parseInt(bground.style.height);	   
 		document.getElementById('score').style.top = mainStage.style.width;
 		document.getElementById('score').style.left = 0;
+		document.getElementById('score').style.width = 300 + 'px';
 		document.getElementById('playTime').style.top = mainStage.style.width;
 		document.getElementById('playTime').style.right = 0;
+		document.getElementById('playTime').style.width = 300 + 'px';
 	}else{
 		mainWidth = 500;
 		mainHeight = 440;
