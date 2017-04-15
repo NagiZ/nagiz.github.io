@@ -3,8 +3,8 @@
  	var currentState = 0;
 
 //游戏中用到的字符串
-	var gameName = "球球大消除", startGame = "开始游戏", endGame = "结束游戏", about = "关于", mode1 = "限时模式", mode2 = "计时模式", mode, gover = "游戏结束", conGame = "继续游戏";
-	var aboutUS = "闲来无事，做做毕设。反正也不知道该干啥，心慌慌。";
+	var gameName = "quanquan大消除", startGame = "开始游戏", endGame = "结束游戏", about = "关于", mode1 = "限时模式", mode2 = "计时模式", mode, gover = "游戏结束", conGame = "继续游戏";
+	var aboutUS = "一q打死曾晓q，一脚踢死吴jj";
 	var score = 0, totalScore = 0;//分数
 	var time, tCount = 0;//计时
 	var timeFlag = false;
