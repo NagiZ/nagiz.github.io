@@ -26,13 +26,13 @@
 	var mainWidth, mainHeight, bgroundWidth, bgroundHeight, ballRadius, pad;
 	function resizeCanvas() {
 	if (screen.availWidth<800) {
-		document.getElementById('cantainer').style.width = screen.availWidth + 'px';
-		document.getElementById('cantainer').style.height = screen.availHeight + 'px';
-        mainStage.style.width = screen.availWidth + 'px';
-        mainStage.style.height = screen.availWidth*0.875 + 'px';
+		document.getElementById('cantainer').style.width = window.innerWidth + 'px';
+		document.getElementById('cantainer').style.height = window.innerWidth + 'px';
+        mainStage.style.width = window.innerWidth + 'px';
+        mainStage.style.height = window.innerWidth*0.875 + 'px';
         //context.fillRect(0, 0, canvas.width(), canvas.height());
-        bground.style.width = screen.availWidth + 'px';
-        bground.style.height = screen.availWidth*0.875 + 'px';
+        bground.style.width = window.innerWidth + 'px';
+        bground.style.height = window.innerWidth*0.875 + 'px';
 		mainWidth = parseInt(mainStage.style.width);
 		mainHeight = parseInt(mainStage.style.height);
 		bgroundWidth = parseInt(bground.style.width);
