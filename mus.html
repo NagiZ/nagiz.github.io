@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<audio src = "" id='music1'>
+		Your browser does not support the audio element.
+	</audio>
+	<button id="11">11</button>
+	<button id = '22'>22</button>
+	<script type="text/javascript">
+		var music1 = document.getElementById("music1");
+		var currentT = 0;
+		document.getElementById('11').onclick = function(){
+			music1.src = "music/bgmusic.wav";
+			music1.currentTime = currentT;
+			music1.loop = true;
+			music1.autoplay = true;
+		}
+		document.getElementById('22').onclick = function(){
+			currentT = music1.currentTime;
+			music1.pause();
+		}
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>毕设三消</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+</head>
+<body>
+<div id="cantainer">
+	<canvas id="main_stage" height="440px" width="500px" >
+		你的浏览器不支持canvas。
+	</canvas>
+	<canvas id="background" height="440px" width="500px" >
+		你的浏览器不支持canvas。
+	</canvas>
+	<audio id="loadingMusic" src=""></audio>
+	<audio id="bgMusic" src="" ></audio>
+	<audio id="clearMusic" src=""></audio>
+	<audio id="endMusic" src=""></audio>
+	<p id="score"></p>
+	<input type="text" name="time" id="playTime" readonly="readonly"></input>
+</div>
+<script type="text/javascript" src = "javascript/play.js"></script>
+<script type="text/javascript" src = "javascript/bground.js"></script>
+<script type="text/javascript" src = "javascript/jsstool.js"></script>
+<script type="text/javascript">
+	window.onload = function(){
+		//resizeCanvas();
+		init();
+		//console.log(screen.availWidth);
+	 	//console.log(document.getElementById(main_stage).style.width);
+	}
+</script>
+</body>
+</html> 
