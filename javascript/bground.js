@@ -75,6 +75,7 @@
 		isPause = false;
 		isEnd = false;
 		timeId = null;
+		loopPause = false;
 		tCount = 0;
 		clearTimeout(time);
 		timeFlag = false;
@@ -287,6 +288,7 @@
 			if (mouseX >mainWidth*0.354&&mouseX<mainWidth*0.687&&mouseY>mainHeight*0.330&&mouseY<mainHeight*0.437) {
 				timeFlag = ~timeFlag;
 				isPause = ~isPause;
+				loopPause = ~loopPause;
 				if (tCount<=60) {
 					//继续背景音乐
 					var bgMusic = document.getElementById("bgMusic");
@@ -296,6 +298,7 @@
 
 					bground.style.zIndex = 0;
 					pageSkip(bg, 0, 0, 500, 440);
+					loop();
 					timeCount();
 					if(!dropBall()){
 						ballAll[0][0].checkEliBall();
@@ -305,6 +308,7 @@
 				//alert('123132');
 				timeFlag = ~timeFlag;
 				isPause = ~isPause;
+				loopPause = ~loopPause;
 				bground.style.zIndex = 0;
 				pageSkip(bg, 0, 0, 500, 440, 0.5);
 				gameOver();
@@ -384,6 +388,7 @@
 			if (mouseX >mainWidth*0.354&&mouseX<mainWidth*0.687&&mouseY>mainHeight*0.330&&mouseY<mainHeight*0.437) {
 				timeFlag = ~timeFlag;
 				isPause = ~isPause;
+				loopPause = ~loopPause;
 				if (tCount<=60) {
 					//继续背景音乐
 					var bgMusic = document.getElementById("bgMusic");
@@ -394,6 +399,7 @@
 					bground.style.zIndex = 0;
 					pageSkip(bg, 0, 0, 500, 440);
 					timeCount();
+					loop();
 					if(!dropBall()){
 						ballAll[0][0].checkEliBall();
 					}
@@ -402,6 +408,7 @@
 				//alert('123132');
 				timeFlag = ~timeFlag;
 				isPause = ~isPause;
+				loopPause = ~loopPause;
 				bground.style.zIndex = 0;
 				pageSkip(bg, 0, 0, 500, 440, 0.5);
 				gameOver();

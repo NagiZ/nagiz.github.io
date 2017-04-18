@@ -45,6 +45,7 @@ function pageSkip(ctx, startX, startY, X, Y, alpha, fillColor){
 		ctx.fillStyle = 'black';
 		ctx.fillRect(startX, startY, X, Y);
 	}
+	ctx.restore();
 }
 
 //交换颜色
@@ -190,6 +191,7 @@ if (screen.availWidth>600) {
 function playPause(){
 	timeFlag = ~timeFlag;
 	isPause = ~isPause;
+	loopPause = ~loopPause;
 
 	var bgMusic = document.getElementById("bgMusic");
 	//var curTime = bgMusic.currentTime;
@@ -213,6 +215,7 @@ function playPause(){
 
 	}else{
 		if (tCount<=60) {
+			loop();
 			bground.style.zIndex = 0;
 			pageSkip(bg, 0, 0, 500, 440);
 			timeCount();
@@ -264,8 +267,10 @@ function gameOver(){
 
 		//dropBall();
 		isPause = true;
+		loopPause = true;
 		currentState = 4;//结束游戏
 		bg.font = "50px Arial";
+		pageSkip(fireCtx, 0, 0, 500, 440);
 		pageSkip(bg, 0, 0, 500, 440, 0.5, 1);
 		drawText(gover, 150, 190, bg) ;
 		bg.font = "30px Arila";
