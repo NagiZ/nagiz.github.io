@@ -33,7 +33,7 @@ function subStr(str, fontSize, ctx, stage){
 }
 
 //绘制模式选择界面--由按下“开始游戏”触发
-function pageSkip(ctx, startX, startY, X, Y, alpha){
+function pageSkip(ctx, startX, startY, X, Y, alpha, fillColor){
 	if (alpha == undefined) {
 		alpha = 1;
 	}
@@ -41,8 +41,10 @@ function pageSkip(ctx, startX, startY, X, Y, alpha){
 	ctx.beginPath();
 	ctx.globalAlpha = alpha;
 	ctx.clearRect(startX, startY, X, Y);
-	ctx.fillStyle = 'black';
-	ctx.fillRect(startX, startY, X, Y);
+	if (fillColor) {
+		ctx.fillStyle = 'black';
+		ctx.fillRect(startX, startY, X, Y);
+	}
 }
 
 //交换颜色
@@ -195,7 +197,7 @@ function playPause(){
 	if (timeFlag) {
 		currentState = 3;
 		endTimeCount();
-		pageSkip(bg, 0, 0, 500, 440, 0.5);
+		pageSkip(bg, 0, 0, 500, 440, 0.5, 1);
 		bground.style.zIndex = 30;
 		bg.font = '40px Arial';
 		drawText(conGame, 170, 180, bg);
@@ -264,7 +266,7 @@ function gameOver(){
 		isPause = true;
 		currentState = 4;//结束游戏
 		bg.font = "50px Arial";
-		pageSkip(bg, 0, 0, 500, 440, 0.5);
+		pageSkip(bg, 0, 0, 500, 440, 0.5, 1);
 		drawText(gover, 150, 190, bg) ;
 		bg.font = "30px Arila";
 		if(mode==mode2){
