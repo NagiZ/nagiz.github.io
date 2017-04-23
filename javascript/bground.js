@@ -454,7 +454,7 @@
 		loadingMusic.loop = false;
 		loadingMusic.autoplay = false;
     	
-    	//bgMusic.src = "./music/bgmusic.wav";
+    	bgMusic.src = "./music/bgmusic.wav";
     	bgMusic.loop = true;
     	bgMusic.autoplay = true;
 
