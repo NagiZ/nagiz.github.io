@@ -3,7 +3,7 @@
  	var currentState = 0;
 
 //游戏中用到的字符串
-	var gameName = "星素消除", startGame = "开始游戏", endGame = "结束游戏", about = "关于", mode1 = "计时模式", mode2 = "限时模式", mode, gover = "游戏结束", conGame = "继续游戏";
+	var gameName = "星素消除", startGame = "开始游戏", endGame = "结束游戏", about = "关于", mode1 = "限时模式", mode2 = "计时模式", mode, gover = "游戏结束", conGame = "继续游戏";
 	var aboutUS = "闲来无事，做做毕设。反正也不知道该干啥，心慌慌。";
 	var score = 0, totalScore = 0;//分数
 	var time, tCount = 0;//计时
@@ -38,18 +38,12 @@
 		mainHeight = parseInt(mainStage.style.height);
 		bgroundWidth = parseInt(bground.style.width);
 		bgroundHeight = parseInt(bground.style.height);	  
-		document.getElementById('score').style.top = (mainHeight+20) + 'px';
+		document.getElementById('score').style.top = mainStage.style.width;
 		document.getElementById('score').style.left = 0;
 		document.getElementById('score').style.width = 300 + 'px';
-		document.getElementById('playTime').style.top = (mainHeight+20) + 'px';
+		document.getElementById('playTime').style.top = mainStage.style.width;
 		document.getElementById('playTime').style.right = 0;
 		document.getElementById('playTime').style.width = 300 + 'px';
-		document.getElementById('pauseGame').style.top = (mainHeight+150) + 'px';
-		document.getElementById('pauseGame').style.left = 0;
-		document.getElementById('pauseGame').style.width = 300 + 'px';
-		document.getElementById('exit').style.right = 0;
-		document.getElementById('exit').style.top = (mainHeight+150) + 'px';
-		document.getElementById('exit').style.width = 300 + 'px';
 	}else{
 		mainWidth = 500;
 		mainHeight = 440;
@@ -73,7 +67,7 @@
 		//console.log(ballRadius);
 		//console.log(mainWidth);
 		var loadingMusic = document.getElementById('loadingMusic');
-		//loadingMusic.src = "./music/loadingmusic.wav";
+		loadingMusic.src = "./music/loadingmusic.wav";
 		loadingMusic.loop = true;
 		loadingMusic.autoplay =true;
 
@@ -298,7 +292,7 @@
 				if (tCount<=60) {
 					//继续背景音乐
 					var bgMusic = document.getElementById("bgMusic");
-					exit.addEventListener('click', playEnd, false);
+					endPlay.addEventListener('click', playEnd, false);
 					//var curTime = bgMusic.currentTime;
 					bgMusic.play();
 
@@ -357,6 +351,8 @@
 			}
 		}else if (currentState == 1) {//模式选择界面
 			if (mouseX >mainWidth*0.401&&mouseX<mainWidth*0.687&&mouseY>mainHeight*0.330&&mouseY<mainHeight*0.437) {
+				document.getElementById('score').style.display = "block";
+				document.getElementById('playTime').style.display = "block";
 				
 				mode = mode1;//限时模式
 				bground.style.zIndex = 0;
@@ -365,7 +361,9 @@
 				isGameStart = 1;
 
 			}else if(mouseX >mainWidth*0.401&&mouseX<mainWidth*0.687&&mouseY>mainHeight*0.556&&mouseY<mainHeight*0.651){
-				
+				document.getElementById('score').style.display = "block";
+				document.getElementById('playTime').style.display = "block";
+
 				mode = mode2;//计时模式
 				bground.style.zIndex = 0;
 				pageSkip(bg, 0, 0, 500, 440);
@@ -394,7 +392,7 @@
 				if (tCount<=60) {
 					//继续背景音乐
 					var bgMusic = document.getElementById("bgMusic");
-					exit.addEventListener('click', playEnd, false);
+					endPlay.addEventListener('click', playEnd, false);
 					//var curTime = bgMusic.currentTime;
 					bgMusic.play();
 
@@ -444,12 +442,6 @@
     	var loadingMusic = document.getElementById('loadingMusic');
     	var bgMusic = document.getElementById("bgMusic");
 
-    	//显示分数、时间、暂停和结束游戏按钮
-    	document.getElementById('score').style.display = "block";
-		document.getElementById('playTime').style.display = "block";
-		document.getElementById('pauseGame').style.display = "block";
-		document.getElementById('exit').style.display = "block";
-
 		loadingMusic.src = "";
 		loadingMusic.loop = false;
 		loadingMusic.autoplay = false;
@@ -468,4 +460,3 @@
 				timeCount(tCount);
 			},1000);	
     };
-	

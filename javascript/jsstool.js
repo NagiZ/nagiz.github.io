@@ -149,10 +149,10 @@ function transTime(t){
 //计时
 function timeCount(){
 	var t = transTime(tCount);
-	document.getElementById('playTime').innerHTML ='Time: '+t+' s';
+	document.getElementById('playTime').value ='Time: '+t+' s';
 	if(mode==mode2){
 		if(tCount==61){
-			document.getElementById('playTime').innerHTML ='Time: '+(tCount-1)+' s';
+			document.getElementById('playTime').value ='Time: '+(tCount-1)+' s';
 			//endTimeCount();
 			gameOver();
 		}else{
@@ -178,38 +178,20 @@ function endTimeCount(){
 }
 
 //暂停
-var pauseGame = document.getElementById('pauseGame');
-var exit = document.getElementById('exit');
+var playTime = document.getElementById('playTime');
+var endPlay = document.getElementById('score');
 if (screen.availWidth>600) {
-	pauseGame.addEventListener('click', playPause, false);
-	exit.addEventListener('click', playEnd, false);
+	playTime.addEventListener('click', playPause, false);
+	endPlay.addEventListener('click', playEnd, false);
 }else{
-	pauseGame.addEventListener('touchend', playPause, false);
-	pauseGame.addEventListener('touchend', pauseTouchEnd, false);
-	exit.addEventListener('touchend', playEnd, false);
-	exit.addEventListener('touchend', exitTouchEnd, false);
-	document.addEventListener('touchmove', function(e){
-		e = event||window.event;
-		e.preventDefault();
-	},false);
-}
-
-
-function pauseTouchEnd(){
-	pauseGame.style.backgroundColor = "#FFD700";
-	pauseGame.style.boxShadow = "0px 9px 0px rgba(255,180,0,1)";
-}
-
-function exitTouchEnd(){
-	exit.style.backgroundColor = "#FF0000";
-	exit.style.boxShadow = "0px 9px 0px rgba(225,0,00,1)";
+	playTime.addEventListener('touchend', playPause, false);
+	endPlay.addEventListener('touchend', playEnd, false);
 }
 
 function playPause(){
 	timeFlag = ~timeFlag;
 	isPause = ~isPause;
 	loopPause = ~loopPause;
-	console.log(ballAll[0][0].constructor==Ball);
 
 	var bgMusic = document.getElementById("bgMusic");
 	//var curTime = bgMusic.currentTime;
@@ -223,9 +205,9 @@ function playPause(){
 		drawText(conGame, 170, 180, bg);
 		drawText(endGame, 170, 270, bg);
 		if (screen.availWidth>600){
-			exit.removeEventListener('click', playEnd, false);
+			endPlay.removeEventListener('click', playEnd, false);
 		}else{
-			exit.removeEventListener('touchend', playEnd, false);
+			endPlay.removeEventListener('touchend', playEnd, false);
 		}
 		//暂停音乐
 		bgMusic.pause();
@@ -238,9 +220,9 @@ function playPause(){
 			pageSkip(bg, 0, 0, 500, 440);
 			timeCount();
 			if (screen.availWidth>600){
-				exit.addEventListener('click', playEnd, false);
+				endPlay.addEventListener('click', playEnd, false);
 			}else{
-				exit.addEventListener('touchend', playEnd, false);
+				endPlay.addEventListener('touchend', playEnd, false);
 			}
 
 			//继续音乐
@@ -267,9 +249,9 @@ function playPause(){
 function gameOver(){
 	isEnd = true;
 	if (screen.availWidth>600){
-		pauseGame.removeEventListener('click', playPause, false);
+		playTime.removeEventListener('click', playPause, false);
 	}else{
-		pauseGame.removeEventListener('touchend', playPause, false);
+		playTime.removeEventListener('touchend', playPause, false);
 	}
 	endTimeCount();
 	if (!isPause&&!ballAll[0][0].checkEliBall()) {
@@ -278,7 +260,6 @@ function gameOver(){
 		var endMusic = document.getElementById("endMusic");
 		bgMusic.src = "";
 		bgMusic.loop = false;
-		//bgMusic.loop = false;
 		bgMusic.autoplay = false;
 
 		endMusic.src = "./music/endmusic.wav";
@@ -308,11 +289,11 @@ function gameOver(){
 	}
 	if (isEnd) {
 		if (screen.availWidth>600) {
-			document.getElementById('exit').onclick = function(){
+			document.getElementById('score').onclick = function(){
 				window.location.reload(true);
 			}
 		}else{
-			document.getElementById('exit').ontouchend = function(){
+			document.getElementById('score').ontouchend = function(){
 				window.location.reload(true);
 			}
 		}
@@ -434,39 +415,4 @@ function anyEliBall(ball){
 		}
 	}
 	return false;
-}
-
-function needRearrange(){
-	var abEli = 0;
-	for (var x = 0; x < ballAll.length; x++) {
-		for (var y = 0; y < ballAll[x].length; y++) {
-			if (anyEliBall(ballAll[x][y])&&(!isEnd)) {
-					abEli++;
-			}
-		}
-	}
-	if (abEli==0) {
-		return true;
-	}else{
-		return false;
-	}
-}
-
-function rearrange(){
-	var arr = [];
-	var need = needRearrange();
-	if (need) {
-		for (var i = 0; i < ballAll.length; i++) {
-			for (var j = 0; i < ballAll[i].length; j++) {
-				arr[i][j] = ballAll[i][j].color;
-			}
-		}
-		arr.sort(randomSorting);
-		for (var ii = 0; ii < ballAll.length; i++) {
-			for (var jj = 0; jj < ballAll[ii].length; jj++) {
-				ballAll[ii][jj].color = arr[ii][jj];
-			}
-		}
-		rearrange();
-	}
 }

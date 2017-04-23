@@ -28,93 +28,34 @@
 		#background{
 			z-index: 1;
 		}
-		.button{
+		#score{
 			display: none;
-			color: rgba(255,255,255,1);
-   			text-decoration: none;
-    		font-family: 'Yanone Kaffeesatz';
-    		font-weight: 700;
-   			font-size: 3em;
-    		-webkit-border-radius: 8px;
-    		-moz-border-radius: 8px;
-    		border-radius: 8px;
-			text-align: center;
-			outline: none;
-	
-			-webkit-transition: all 0.1s ease;
-			-moz-transition: all 0.1s ease;
-			-ms-transition: all 0.1s ease;
-			-o-transition: all 0.1s ease;
-			transition: all 0.1s ease;	
 			font-size: 20px;
+			text-align: center;
 			line-height: 50px;
 			width: 130px;
 			height: 100px;
+			border: 1px solid purple;
+			border-radius: 5px;
+			-webkit-border-radius: 5px;
+			background-color: #999999;
 			position: absolute;
+			right: 0px;
+			top: 0px;
 			cursor: pointer;
 		}
-		#score{
-			border: 1px solid #DB5705;
-			background-color: rgba(219,87,5,1);
-			-webkit-box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,0.7);
-    		-moz-box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,0.7);
-    		box-shadow: 0px 9px 0px rgba(219,31,5,1), 0px 9px 25px rgba(0,0,0,0.7);
-			right: 0;
-			top: 5px;
-			
-		}
 		#playTime{
-			border: 1px solid #C0FF3E;
-			background-color: rgba(192,255,62,1);
-			-webkit-box-shadow: 0px 9px 0px rgba(162,255,62,1), 0px 9px 25px rgba(0,0,0,0.7);
-    		-moz-box-shadow: 0px 9px 0px rgba(162,255,62,1), 0px 9px 25px rgba(0,0,0,0.7);
-    		box-shadow: 0px 9px 0px rgba(162,255,62,1), 0px 9px 25px rgba(0,0,0,0.7);
-			right: 0;
-			top: 115px;
+			display: none;
+			text-align: center;
+			font-size: 20px;
+			width: 130px;
+			height: 100px;
+			border: 1px solid purple;
+			border-radius: 5px;
+			-webkit-border-radius: 5px;
+			background-color: #f0f0f0;
+			position: absolute;
+			right: 0px;
+			top: 150px;
+			cursor: pointer;
 		}
-		#pauseGame{
-			border: 1px solid #FFD700;
-			background-color: rgba(255,215,0,1);
-			-webkit-box-shadow: 0px 9px 0px rgba(255,180,0,1), 0px 9px 25px rgba(0,0,0,0.7);
-    		-moz-box-shadow: 0px 9px 0px rgba(255,180,0,1), 0px 9px 25px rgba(0,0,0,0.7);
-    		box-shadow: 0px 9px 0px rgba(255,180,0,1), 0px 9px 25px rgba(0,0,0,0.7);
-			right: 0;
-			top: 225px;
-		}
-		#exit{
-			border: 1px solid #FF0000;
-			background-color: rgba(255,0,0,1);
-			-webkit-box-shadow: 0px 9px 0px rgba(225,0,00,1), 0px 9px 25px rgba(0,0,0,0.7);
-    		-moz-box-shadow: 0px 9px 0px rgba(225,0,00,1), 0px 9px 25px rgba(0,0,0,0.7);
-    		box-shadow: 0px 9px 0px rgba(225,0,00,1), 0px 9px 25px rgba(0,0,0,0.7);
-			right: 0;
-			top: 335px;
-		}
-		#pauseGame:hover{
-			border: 1px solid #00D700;
-			background-color: rgba(0,215,0,0.5);
-			-webkit-box-shadow: 0px 9px 0px rgba(0,180,0,0.5), 0px 9px 25px rgba(0,0,0,0.7);
-    		-moz-box-shadow: 0px 9px 0px rgba(0,180,0,0.5), 0px 9px 25px rgba(0,0,0,0.7);
-    		box-shadow: 0px 9px 0px rgba(0,180,0,0.5), 0px 9px 25px rgba(0,0,0,0.7);
-			right: 0;
-			top: 225px;
-		}
-		#pauseGame:active{
-			border: 1px solid #00D700;
-			background-color: rgba(0,215,0,1);
-			-webkit-box-shadow: 0px 9px 0px rgba(0,180,0,1), 0px 9px 25px rgba(0,0,0,0.7);
-    		-moz-box-shadow: 0px 9px 0px rgba(0,180,0,1), 0px 9px 25px rgba(0,0,0,0.7);
-    		box-shadow: 0px 9px 0px rgba(0,180,0,1), 0px 9px 25px rgba(0,0,0,0.7);
-			right: 0;
-			top: 225px;
-		}
-		#exit:active,#exit:hover{
-			border: 1px solid #C800FF;
-			background-color: rgba(200,0,250,1);
-			-webkit-box-shadow: 0px 9px 0px rgba(185,00,225,1), 0px 9px 25px rgba(0,0,0,0.7);
-    		-moz-box-shadow: 0px 9px 0px rgba(185,00,225,1), 0px 9px 25px rgba(0,0,0,0.7);
-    		box-shadow: 0px 9px 0px rgba(185,00,225,1), 0px 9px 25px rgba(0,0,0,0.7);
-			right: 0;
-			top: 335px;
-		}
-	
