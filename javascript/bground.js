@@ -72,10 +72,10 @@
 		//初始化
 		//console.log(ballRadius);
 		//console.log(mainWidth);
-		//var loadingMusic = document.getElementById('loadingMusic');
-		bgMusic.src = "./music/loadingmusic.wav";
-		bgMusic.loop = true;
-		bgMusic.autoplay =true;
+		var loadingMusic = document.getElementById('loadingMusic');
+		loadingMusic.src = "./music/loadingmusic.wav";
+		loadingMusic.loop = true;
+		loadingMusic.autoplay =true;
 
 		currentState = 0;
 		isPause = false;
@@ -441,7 +441,7 @@
     				
     	};
     	//载入音乐
-    	//var loadingMusic = document.getElementById('loadingMusic');
+    	var loadingMusic = document.getElementById('loadingMusic');
     	var bgMusic = document.getElementById("bgMusic");
 
     	//显示分数、时间、暂停和结束游戏按钮
@@ -450,9 +450,9 @@
 		document.getElementById('pauseGame').style.display = "block";
 		document.getElementById('exit').style.display = "block";
 
-		/*loadingMusic.src = "";
+		loadingMusic.src = "";
 		loadingMusic.loop = false;
-		loadingMusic.autoplay = false;*/
+		loadingMusic.autoplay = false;
     	
     	bgMusic.src = "./music/bgmusic.wav";
     	bgMusic.loop = true;

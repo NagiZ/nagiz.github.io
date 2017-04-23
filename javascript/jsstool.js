@@ -275,14 +275,14 @@ function gameOver(){
 	if (!isPause&&!ballAll[0][0].checkEliBall()) {
 		//停止背景音，播放结束音乐
 		var bgMusic = document.getElementById("bgMusic");
-		//var endMusic = document.getElementById("endMusic");
-		bgMusic.src = "./music/endmusic.wav";
+		var endMusic = document.getElementById("endMusic");
+		bgMusic.src = "";
 		bgMusic.loop = false;
 		//bgMusic.loop = false;
-		//bgMusic.autoplay = false;
+		bgMusic.autoplay = false;
 
-		//endMusic.src = "./music/endmusic.wav";
-		//endMusic.autoplay = true;
+		endMusic.src = "./music/endmusic.wav";
+		endMusic.autoplay = true;
 
 		//dropBall();
 		isPause = true;
