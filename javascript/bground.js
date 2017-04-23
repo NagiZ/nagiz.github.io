@@ -3,13 +3,12 @@
  	var currentState = 0;
 
 //游戏中用到的字符串
-	var gameName = "速度之消除", startGame = "开始游戏", endGame = "结束游戏", about = "关于", mode1 = "限时模式", mode2 = "计时模式", mode, gover = "游戏结束", conGame = "继续游戏";
-	var aboutUS = "一q打死曾晓q，一脚踢死吴jj";
+	var gameName = "星素消除", startGame = "开始游戏", endGame = "结束游戏", about = "关于", mode1 = "计时模式", mode2 = "限时模式", mode, gover = "游戏结束", conGame = "继续游戏";
+	var aboutUS = "闲来无事，做做毕设。反正也不知道该干啥，心慌慌。";
 	var score = 0, totalScore = 0;//分数
 	var time, tCount = 0;//计时
 	var timeFlag = false;
 	var timeId = null;
-
 //渲染背景
 	var div = document.getElementById('cantainer');
     var bground = document.getElementById('background');
@@ -28,6 +27,8 @@
 	if (screen.availWidth<800) {
 		document.getElementById('cantainer').style.width = window.innerWidth + 'px';
 		document.getElementById('cantainer').style.height = window.innerWidth + 'px';
+		document.getElementById('box').style.width = window.innerWidth + 'px';
+		document.getElementById('box').style.height = window.innerWidth*0.875 + 'px'
         mainStage.style.width = window.innerWidth + 'px';
         mainStage.style.height = window.innerWidth*0.875 + 'px';
         //context.fillRect(0, 0, canvas.width(), canvas.height());
@@ -36,13 +37,19 @@
 		mainWidth = parseInt(mainStage.style.width);
 		mainHeight = parseInt(mainStage.style.height);
 		bgroundWidth = parseInt(bground.style.width);
-		bgroundHeight = parseInt(bground.style.height);	   
-		document.getElementById('score').style.top = mainStage.style.width;
+		bgroundHeight = parseInt(bground.style.height);	  
+		document.getElementById('score').style.top = (mainHeight+20) + 'px';
 		document.getElementById('score').style.left = 0;
 		document.getElementById('score').style.width = 300 + 'px';
-		document.getElementById('playTime').style.top = mainStage.style.width;
+		document.getElementById('playTime').style.top = (mainHeight+20) + 'px';
 		document.getElementById('playTime').style.right = 0;
 		document.getElementById('playTime').style.width = 300 + 'px';
+		document.getElementById('pauseGame').style.top = (mainHeight+150) + 'px';
+		document.getElementById('pauseGame').style.left = 0;
+		document.getElementById('pauseGame').style.width = 300 + 'px';
+		document.getElementById('exit').style.right = 0;
+		document.getElementById('exit').style.top = (mainHeight+150) + 'px';
+		document.getElementById('exit').style.width = 300 + 'px';
 	}else{
 		mainWidth = 500;
 		mainHeight = 440;
@@ -74,6 +81,7 @@
 		isPause = false;
 		isEnd = false;
 		timeId = null;
+		loopPause = false;
 		tCount = 0;
 		clearTimeout(time);
 		timeFlag = false;
@@ -87,10 +95,10 @@
     	};
 
 		mainContext.clearRect(0, 0, 500, 440);
-		bg.fillStyle = 'black';
-	    bg.fillRect(0,0,500,440);
+		/*bg.fillStyle = 'black';
+	    bg.fillRect(0,0,500,440);*/
 	    bground.style.zIndex = 30;//背景位于主画布上方
-	    bg.font = '60px Arial';
+	    bg.font = '75px YouYuan';
 	    var bgNameGradient = bg.createLinearGradient(100, 130, 420, 190);
 	    drawText(gameName, 100, 150, bg, bgNameGradient);
 
@@ -108,13 +116,13 @@
 		var mouseX = e.pageX-div.offsetLeft;
 		var mouseY = e.pageY-div.offsetTop;
 		if (currentState==0) {
-			if(mouseX >mainWidth*0.395&&mouseX<mainWidth*0.7075&&mouseY>mainHeight*0.472&&mouseY<mainHeight*0.556){
+			if(mouseX >mainWidth*0.365&&mouseX<mainWidth*0.6575&&mouseY>mainHeight*0.472&&mouseY<mainHeight*0.556){
 				pageSkip(bg, 190, 200, 130, 40);
 				drawText(startGame, 190, 230, bg);
 			}else if (mouseX>mainWidth*0.4575&&mouseX<mainWidth*0.5825&&mouseY>mainHeight*0.591&&mouseY<mainHeight*0.675) {
 				pageSkip(bg, 220, 250, 70, 40);
 				drawText(about, 220, 280, bg);
-			}else if (mouseX>mainWidth*0.395&&mouseX<mainWidth*0.7075&&mouseY>mainHeight*0.71&&mouseY<mainHeight*0.794) {
+			}else if (mouseX >mainWidth*0.365&&mouseX<mainWidth*0.6575&&mouseY>mainHeight*0.71&&mouseY<mainHeight*0.794) {
 				pageSkip(bg, 190, 300, 130, 40);
 				drawText(endGame, 190, 330, bg);
 			}else{
@@ -145,14 +153,14 @@
 		}else if (currentState==3) {
 			var pauseGradient = bg.createLinearGradient(190, 0, 350, 0);
 			if(mouseX >mainWidth*0.354&&mouseX<mainWidth*0.687&&mouseY>mainHeight*0.330&&mouseY<mainHeight*0.437){
-				pageSkip(bg, 170, 145, 170, 55, 0.5);
+				pageSkip(bg, 170, 145, 170, 55, 0.5, 1);
 				drawText(conGame, 170, 180, bg, pauseGradient);
 			}else if (mouseX >mainWidth*0.354&&mouseX<mainWidth*0.687&&mouseY>mainHeight*0.544&&mouseY<mainHeight*0.663) {
-				pageSkip(bg, 170, 235, 170, 55, 0.5);
+				pageSkip(bg, 170, 235, 170, 55, 0.5, 1);
 				drawText(endGame, 170, 270, bg, pauseGradient);
 			}else{
-				pageSkip(bg, 170, 145, 170, 55, 0.5);
-				pageSkip(bg, 170, 235, 170, 45, 0.5);
+				pageSkip(bg, 170, 145, 170, 55, 0.5, 1);
+				pageSkip(bg, 170, 235, 170, 45, 0.5, 1);
 				
 				drawText(conGame, 170, 180, bg);
 				drawText(endGame, 170, 270, bg);
@@ -166,13 +174,13 @@
 		var mouseX = e.touches[0].pageX-div.offsetLeft;
 		var mouseY = e.touches[0].pageY-div.offsetTop;
 		if (currentState==0) {
-			if(mouseX >mainWidth*0.395&&mouseX<mainWidth*0.7075&&mouseY>mainHeight*0.472&&mouseY<mainHeight*0.556){
+			if(mouseX >mainWidth*0.365&&mouseX<mainWidth*0.6575&&mouseY>mainHeight*0.472&&mouseY<mainHeight*0.556){
 				pageSkip(bg, 190, 200, 130, 40);
 				drawText(startGame, 190, 230, bg);
 			}else if (mouseX>mainWidth*0.4575&&mouseX<mainWidth*0.5825&&mouseY>mainHeight*0.591&&mouseY<mainHeight*0.675) {
 				pageSkip(bg, 220, 250, 70, 40);
 				drawText(about, 220, 280, bg);
-			}else if (mouseX>mainWidth*0.395&&mouseX<mainWidth*0.7075&&mouseY>mainHeight*0.71&&mouseY<mainHeight*0.794) {
+			}else if (mouseX >mainWidth*0.365&&mouseX<mainWidth*0.6575&&mouseY>mainHeight*0.71&&mouseY<mainHeight*0.794) {
 				pageSkip(bg, 190, 300, 130, 40);
 				drawText(endGame, 190, 330, bg);
 			}else{
@@ -203,14 +211,14 @@
 		}else if (currentState==3) {
 			var pauseGradient = bg.createLinearGradient(190, 0, 350, 0);
 			if(mouseX >mainWidth*0.354&&mouseX<mainWidth*0.687&&mouseY>mainHeight*0.330&&mouseY<mainHeight*0.437){
-				pageSkip(bg, 170, 145, 170, 55, 0.5);
+				pageSkip(bg, 170, 145, 170, 55, 0.5, 1);
 				drawText(conGame, 170, 180, bg, pauseGradient);
 			}else if (mouseX >mainWidth*0.354&&mouseX<mainWidth*0.687&&mouseY>mainHeight*0.544&&mouseY<mainHeight*0.663) {
-				pageSkip(bg, 170, 235, 170, 55, 0.5);
+				pageSkip(bg, 170, 235, 170, 55, 0.5, 1);
 				drawText(endGame, 170, 270, bg, pauseGradient);
 			}else{
-				pageSkip(bg, 170, 145, 170, 55, 0.5);
-				pageSkip(bg, 170, 235, 170, 45, 0.5);
+				pageSkip(bg, 170, 145, 170, 55, 0.5, 1);
+				pageSkip(bg, 170, 235, 170, 45, 0.5, 1);
 				
 				drawText(conGame, 170, 180, bg);
 				drawText(endGame, 170, 270, bg);
@@ -225,7 +233,7 @@
 		//console.log(mouseX);
 		//console.log(mouseY);
 		if (currentState == 0) {
-			if(mouseX >mainWidth*0.395&&mouseX<mainWidth*0.7075&&mouseY>mainHeight*0.472&&mouseY<mainHeight*0.556){
+			if(mouseX >mainWidth*0.365&&mouseX<mainWidth*0.6575&&mouseY>mainHeight*0.472&&mouseY<mainHeight*0.556){
 			//进入模式选择界面
 				currentState = 1;
 				var modeGradient = bg.createLinearGradient(190, 0, 350, 0);
@@ -243,7 +251,7 @@
 				for (var i = 0; i < x.length; i++) {
 					drawText(x[i], 2*40, (i+4)*40, bg, aboutGradient);
 				};
-			}else if(mouseX>mainWidth*0.395&&mouseX<mainWidth*0.7075&&mouseY>mainHeight*0.71&&mouseY<mainHeight*0.794){
+			}else if(mouseX >mainWidth*0.365&&mouseX<mainWidth*0.6575&&mouseY>mainHeight*0.71&&mouseY<mainHeight*0.794){
 				//结束游戏，关闭网页
 				window.close();
 			}
@@ -286,15 +294,17 @@
 			if (mouseX >mainWidth*0.354&&mouseX<mainWidth*0.687&&mouseY>mainHeight*0.330&&mouseY<mainHeight*0.437) {
 				timeFlag = ~timeFlag;
 				isPause = ~isPause;
+				loopPause = ~loopPause;
 				if (tCount<=60) {
 					//继续背景音乐
 					var bgMusic = document.getElementById("bgMusic");
-					endPlay.addEventListener('click', playEnd, false);
+					exit.addEventListener('click', playEnd, false);
 					//var curTime = bgMusic.currentTime;
 					bgMusic.play();
 
 					bground.style.zIndex = 0;
 					pageSkip(bg, 0, 0, 500, 440);
+					loop();
 					timeCount();
 					if(!dropBall()){
 						ballAll[0][0].checkEliBall();
@@ -304,6 +314,7 @@
 				//alert('123132');
 				timeFlag = ~timeFlag;
 				isPause = ~isPause;
+				loopPause = ~loopPause;
 				bground.style.zIndex = 0;
 				pageSkip(bg, 0, 0, 500, 440, 0.5);
 				gameOver();
@@ -322,7 +333,7 @@
 		//console.log(mouseX);
 		//console.log(mouseY);
 		if (currentState == 0) {
-			if(mouseX >mainWidth*0.395&&mouseX<mainWidth*0.7075&&mouseY>mainHeight*0.472&&mouseY<mainHeight*0.556){
+			if(mouseX >mainWidth*0.365&&mouseX<mainWidth*0.6575&&mouseY>mainHeight*0.472&&mouseY<mainHeight*0.556){
 			//进入模式选择界面
 				currentState = 1;
 				var modeGradient = bg.createLinearGradient(190, 0, 350, 0);
@@ -340,14 +351,12 @@
 				for (var i = 0; i < x.length; i++) {
 					drawText(x[i], 2*40, (i+4)*40, bg, aboutGradient);
 				};
-			}else if(mouseX>mainWidth*0.395&&mouseX<mainWidth*0.7075&&mouseY>mainHeight*0.71&&mouseY<mainHeight*0.794){
+			}else if(mouseX >mainWidth*0.365&&mouseX<mainWidth*0.6575&&mouseY>mainHeight*0.71&&mouseY<mainHeight*0.794){
 				//结束游戏，关闭网页
 				window.close();
 			}
 		}else if (currentState == 1) {//模式选择界面
 			if (mouseX >mainWidth*0.401&&mouseX<mainWidth*0.687&&mouseY>mainHeight*0.330&&mouseY<mainHeight*0.437) {
-				document.getElementById('score').style.display = "block";
-				document.getElementById('playTime').style.display = "block";
 				
 				mode = mode1;//限时模式
 				bground.style.zIndex = 0;
@@ -356,9 +365,7 @@
 				isGameStart = 1;
 
 			}else if(mouseX >mainWidth*0.401&&mouseX<mainWidth*0.687&&mouseY>mainHeight*0.556&&mouseY<mainHeight*0.651){
-				document.getElementById('score').style.display = "block";
-				document.getElementById('playTime').style.display = "block";
-
+				
 				mode = mode2;//计时模式
 				bground.style.zIndex = 0;
 				pageSkip(bg, 0, 0, 500, 440);
@@ -383,16 +390,18 @@
 			if (mouseX >mainWidth*0.354&&mouseX<mainWidth*0.687&&mouseY>mainHeight*0.330&&mouseY<mainHeight*0.437) {
 				timeFlag = ~timeFlag;
 				isPause = ~isPause;
+				loopPause = ~loopPause;
 				if (tCount<=60) {
 					//继续背景音乐
 					var bgMusic = document.getElementById("bgMusic");
-					endPlay.addEventListener('click', playEnd, false);
+					exit.addEventListener('click', playEnd, false);
 					//var curTime = bgMusic.currentTime;
 					bgMusic.play();
 
 					bground.style.zIndex = 0;
 					pageSkip(bg, 0, 0, 500, 440);
 					timeCount();
+					loop();
 					if(!dropBall()){
 						ballAll[0][0].checkEliBall();
 					}
@@ -401,6 +410,7 @@
 				//alert('123132');
 				timeFlag = ~timeFlag;
 				isPause = ~isPause;
+				loopPause = ~loopPause;
 				bground.style.zIndex = 0;
 				pageSkip(bg, 0, 0, 500, 440, 0.5);
 				gameOver();
@@ -434,6 +444,12 @@
     	var loadingMusic = document.getElementById('loadingMusic');
     	var bgMusic = document.getElementById("bgMusic");
 
+    	//显示分数、时间、暂停和结束游戏按钮
+    	document.getElementById('score').style.display = "block";
+		document.getElementById('playTime').style.display = "block";
+		document.getElementById('pauseGame').style.display = "block";
+		document.getElementById('exit').style.display = "block";
+
 		loadingMusic.src = "";
 		loadingMusic.loop = false;
 		loadingMusic.autoplay = false;
@@ -452,3 +468,4 @@
 				timeCount(tCount);
 			},1000);	
     };
+	

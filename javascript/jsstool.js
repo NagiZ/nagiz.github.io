@@ -33,7 +33,7 @@ function subStr(str, fontSize, ctx, stage){
 }
 
 //绘制模式选择界面--由按下“开始游戏”触发
-function pageSkip(ctx, startX, startY, X, Y, alpha){
+function pageSkip(ctx, startX, startY, X, Y, alpha, fillColor){
 	if (alpha == undefined) {
 		alpha = 1;
 	}
@@ -41,8 +41,11 @@ function pageSkip(ctx, startX, startY, X, Y, alpha){
 	ctx.beginPath();
 	ctx.globalAlpha = alpha;
 	ctx.clearRect(startX, startY, X, Y);
-	ctx.fillStyle = 'black';
-	ctx.fillRect(startX, startY, X, Y);
+	if (fillColor) {
+		ctx.fillStyle = 'black';
+		ctx.fillRect(startX, startY, X, Y);
+	}
+	ctx.restore();
 }
 
 //交换颜色
@@ -146,10 +149,10 @@ function transTime(t){
 //计时
 function timeCount(){
 	var t = transTime(tCount);
-	document.getElementById('playTime').value ='Time: '+t+' s';
+	document.getElementById('playTime').innerHTML ='Time: '+t+' s';
 	if(mode==mode2){
 		if(tCount==61){
-			document.getElementById('playTime').value ='Time: '+(tCount-1)+' s';
+			document.getElementById('playTime').innerHTML ='Time: '+(tCount-1)+' s';
 			//endTimeCount();
 			gameOver();
 		}else{
@@ -175,19 +178,38 @@ function endTimeCount(){
 }
 
 //暂停
-var playTime = document.getElementById('playTime');
-var endPlay = document.getElementById('score');
+var pauseGame = document.getElementById('pauseGame');
+var exit = document.getElementById('exit');
 if (screen.availWidth>600) {
-	playTime.addEventListener('click', playPause, false);
-	endPlay.addEventListener('click', playEnd, false);
+	pauseGame.addEventListener('click', playPause, false);
+	exit.addEventListener('click', playEnd, false);
 }else{
-	playTime.addEventListener('touchend', playPause, false);
-	endPlay.addEventListener('touchend', playEnd, false);
+	pauseGame.addEventListener('touchend', playPause, false);
+	pauseGame.addEventListener('touchend', pauseTouchEnd, false);
+	exit.addEventListener('touchend', playEnd, false);
+	exit.addEventListener('touchend', exitTouchEnd, false);
+	document.addEventListener('touchmove', function(e){
+		e = event||window.event;
+		e.preventDefault();
+	},false);
+}
+
+
+function pauseTouchEnd(){
+	pauseGame.style.backgroundColor = "#FFD700";
+	pauseGame.style.boxShadow = "0px 9px 0px rgba(255,180,0,1)";
+}
+
+function exitTouchEnd(){
+	exit.style.backgroundColor = "#FF0000";
+	exit.style.boxShadow = "0px 9px 0px rgba(225,0,00,1)";
 }
 
 function playPause(){
 	timeFlag = ~timeFlag;
 	isPause = ~isPause;
+	loopPause = ~loopPause;
+	console.log(ballAll[0][0].constructor==Ball);
 
 	var bgMusic = document.getElementById("bgMusic");
 	//var curTime = bgMusic.currentTime;
@@ -195,15 +217,15 @@ function playPause(){
 	if (timeFlag) {
 		currentState = 3;
 		endTimeCount();
-		pageSkip(bg, 0, 0, 500, 440, 0.5);
+		pageSkip(bg, 0, 0, 500, 440, 0.5, 1);
 		bground.style.zIndex = 30;
 		bg.font = '40px Arial';
 		drawText(conGame, 170, 180, bg);
 		drawText(endGame, 170, 270, bg);
 		if (screen.availWidth>600){
-			endPlay.removeEventListener('click', playEnd, false);
+			exit.removeEventListener('click', playEnd, false);
 		}else{
-			endPlay.removeEventListener('touchend', playEnd, false);
+			exit.removeEventListener('touchend', playEnd, false);
 		}
 		//暂停音乐
 		bgMusic.pause();
@@ -211,13 +233,14 @@ function playPause(){
 
 	}else{
 		if (tCount<=60) {
+			loop();
 			bground.style.zIndex = 0;
 			pageSkip(bg, 0, 0, 500, 440);
 			timeCount();
 			if (screen.availWidth>600){
-				endPlay.addEventListener('click', playEnd, false);
+				exit.addEventListener('click', playEnd, false);
 			}else{
-				endPlay.addEventListener('touchend', playEnd, false);
+				exit.addEventListener('touchend', playEnd, false);
 			}
 
 			//继续音乐
@@ -244,9 +267,9 @@ function playPause(){
 function gameOver(){
 	isEnd = true;
 	if (screen.availWidth>600){
-		playTime.removeEventListener('click', playPause, false);
+		pauseGame.removeEventListener('click', playPause, false);
 	}else{
-		playTime.removeEventListener('touchend', playPause, false);
+		pauseGame.removeEventListener('touchend', playPause, false);
 	}
 	endTimeCount();
 	if (!isPause&&!ballAll[0][0].checkEliBall()) {
@@ -255,6 +278,7 @@ function gameOver(){
 		var endMusic = document.getElementById("endMusic");
 		bgMusic.src = "";
 		bgMusic.loop = false;
+		//bgMusic.loop = false;
 		bgMusic.autoplay = false;
 
 		endMusic.src = "./music/endmusic.wav";
@@ -262,9 +286,11 @@ function gameOver(){
 
 		//dropBall();
 		isPause = true;
+		loopPause = true;
 		currentState = 4;//结束游戏
 		bg.font = "50px Arial";
-		pageSkip(bg, 0, 0, 500, 440, 0.5);
+		pageSkip(fireCtx, 0, 0, 500, 440);
+		pageSkip(bg, 0, 0, 500, 440, 0.5, 1);
 		drawText(gover, 150, 190, bg) ;
 		bg.font = "30px Arila";
 		if(mode==mode2){
@@ -282,11 +308,11 @@ function gameOver(){
 	}
 	if (isEnd) {
 		if (screen.availWidth>600) {
-			document.getElementById('score').onclick = function(){
+			document.getElementById('exit').onclick = function(){
 				window.location.reload(true);
 			}
 		}else{
-			document.getElementById('score').ontouchend = function(){
+			document.getElementById('exit').ontouchend = function(){
 				window.location.reload(true);
 			}
 		}
@@ -408,4 +434,39 @@ function anyEliBall(ball){
 		}
 	}
 	return false;
+}
+
+function needRearrange(){
+	var abEli = 0;
+	for (var x = 0; x < ballAll.length; x++) {
+		for (var y = 0; y < ballAll[x].length; y++) {
+			if (anyEliBall(ballAll[x][y])&&(!isEnd)) {
+					abEli++;
+			}
+		}
+	}
+	if (abEli==0) {
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function rearrange(){
+	var arr = [];
+	var need = needRearrange();
+	if (need) {
+		for (var i = 0; i < ballAll.length; i++) {
+			for (var j = 0; i < ballAll[i].length; j++) {
+				arr[i][j] = ballAll[i][j].color;
+			}
+		}
+		arr.sort(randomSorting);
+		for (var ii = 0; ii < ballAll.length; i++) {
+			for (var jj = 0; jj < ballAll[ii].length; jj++) {
+				ballAll[ii][jj].color = arr[ii][jj];
+			}
+		}
+		rearrange();
+	}
 }
