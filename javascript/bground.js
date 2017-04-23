@@ -73,7 +73,7 @@
 		//console.log(ballRadius);
 		//console.log(mainWidth);
 		var loadingMusic = document.getElementById('loadingMusic');
-		loadingMusic.src = "./music/loadingmusic.wav";
+		//loadingMusic.src = "./music/loadingmusic.wav";
 		loadingMusic.loop = true;
 		loadingMusic.autoplay =true;
 
@@ -454,7 +454,7 @@
 		loadingMusic.loop = false;
 		loadingMusic.autoplay = false;
     	
-    	bgMusic.src = "./music/bgmusic.wav";
+    	//bgMusic.src = "./music/bgmusic.wav";
     	bgMusic.loop = true;
     	bgMusic.autoplay = true;
 

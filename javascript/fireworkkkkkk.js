@@ -366,6 +366,9 @@ function createParticles( x, y ) {
 
 // 循环
 function loop() {
+	if(loopPause){
+		return false;
+	}
 
 	requestAnimFrame( loop );
 	
