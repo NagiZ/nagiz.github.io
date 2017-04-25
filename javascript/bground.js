@@ -29,6 +29,10 @@
 		document.getElementById('cantainer').style.height = window.innerWidth + 'px';
 		document.getElementById('box').style.width = window.innerWidth + 'px';
 		document.getElementById('box').style.height = window.innerWidth*0.875 + 'px'
+
+		var buttonHeight = window.innerHeight - window.innerWidth*0.875;
+		console.log(buttonHeight+":" +window.innerWidth*0.875+":" + window.innerHeight);
+
         mainStage.style.width = window.innerWidth + 'px';
         mainStage.style.height = window.innerWidth*0.875 + 'px';
         //context.fillRect(0, 0, canvas.width(), canvas.height());
@@ -37,19 +41,33 @@
 		mainWidth = parseInt(mainStage.style.width);
 		mainHeight = parseInt(mainStage.style.height);
 		bgroundWidth = parseInt(bground.style.width);
-		bgroundHeight = parseInt(bground.style.height);	  
+		bgroundHeight = parseInt(bground.style.height);	
+
+		var subTop = mainHeight+buttonHeight*0.2+60;  
+
 		document.getElementById('score').style.top = (mainHeight+20) + 'px';
 		document.getElementById('score').style.left = 0;
-		document.getElementById('score').style.width = 300 + 'px';
+		document.getElementById('score').style.width = 0.4*window.innerWidth + 'px';
+		document.getElementById('score').style.height = buttonHeight*0.2+'px';
+		document.getElementById('score').style.fontSize = 50+'px';
+
 		document.getElementById('playTime').style.top = (mainHeight+20) + 'px';
 		document.getElementById('playTime').style.right = 0;
-		document.getElementById('playTime').style.width = 300 + 'px';
-		document.getElementById('pauseGame').style.top = (mainHeight+150) + 'px';
+		document.getElementById('playTime').style.width = 0.4*window.innerWidth + 'px';
+		document.getElementById('playTime').style.height = buttonHeight*0.2+'px';
+		document.getElementById('playTime').style.fontSize = 50+'px';
+
+		document.getElementById('pauseGame').style.top = subTop + 'px';
 		document.getElementById('pauseGame').style.left = 0;
-		document.getElementById('pauseGame').style.width = 300 + 'px';
+		document.getElementById('pauseGame').style.width = 0.4*window.innerWidth + 'px';
+		document.getElementById('pauseGame').style.height = buttonHeight*0.2+'px';
+		document.getElementById('pauseGame').style.fontSize = 50+'px';
+
 		document.getElementById('exit').style.right = 0;
-		document.getElementById('exit').style.top = (mainHeight+150) + 'px';
-		document.getElementById('exit').style.width = 300 + 'px';
+		document.getElementById('exit').style.top = subTop + 'px';
+		document.getElementById('exit').style.width = 0.4*window.innerWidth + 'px';
+		document.getElementById('exit').style.height = buttonHeight*0.2+'px';
+		document.getElementById('exit').style.fontSize = 50+'px';
 	}else{
 		mainWidth = 500;
 		mainHeight = 440;
