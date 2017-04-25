@@ -72,10 +72,10 @@
 		//初始化
 		//console.log(ballRadius);
 		//console.log(mainWidth);
-		var loadingMusic = document.getElementById('loadingMusic');
+		/*var loadingMusic = document.getElementById('loadingMusic');
 		loadingMusic.src = "./music/loadingmusic.wav";
 		loadingMusic.loop = true;
-		loadingMusic.autoplay =true;
+		loadingMusic.autoplay =true;*/
 
 		currentState = 0;
 		isPause = false;
@@ -451,12 +451,13 @@
 		document.getElementById('exit').style.display = "block";
 
 		loadingMusic.src = "";
-		loadingMusic.loop = false;
-		loadingMusic.autoplay = false;
+		/*loadingMusic.loop = false;
+		loadingMusic.autoplay = false;*/
     	
-    	bgMusic.src = "./music/bgmusic.wav";
+    	/*bgMusic.src = "./music/bgmusic.wav";
     	bgMusic.loop = true;
-    	bgMusic.autoplay = true;
+    	bgMusic.autoplay = true;*/
+    	bgMusic.play();
 
     	score = 0;
     	totalScore = 0;

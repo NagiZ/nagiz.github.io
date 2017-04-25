@@ -281,8 +281,9 @@ if (screen.availWidth>600) {
 				}
 				if (i==7&&j==0) {
 					var clearMusic = document.getElementById("clearMusic");
-					clearMusic.src = "./music/clear.ogg";
-					clearMusic.autoplay = true;
+					/*clearMusic.src = "./music/clear.ogg";
+					clearMusic.autoplay = true;*/
+					clearMusic.play();
 					t = setTimeout(function(){
 						dropBall();
 					}, 1500);

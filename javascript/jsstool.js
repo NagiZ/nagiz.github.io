@@ -277,12 +277,12 @@ function gameOver(){
 		var bgMusic = document.getElementById("bgMusic");
 		var endMusic = document.getElementById("endMusic");
 		bgMusic.src = "";
-		bgMusic.loop = false;
-		//bgMusic.loop = false;
-		bgMusic.autoplay = false;
+		/*bgMusic.loop = false;
+		bgMusic.autoplay = false;*/
 
-		endMusic.src = "./music/endmusic.wav";
-		endMusic.autoplay = true;
+		/*endMusic.src = "./music/endmusic.wav";
+		endMusic.autoplay = true;*/
+		endMusic.play();
 
 		//dropBall();
 		isPause = true;
