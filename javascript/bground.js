@@ -4,7 +4,7 @@
 
 //游戏中用到的字符串
 	var gameName = "星素消除", startGame = "开始游戏", endGame = "结束游戏", about = "关于", mode1 = "计时模式", mode2 = "限时模式", mode, gover = "游戏结束", conGame = "继续游戏";
-	var aboutUS = "闲来无事，做做毕设。反正也不知道该干啥，心慌慌。";
+	var aboutUS = "这是一款基于HTML5，采用原生JavaScript实现的三消小游戏。计时模式需要达到3000分，时间不限；限时模式为60s";
 	var score = 0, totalScore = 0;//分数
 	var time, tCount = 0;//计时
 	var timeFlag = false;
@@ -123,7 +123,7 @@
 
 
 	    var bgStartGradient = bg.createLinearGradient(190, 230, 350, 230);
-	    bg.font = '30px Arial';
+	    bg.font = 'bolder 30px YouYuan';
 	    drawText(startGame, 190, 230, bg, bgStartGradient);
 	    drawText(about, 220, 280, bg, bgStartGradient);
 	    drawText(endGame, 190, 330, bg, bgStartGradient);
@@ -256,7 +256,7 @@
 			//进入模式选择界面
 				currentState = 1;
 				var modeGradient = bg.createLinearGradient(190, 0, 350, 0);
-				bg.font = '40px Arial';
+				bg.font = 'bolder 40px YouYuan';
 				pageSkip(bg, 0, 0, 500, 440);
 				drawText(mode1, 170, 180, bg, modeGradient);
 				drawText(mode2, 170, 270, bg, modeGradient);
@@ -265,10 +265,10 @@
 				currentState = 2;
 				pageSkip(bg, 0, 0, 500, 440, 0.5);
 				var aboutGradient = bg.createLinearGradient(70, 0, 450, 0);
-				bg.font = '40px Arial';
-				var x = subStr(aboutUS, 40, bg, bground);
+				bg.font = 'bolder 25px YouYuan';
+				var x = subStr(aboutUS, 25, bg, bground);
 				for (var i = 0; i < x.length; i++) {
-					drawText(x[i], 2*40, (i+4)*40, bg, aboutGradient);
+					drawText(x[i], 2*25, (i+4)*25, bg, aboutGradient);
 				};
 			}else if(mouseX >mainWidth*0.365&&mouseX<mainWidth*0.6575&&mouseY>mainHeight*0.71&&mouseY<mainHeight*0.794){
 				//结束游戏，关闭网页
@@ -356,7 +356,7 @@
 			//进入模式选择界面
 				currentState = 1;
 				var modeGradient = bg.createLinearGradient(190, 0, 350, 0);
-				bg.font = '40px Arial';
+				bg.font = 'bolder 40px YouYuan';
 				pageSkip(bg, 0, 0, 500, 440);
 				drawText(mode1, 170, 180, bg, modeGradient);
 				drawText(mode2, 170, 270, bg, modeGradient);
@@ -365,7 +365,7 @@
 				currentState = 2;
 				pageSkip(bg, 0, 0, 500, 440, 0.5);
 				var aboutGradient = bg.createLinearGradient(70, 0, 450, 0);
-				bg.font = '40px Arial';
+				bg.font = 'bolder 40px YouYuan';
 				var x = subStr(aboutUS, 40, bg, bground);
 				for (var i = 0; i < x.length; i++) {
 					drawText(x[i], 2*40, (i+4)*40, bg, aboutGradient);
@@ -469,13 +469,14 @@
 		document.getElementById('pauseGame').style.display = "block";
 		document.getElementById('exit').style.display = "block";
 
-		loadingMusic.src = "";
-		/*loadingMusic.loop = false;
+		/*loadingMusic.src = "";
+		loadingMusic.loop = false;
 		loadingMusic.autoplay = false;*/
     	
     	/*bgMusic.src = "./music/bgmusic.wav";
     	bgMusic.loop = true;
     	bgMusic.autoplay = true;*/
+    	loadingMusic.pause();
     	bgMusic.play();
 
     	score = 0;

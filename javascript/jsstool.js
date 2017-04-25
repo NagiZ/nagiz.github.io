@@ -218,7 +218,7 @@ function playPause(){
 		endTimeCount();
 		pageSkip(bg, 0, 0, 500, 440, 0.5, 1);
 		bground.style.zIndex = 30;
-		bg.font = '40px Arial';
+		bg.font = 'bolder 40px YouYuan';
 		drawText(conGame, 170, 180, bg);
 		drawText(endGame, 170, 270, bg);
 		if (screen.availWidth>600){
@@ -275,8 +275,9 @@ function gameOver(){
 		//停止背景音，播放结束音乐
 		var bgMusic = document.getElementById("bgMusic");
 		var endMusic = document.getElementById("endMusic");
-		bgMusic.src = "";
-		/*bgMusic.loop = false;
+		bgMusic.pause();
+		/*bgMusic.src = "";
+		bgMusic.loop = false;
 		bgMusic.autoplay = false;*/
 
 		/*endMusic.src = "./music/endmusic.wav";
@@ -287,19 +288,20 @@ function gameOver(){
 		isPause = true;
 		loopPause = true;
 		currentState = 4;//结束游戏
-		bg.font = "50px Arial";
+		var endGameGradient = bg.createLinearGradient(100, 130, 420, 440);
+		bg.font = "bolder 50px YouYuan";
 		pageSkip(fireCtx, 0, 0, 500, 440);
 		pageSkip(bg, 0, 0, 500, 440, 0.5, 1);
-		drawText(gover, 150, 190, bg) ;
-		bg.font = "30px Arila";
+		drawText(gover, 150, 190, bg, endGameGradient) ;
+		bg.font = "bolder 30px YouYuan";
 		if(mode==mode2){
 			var str_score = "Your Score: "+ score;
-			drawText(str_score, 140, 250, bg);
+			drawText(str_score, 140, 250, bg, endGameGradient);
 			bground.style.zIndex = 30;
 			alert('Gameover!'+ 'Your Score: '+ score);
 		}else if(mode==mode1){
 			var str_time = "Time Spent: "+ tCount;
-			drawText(str_time, 140, 250, bg);
+			drawText(str_time, 140, 250, bg, endGameGradient);
 			bground.style.zIndex = 30;
 			alert('GameOver!' + 'Your Time Spent: ' + transTime(tCount-1)+'s');
 		}

@@ -21,11 +21,11 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
 	image[2] = new Image();
 	image[3] = new Image();
 	image[4] = new Image();
-	image[0].src = "./image/继续读书.png";
-	image[1].src = "./image/商业进阶.png";
-	image[2].src = "./image/香水.png";
-	image[3].src = "./image/设计.png";
-	image[4].src = "./image/心理咨询.png";
+	image[0].src = "./image/rock.png";
+	image[1].src = "./image/dark.png";
+	image[2].src = "./image/ice.png";
+	image[3].src = "./image/wind.png";
+	image[4].src = "./image/fire.png";
 	var colorChosen = '';
 
 	var movable;
