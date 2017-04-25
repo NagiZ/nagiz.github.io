@@ -126,7 +126,6 @@ if (screen.availWidth>600) {
 		e = event||window.event;
 		var mouseX = e.pageX-div.offsetLeft-pad;
 		var mouseY = e.pageY-div.offsetTop-pad;
-		console.log(ballAll[5][5]);
 		if(isGameStart===1){
 			if (tag == 0) {
 				tag = 1;

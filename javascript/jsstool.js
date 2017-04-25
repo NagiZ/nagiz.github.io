@@ -209,7 +209,6 @@ function playPause(){
 	timeFlag = ~timeFlag;
 	isPause = ~isPause;
 	loopPause = ~loopPause;
-	console.log(ballAll[0][0].constructor==Ball);
 
 	var bgMusic = document.getElementById("bgMusic");
 	//var curTime = bgMusic.currentTime;

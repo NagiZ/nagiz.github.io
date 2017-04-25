@@ -90,10 +90,11 @@
 		//初始化
 		//console.log(ballRadius);
 		//console.log(mainWidth);
-		/*var loadingMusic = document.getElementById('loadingMusic');
-		loadingMusic.src = "./music/loadingmusic.wav";
-		loadingMusic.loop = true;
+		var loadingMusic = document.getElementById('loadingMusic');
+		//loadingMusic.src = "./music/loadingmusic.wav";
+		/*loadingMusic.loop = true;
 		loadingMusic.autoplay =true;*/
+		loadingMusic.play();
 
 		currentState = 0;
 		isPause = false;
