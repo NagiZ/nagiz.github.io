@@ -16,11 +16,9 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
 //渲染数组
 	var fillColor = ['red','green','blue','pink','orange'];
 	var image =[];
-	image[0] = new Image();
-	image[1] = new Image();
-	image[2] = new Image();
-	image[3] = new Image();
-	image[4] = new Image();
+	for (var i = 0; i < 5; i++) {
+		image[i] = new Image();
+	}
 	image[0].src = "./image/rock.png";
 	image[1].src = "./image/dark.png";
 	image[2].src = "./image/ice.png";
@@ -36,7 +34,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
     function colorSelcet(arr1, arr2){
     	var colorIndex = 0;
     	var content = {};
-    	colorIndex = Math.floor(Math.random()*4); 
+    	colorIndex = Math.floor(Math.random()*5); 
     	content.color = arr1[colorIndex];
     	content.image = arr2[colorIndex];
     	return content;
