@@ -28,6 +28,7 @@ window.onload = function(){
 	},2000);*/
 	timer = setTimeout(function cycle(){
 		rolling(imgs,"left");
+		clearTimeout(timer);
 		timer = setTimeout(cycle, 2000);
 	},2000);
 
@@ -48,6 +49,7 @@ window.onload = function(){
 			},2000);	*/
 			timer = setTimeout(function cycle(){
 				rolling(imgs,"left");
+				clearTimeout(timer);
 				timer = setTimeout(cycle, 2000);
 			},2000);
 
@@ -99,6 +101,7 @@ window.onload = function(){
 			if (finroll) {
 				rolling(imgs,"left");
 			}
+			clearTimeout(timer);
 			timer = setTimeout(cycle, 2000);
 		},2000);
 	}
@@ -117,6 +120,7 @@ window.onload = function(){
 			return false;
 		}
 		if (!finroll) {
+			console.log('No!');
 			return false;
 		}
 		var curX = e.touches[0].pageX;
@@ -149,6 +153,7 @@ window.onload = function(){
 		},5000);	*/
 		timer = setTimeout(function cycle(){
 			rolling(imgs,"left");
+			clearTimeout(timer);
 			timer = setTimeout(cycle, 2000);
 		},2000);
 	}
