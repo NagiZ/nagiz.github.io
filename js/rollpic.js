@@ -117,12 +117,12 @@ window.onload = function(){
 			return false;
 		}
 		if (!finroll) {
-			console.log('No!');
 			return false;
 		}
 		var curX = e.touches[0].pageX;
 		var curY = e.touches[0].pageY
 		if (curY<picDiv.offsetHeight) {
+			clearTimeout(timer);
 			if (initX==null) {
 				initX = curX;
 				return;
