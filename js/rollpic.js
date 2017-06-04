@@ -7,8 +7,8 @@ var finroll = 1;
 window.onload = function(){
 	var picDiv = document.getElementById("picDiv");
 	var imgs = picDiv.getElementsByTagName("img");
-	if (screenWidth<500) {
-		picDiv.className = "picD_sub";
+	var devJud = IsPC();
+	if (!devJud) {
 		picDiv.style.height = imgs[0].offsetHeight+'px';
 		for (var i = 0; i < imgs.length; i++) {
 			imgs[i].className = "rollpic_sub";
@@ -23,11 +23,15 @@ window.onload = function(){
 	var timer;//图片滚动次数，定时滚动定时器
 	var tag = 0;//是否按下左键
 	var initX = null, direction;//滚动方向标记
-	timer = setInterval(function cycle(){
+	/*timer = setInterval(function (){
 		rolling(imgs, "left");
+	},2000);*/
+	timer = setTimeout(function cycle(){
+		rolling(imgs,"left");
+		timer = setTimeout(cycle, 2000);
 	},2000);
 
-	if (screenWidth<500) {
+	if (!devJud) {
 		//clearInterval(timer);
 		picDiv.addEventListener("touchstart", touchs, false);
 		picDiv.addEventListener("touchend", touche, false);
@@ -35,16 +39,23 @@ window.onload = function(){
 	}else{
 		//鼠标悬停在图片上则停止轮播
 		picDiv.onmouseover = function(){
-			clearInterval(timer);
+			//clearInterval(timer);
+			clearTimeout(timer);
 		}
 		picDiv.onmouseout = function(){
-			timer = setInterval(function cycle(){
+			/*timer = setInterval(function cycle(){
 				rolling(imgs, "left");
-			},2000);	
+			},2000);	*/
+			timer = setTimeout(function cycle(){
+				rolling(imgs,"left");
+				timer = setTimeout(cycle, 2000);
+			},2000);
+
 		}
 
 		//左键按下则开始监听
 		picDiv.onmousedown = function(){
+			//clearInterval(timer);
 			initX = null;
 			tag = 1;
 		}
@@ -75,7 +86,8 @@ window.onload = function(){
 		}
 	}
 	//触屏
-	function touchs(){
+	function touchs(e){
+		clearTimeout(timer);
 		initX = null;
 		tag = 1;
 	}
@@ -83,6 +95,12 @@ window.onload = function(){
 	function touche(){
 		tag = 0;
 		initX = null;
+		timer = setTimeout(function cycle(){
+			if (finroll) {
+				rolling(imgs,"left");
+			}
+			timer = setTimeout(cycle, 2000);
+		},2000);
 	}
 
 	function touchm(e){
@@ -99,32 +117,40 @@ window.onload = function(){
 			return false;
 		}
 		if (!finroll) {
+			console.log('No!');
 			return false;
 		}
 		var curX = e.touches[0].pageX;
-		if (initX==null) {
-			initX = curX;
-			return;
-		}
-		if(curX>initX){//右
-			direction = "right";
-			rolling(imgs, direction);
-		}else if (curX<initX) {//左
-			direction = "left";
-			rolling(imgs, direction);
+		var curY = e.touches[0].pageY
+		if (curY<picDiv.offsetHeight) {
+			if (initX==null) {
+				initX = curX;
+				return;
+			}
+			if(curX>initX){//右
+				direction = "right";
+				rolling(imgs, direction);
+			}else if (curX<initX) {//左
+				direction = "left";
+				rolling(imgs, direction);
+			}
 		}
 		tag = 0;
-		console.log(direction);
 	}
 
 	//窗口失焦则停止滚动
 	window.onblur = function(){
-		clearInterval(timer);
+		//clearInterval(timer);
+		clearTimeout(timer);
 	}
 	window.onfocus = function(){
-		timer = setInterval(function cycle(){
+		/*timer = setInterval(function cycle(){
 			rolling(imgs, "left");
-		},5000);	
+		},5000);	*/
+		timer = setTimeout(function cycle(){
+			rolling(imgs,"left");
+			timer = setTimeout(cycle, 2000);
+		},2000);
 	}
 	//窗口resize
 }
@@ -178,3 +204,14 @@ function rolling(arr, direction){
 		}
 	},1000/60);
 }
+//判断是否pc端
+function IsPC()  
+{  
+           var userAgentInfo = navigator.userAgent;  
+           var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");  
+           var flag = true;  
+           for (var v = 0; v < Agents.length; v++) {  
+               if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }  
+           }  
+           return flag;  
+} 
