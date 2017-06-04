@@ -2,46 +2,77 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>毕设三消</title>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script src = "javascript/jquery-3.1.1.js"></script>
+	<title>RollPic</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}	
+		.picD{
+			width: 1000px;
+			height: 310px;
+			margin: 0 auto;
+			margin-top: 30px;
+			position: relative;
+			overflow: hidden;
+			cursor: pointer;
+		}
+		.picD_sub{
+			width:100%;
+			margin: 0 auto;
+			margin-top: 10px;
+			position: relative;
+			overflow: hidden;
+		}
+		.rollpic{
+			width: 100%;
+			position: absolute;
+			display: block;
+			margin: 0 auto;
+		}
+		.rollpic_sub{
+			position: absolute;
+			width: 100%;
+			display: block;
+		}
+		@media screen and (max-width: 600px) {
+			#picDiv{
+				width:320px;
+				height: 100px;
+				margin: 0 auto;
+				margin-top: 10px;
+			}
+			.rollpic{
+				width: 320px;
+				margin: 0 auto;
+			}
+		}
+		@media screen and (min-width: 600px){
+			#picDiv{
+				width: 1000px;
+				height: 310px;
+				margin: 0 auto;
+				margin-top: 30px;
+				position: relative;
+				overflow: hidden;
+				cursor: pointer;
+			}
+			.rollpic{
+				width: 100%;
+				position: absolute;
+				display: block;
+				margin: 0 auto;
+			}
+		}
+	</style>
 </head>
 <body>
-<div id="cantainer">
-	<div id="box">
-		<canvas id="main_stage" height="440px" width="500px" >
-			你的浏览器不支持canvas。
-		</canvas>
-		<canvas id="background" height="440px" width="500px" >
-			你的浏览器不支持canvas。
-		</canvas>
-		<canvas id="fireWork" height="440px" width="500px">
-			123
-		</canvas>
+	<div class="picD" id="picDiv">
+		<img src="image/pic1.jpg" class="rollpic"/>
+		<img src="image/pic2.jpg" class="rollpic"/>
+		<img src="image/pic3.jpg" class="rollpic"/>
 	</div>
-	<audio id="loadingMusic" src="./music/loadingmusic.wav" preload="preload" loop="loop"></audio>
-	<audio id="bgMusic" src="./music/bgmusic.wav" preload="preload" loop="loop"></audio>
-	<audio id="clearMusic" src="./music/clear.ogg" preload="preload"></audio>
-	<audio id="endMusic" src="./music/endmusic.wav" preload="preload"></audio>
+	<script type="text/javascript" src="js/rollpic.js"></script>
 
-	
-	<button id="score" disabled="disabled" class="button"></button>
-	<button id="playTime" disabled="disabled" class="button"></button>
-	<button id="pauseGame" class="button">Pause</button>
-	<button id="exit" class="button">Exit</button>
-</div>
-<script type="text/javascript" src = "javascript/fireworkkkkkk.js"></script>
-<script type="text/javascript" src = "javascript/play.js"></script>
-<script type="text/javascript" src = "javascript/bground.js"></script>
-<script type="text/javascript" src = "javascript/jsstool.js"></script>
-<script type="text/javascript">
-	window.onload = function(){
-		//resizeCanvas();
-		init();
-		loop();
-		//console.log(screen.availWidth);
-	 	//console.log(document.getElementById(main_stage).style.width);
-	}
-</script>
 </body>
-</html> 
+</html>
