@@ -2,17 +2,18 @@
 //屏幕宽度
 var screenWidth = screen.width;
 //滚动完成标记
-var finroll = 1;
+var finroll = 1, rollDirection = "left";
 
 window.onload = function(){
 	var picDiv = document.getElementById("picDiv");
 	var imgs = picDiv.getElementsByTagName("img");
 	var devJud = IsPC();
 	if (!devJud) {
-		picDiv.style.height = imgs[0].offsetHeight+'px';
+		picDiv.className = "picD_sub";
 		for (var i = 0; i < imgs.length; i++) {
 			imgs[i].className = "rollpic_sub";
 		}
+		picDiv.style.height = imgs[0].offsetHeight+'px';
 	}
 	for (var i = 0; i < imgs.length; i++) {
 		imgs[i].style.left = i*imgs[0].offsetWidth+'px';
@@ -22,12 +23,11 @@ window.onload = function(){
 	}
 	var timer;//图片滚动次数，定时滚动定时器
 	var tag = 0;//是否按下左键
-	var initX = null, direction;//滚动方向标记
-	/*timer = setInterval(function (){
-		rolling(imgs, "left");
-	},2000);*/
+	var initX = null, direX = null, direction;//滚动方向标记
+	var  offarr=[], imgwidth = imgs[0].offsetWidth;
+
 	timer = setTimeout(function cycle(){
-		rolling(imgs,"left");
+		sliding(imgs,"left");
 		clearTimeout(timer);
 		timer = setTimeout(cycle, 2000);
 	},2000);
@@ -39,30 +39,59 @@ window.onload = function(){
 		picDiv.addEventListener("touchmove", touchm, false);
 	}else{
 		//鼠标悬停在图片上则停止轮播
-		picDiv.onmouseover = function(){
-			//clearInterval(timer);
+		/*picDiv.onmouseover = function(){
 			clearTimeout(timer);
 		}
 		picDiv.onmouseout = function(){
-			/*timer = setInterval(function cycle(){
-				rolling(imgs, "left");
-			},2000);	*/
 			timer = setTimeout(function cycle(){
-				rolling(imgs,"left");
+				sliding(imgs,"left");
 				clearTimeout(timer);
 				timer = setTimeout(cycle, 2000);
 			},2000);
-
-		}
+		}*/
 
 		//左键按下则开始监听
-		picDiv.onmousedown = function(){
-			//clearInterval(timer);
-			initX = null;
+		picDiv.onmousedown = function(e){
+			console.log('down');
+			clearTimeout(timer);
+			if (initX) {
+				console.log(initX);
+				var upX = Math.abs(e.pageX-initX);
+				upX = upX*2<imgs[0].offsetWidth ? upX : (imgs[0].offsetWidth-upX);
+				initX = null;
+				sliding(imgs, rollDirection, upX);
+				tag = 0;
+				timer = setTimeout(function cycle(){
+					sliding(imgs,"left");
+					clearTimeout(timer);
+					timer = setTimeout(cycle, 2000);
+					},2000);
+				return;
+			}
+			if (!finroll) {
+				return false;
+			}
+			initX =e.pageX;
+			for (var i = 0; i < imgs.length; i++) {
+				offarr[i] = imgs[i].offsetLeft;
+			}
 			tag = 1;
 		}
-		picDiv.onmouseup = function(){
+		picDiv.onmouseup = function(e){
+			if (!initX) {
+				return false;
+			}
+			var upX = Math.abs(e.pageX-initX);
+			upX = upX*2<imgs[0].offsetWidth ? upX : (imgs[0].offsetWidth-upX);
 			tag = 0;
+			initX = null;
+			sliding(imgs, rollDirection, upX);
+			console.log('up');
+			timer = setTimeout(function cycle(){
+				sliding(imgs,"left");
+				clearTimeout(timer);
+				timer = setTimeout(cycle, 2000);
+			},2000);
 		}
 		//判断鼠标拖动方向
 		picDiv.onmousemove = function(e){
@@ -73,41 +102,59 @@ window.onload = function(){
 				return false;
 			}
 			var curX = e.pageX;
-			if (initX==null) {
-				initX = curX;
+			var dragX = Math.abs(curX-initX)*2>imgwidth? true : false;
+			if (direX==null) {
+				direX = curX;
 				return;
 			}
-			if(curX>initX){//右
-				direction = "right";
-				rolling(imgs, direction);
-			}else if (curX<initX) {//左
-				direction = "left";
-				rolling(imgs, direction);
+			if(curX>direX){//右
+				if (dragX) {
+					rollDirection = "right";
+				}else{
+					rollDirection = "left";
+				}
+			}else if (curX<direX) {//左
+				if (dragX) {
+					rollDirection = "left";
+				}else{
+					rollDirection = "right"
+				}
 			}
-			tag = 0;
+			rolling(imgs,offarr,initX,curX);
+			console.log("move"+":"+rollDirection);
 		}
 	}
 	//触屏
 	function touchs(e){
 		clearTimeout(timer);
-		initX = null;
+		if (!finroll) {
+			return false;
+		}
+		initX =e.touches[0].pageX;
+		for (var i = 0; i < imgs.length; i++) {
+			offarr[i] = imgs[i].offsetLeft;
+		}
 		tag = 1;
 	}
 
-	function touche(){
+	function touche(e){
+		if (!initX) {
+			return false;
+		}
+		var upX = Math.abs(e.changedTouches[0].pageX-initX);
+		upX = upX*2<imgs[0].offsetWidth ? upX : (imgs[0].offsetWidth-upX);
 		tag = 0;
 		initX = null;
+		sliding(imgs, rollDirection, upX);
+		console.log('up');
 		timer = setTimeout(function cycle(){
-			if (finroll) {
-				rolling(imgs,"left");
-			}
+			sliding(imgs,"left");
 			clearTimeout(timer);
 			timer = setTimeout(cycle, 2000);
 		},2000);
 	}
 
 	function touchm(e){
-		timer = 0;
 		e = e||window.event;
 		if (e.stopPropagation) {
 			e.stopPropagation();
@@ -120,26 +167,29 @@ window.onload = function(){
 			return false;
 		}
 		if (!finroll) {
-			console.log('No!');
 			return false;
 		}
 		var curX = e.touches[0].pageX;
-		var curY = e.touches[0].pageY
-		if (curY<picDiv.offsetHeight) {
-			clearTimeout(timer);
-			if (initX==null) {
-				initX = curX;
-				return;
+		var dragX = Math.abs(curX-initX)*2>imgwidth? true : false;
+		if (direX==null) {
+			direX = curX;
+			return;
+		}
+		if(curX>direX){//右
+			if (dragX) {
+				rollDirection = "right";
+			}else{
+				rollDirection = "left";
 			}
-			if(curX>initX){//右
-				direction = "right";
-				rolling(imgs, direction);
-			}else if (curX<initX) {//左
-				direction = "left";
-				rolling(imgs, direction);
+		}else if (curX<direX) {//左
+			if (dragX) {
+				rollDirection = "left";
+			}else{
+				rollDirection = "right"
 			}
 		}
-		tag = 0;
+		rolling(imgs,offarr,initX,curX);
+		console.log("move:"+rollDirection);
 	}
 
 	//窗口失焦则停止滚动
@@ -148,11 +198,8 @@ window.onload = function(){
 		clearTimeout(timer);
 	}
 	window.onfocus = function(){
-		/*timer = setInterval(function cycle(){
-			rolling(imgs, "left");
-		},5000);	*/
 		timer = setTimeout(function cycle(){
-			rolling(imgs,"left");
+			sliding(imgs,"left");
 			clearTimeout(timer);
 			timer = setTimeout(cycle, 2000);
 		},2000);
@@ -162,13 +209,18 @@ window.onload = function(){
 
 
 //图片轮播
-function rolling(arr, direction){
+function sliding(arr, direction, rollL){
 	finroll = 0;
 	var timer = null;
 	var times = 0;
 	var length = arr.length;
 	clearInterval(timer);
-	var rollWidth = arr[0].offsetWidth;
+	var rollWidth;
+	if (rollL!=undefined) {
+		rollWidth = rollL;
+	}else{
+		rollWidth = arr[0].offsetWidth;
+	}
 	var initLeft = [];
 	for (var i = 0; i < arr.length; i++) {
 		initLeft.push(arr[i].offsetLeft);
@@ -189,16 +241,16 @@ function rolling(arr, direction){
 				}else{
 					arr[i].style.left = (rollleft-rollWidth/30)+'px';
 				}
-				if (arr[i].offsetLeft==(1-length)*rollWidth) {
-					arr[i].style.left = rollWidth+'px';
+				if (arr[i].offsetLeft==(1-length)*arr[0].offsetWidth) {
+					arr[i].style.left = arr[0].offsetWidth+'px';
 				}
 			}else{	
-				if (arr[i].offsetLeft==(length-1)*rollWidth) {
-					arr[i].style.left = (-1)*rollWidth+'px';
+				if (arr[i].offsetLeft==(length-1)*arr[0].offsetWidth) {
+					arr[i].style.left = (-1)*arr[0].offsetWidth+'px';
 				}
 				var rollleft = arr[i].offsetLeft;
 				if (times==30) {
-					if (initLeft[i]==2*rollWidth) {
+					if (initLeft[i]==(length-1)*rollWidth) {
 						initLeft[i]=-rollWidth;
 					}
 					arr[i].style.left = (initLeft[i]+rollWidth)+'px';
@@ -209,6 +261,21 @@ function rolling(arr, direction){
 		}
 	},1000/60);
 }
+
+//滑动
+function rolling(arr, offsetarr, initx, curx){
+	var rollx = curx-initx;
+	var len = arr.length;
+	var wid = arr[0].offsetWidth;
+	for (var i = 0; i < len; i++) {
+		if (offsetarr[i] == (len-1)*wid) {
+			offsetarr[i] = -wid;
+		}
+		arr[i].style.left = (offsetarr[i]+rollx)+'px';
+		//console.log((offsetarr[i]+rollx));
+	}
+}
+
 //判断是否pc端
 function IsPC()  
 {  
