@@ -20,9 +20,13 @@
 			width: 100%;
 			z-index: 0;
 		}
-		.fordoubeltap{
-			transition: transform 0.5s ease;
-			-webkit-transition: transform 0.5s ease;
+		.fortap{
+			transition: all 0.5s ease;
+			-webkit-transition: all 0.5s ease;
+		}
+		.tap{
+			display: block;
+			position: absolute;
 		}
 	</style>
 	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
@@ -35,26 +39,20 @@
 		//var con = $('pic')[0];
 		if (!IsPC()) {
 			$('#container').css({
-				'width': 100+'%',
+				'width': 50+'%',
 				'height': $(window).height(),
-				'overflow': 'hidden',
 			});
 		}
-
+		var toScale = $(window).width()/$('#container').width();
+		var dx = 0, dy = 0;
+		var scaletag = false, initScale = 1, curScale;
 		touch.on('.pic', 'touchstart', function(e){
-			$(this).removeClass('fordoubeltap');
+			$(this).removeClass('fortap');
+			curScale = initScale;
 			e.preventDefault();
 		});
-		touch.on('.pic', 'rotate', function(e){
-			var totalAngle = e.rotation;
-			this.style.webkitTransform = 'rotate(' + totalAngle + "deg)";
-		});
-
-		var dx = 0, dy = 0;
-		var scaletag = false, initScale = 1, curScale = 2;
 
 		touch.on($('.pic'), 'drag', function(e){
-			console.log(initScale);
 			var curx = dx+e.x+'px';
 			var cury = dy+e.y+'px';
 			//this.style.webkitTransform = 'translate3d(' + curx + ', ' + cury + ', 0)';
@@ -71,18 +69,28 @@
 			dy += e.y;
 		});
 
-		touch.on('.pic', 'doubletap', function(){
+		touch.on('.pic', 'tap', function(){
 			scaletag = ~scaletag;
-			if (!$(this).hasClass('fordoubeltap')) {
-				$(this).addClass('fordoubeltap');
+			if (!$(this).hasClass('fortap')) {
+				$(this).addClass('fortap');
 			}
+
 			if(scaletag){
+				$('#container').css({
+					'position': 'absolute',
+					'top': ($(window).height()-$(this).height())/2,
+					'left': ($(window).width()-$(this).width())/2,
+				});
 				$(this).css({
-					'webkitTransform': 'scale(2, 2)',
+					'webkitTransform': 'scale(' + toScale + ')',
 					'zIndex': 1000,
 				});
-				initScale = 2;
+				//$(this).toggleClass('tap');
+				initScale = toScale;
 			}else{
+				$('#container').css({
+					'position': 'static',
+				});
 				$(this).css({
 					'webkitTransform': 'scale(1, 1)',
 					'zIndex': 0,
@@ -91,27 +99,24 @@
 			}
 		});
 
-		touch.on('.pic', 'tap', function(){
+		touch.on('.pic', 'doubletap', function(){
 			if (scaletag) {
-				if (!$(this).hasClass('fordoubeltap')) {
-					$(this).addClass('fordoubeltap');
+				if (!$(this).hasClass('fortap')) {
+					$(this).addClass('fortap');
 				}
-				scaletag = ~scaletag;
 				$(this).css({
-					'webkitTransform': 'scale(1, 1)',
-					'zIndex': 0,
+					'webkitTransform': 'scale(3, 3)',
 				});
-				initScale = 1;
+				initScale = 3;
 			}
 		});
 
 		touch.on('.pic', 'pinch', function(e){
-			var tScale = initScale + e.scale - 1;
-			curScale = tScale;
+			curScale = initScale + e.scale - 1;
 			if (scaletag) {
 				$(this).removeClass('fordoubeltap');
 				$(this).css({
-					'webkitTransform': 'scale' + tScale + ',' + tScale + ')',
+					'webkitTransform': 'scale' + curScale + ',' + curScale + ')',
 					'zIndex': 1000,
 				});
 			}
