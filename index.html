@@ -4,76 +4,128 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE-edge">
 	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
-	<title>RollPic</title>
+	<script src="https://cdn.bootcss.com/touchjs/0.2.14/touch.js"></script>
+	<title>Touch Pic</title>
 	<style type="text/css">
 		*{
 			margin: 0;
 			padding: 0;
-		}	
-		.picD{
-			width: 1000px;
-			height: 310px;
-			margin: 0 auto;
-			margin-top: 30px;
-			position: relative;
-			overflow: hidden;
-			cursor: pointer;
 		}
-		.picD_sub{
-			width:100%;
+
+		#container{
+			width: 600px;
 			margin: 0 auto;
-			margin-top: 10px;
-			position: relative;
-			overflow: hidden;
 		}
-		.rollpic{
+		.pic{
 			width: 100%;
-			position: absolute;
-			display: block;
-			margin: 0 auto;
+			z-index: 0;
 		}
-		.rollpic_sub{
-			position: absolute;
-			width: 100%;
-			display: block;
-		}
-		@media screen and (max-width: 600px) {
-			#picDiv{
-				width:320px;
-				height: 100px;
-				margin: 0 auto;
-				margin-top: 10px;
-			}
-			.rollpic{
-				width: 320px;
-				margin: 0 auto;
-			}
-		}
-		@media screen and (min-width: 600px){
-			#picDiv{
-				width: 1000px;
-				height: 310px;
-				margin: 0 auto;
-				margin-top: 30px;
-				position: relative;
-				overflow: hidden;
-				cursor: pointer;
-			}
-			.rollpic{
-				width: 100%;
-				position: absolute;
-				display: block;
-				margin: 0 auto;
-			}
+		.fordoubeltap{
+			transition: transform 0.5s ease;
+			-webkit-transition: transform 0.5s ease;
 		}
 	</style>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
 </head>
 <body>
-	<div class="picD" id="picDiv">
-		<img src="image/pic1.jpg" class="rollpic"/>
-		<img src="image/pic2.jpg" class="rollpic"/>
-		<img src="image/pic3.jpg" class="rollpic"/>
+	<div id="container">
+		<img src="image/01.jpg" class="pic" />
 	</div>
-	<script type="text/javascript" src="js/rollpic.js"></script>
+	<script type="text/javascript">
+		//var con = $('pic')[0];
+		if (!IsPC()) {
+			$('#container').css({
+				'width': 100+'%',
+				'height': $(window).height(),
+				'overflow': 'hidden',
+			});
+		}
+
+		touch.on('.pic', 'touchstart', function(e){
+			$(this).removeClass('fordoubeltap');
+			e.preventDefault();
+		});
+		touch.on('.pic', 'rotate', function(e){
+			var totalAngle = e.rotation;
+			this.style.webkitTransform = 'rotate(' + totalAngle + "deg)";
+		});
+
+		var dx = 0, dy = 0;
+		var scaletag = false, initScale = 1, curScale = 2;
+
+		touch.on($('.pic'), 'drag', function(e){
+			console.log(initScale);
+			var curx = dx+e.x+'px';
+			var cury = dy+e.y+'px';
+			//this.style.webkitTransform = 'translate3d(' + curx + ', ' + cury + ', 0)';
+			var isScale = '';
+			if (scaletag) {
+				isScale = 'scale(' + curScale + ',' + curScale + ')';
+				$(this).css({
+					'webkitTransform': 'translate3d(' + curx + ', ' + cury + ', 0)' + isScale,
+				});
+			}
+		});
+		touch.on('.pic', 'dragend', function(e){
+			dx += e.x;
+			dy += e.y;
+		});
+
+		touch.on('.pic', 'doubletap', function(){
+			scaletag = ~scaletag;
+			if (!$(this).hasClass('fordoubeltap')) {
+				$(this).addClass('fordoubeltap');
+			}
+			if(scaletag){
+				$(this).css({
+					'webkitTransform': 'scale(2, 2)',
+					'zIndex': 1000,
+				});
+				initScale = 2;
+			}else{
+				$(this).css({
+					'webkitTransform': 'scale(1, 1)',
+					'zIndex': 0,
+				});
+				initScale = 1;
+			}
+		});
+
+		touch.on('.pic', 'tap', function(){
+			if (scaletag) {
+				if (!$(this).hasClass('fordoubeltap')) {
+					$(this).addClass('fordoubeltap');
+				}
+				scaletag = ~scaletag;
+				$(this).css({
+					'webkitTransform': 'scale(1, 1)',
+					'zIndex': 0,
+				});
+				initScale = 1;
+			}
+		});
+
+		touch.on('.pic', 'pinch', function(e){
+			var tScale = initScale + e.scale - 1;
+			curScale = tScale;
+			if (scaletag) {
+				$(this).removeClass('fordoubeltap');
+				$(this).css({
+					'webkitTransform': 'scale' + tScale + ',' + tScale + ')',
+					'zIndex': 1000,
+				});
+			}
+		});
+
+		function IsPC(){  
+           var userAgentInfo = navigator.userAgent;  
+           var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");  
+           var flag = true;  
+           for (var v = 0; v < Agents.length; v++) {  
+               if (userAgentInfo.indexOf(Agents[v]) > 0) {flag = false; break;}  
+           }  
+           return flag;  
+		} 
+	</script>
 </body>
 </html>
