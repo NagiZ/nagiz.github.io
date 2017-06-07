@@ -119,8 +119,12 @@
 		function touchend(e){
 			e = e||window.event;
 			e = e||window.event;
-			preXY.x = dx[0];
-			preXY.y = dy[0];
+			
+			if (fingers == 1) {
+				preXY.x = dx[0];
+				preXY.y = dy[0];
+			}
+
 			clearTimeout(timer);
 			dbflag++;
 			if (dbflag==1) {
