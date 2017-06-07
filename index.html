@@ -96,16 +96,17 @@
 					dx[0] = e.touches[0].pageX - initx[0] + preXY.x;
 					dy[0] = e.touches[0].pageY - inity[0] + preXY.y;
 					$pic.css({
-						/*'left': dx[0],
-						'top': dy[0],*/
 						'webkitTransform': 'translate3d(' + dx[0] + 'px, ' + dy[0]+ 'px, 0)' +  'scale(' + curScale + ')',
 					});
 				}else if(fingers == 2){
 					dx[0] = e.touches[0].pageX, dx[1] = e.touches[1].pageX;
 					dy[0] = e.touches[0].pageY, dy[1] = e.touches[1].pageY;
 
-					var initdis = disCal(initx[0], inity[0], initx[1], inity[1]);
-					curScale = curScale*initdis/disCal(dx[0], dy[0], dx[1], dy[1]);
+					var initdis = disCal(initx[0], inity[0], initx[1], inity[1]),
+						refdis = $(window).width()*1.5,
+						per = (disCal(dx[0], dy[0], dx[1], dy[1])-initdis)/refdis;
+					
+					curScale = curScale + per;
 					$pic.css({
 						'webkitTransform': 'translate3d(' + preXY.x + 'px, ' + preXY.y + 'px, 0)' + 'scale(' + curScale + ')',
 					});
