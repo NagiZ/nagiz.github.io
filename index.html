@@ -54,12 +54,19 @@
 			e = e||window.event;
 			console.log('down');
 			$pic.removeClass('fortap');
+			if (e.stopPropagation) {
+				e.stopPropagation();
+				e.preventDefault();
+			}else{
+				e.cancelBubble = true;
+				e.returnValue = false;
+			}
 			//手指数
 			if (e.touches.length==1) {
 				fingers = 1;
 			}else{
 				fingers = 2;
-				alert('two');
+				return false;
 			}
 			//记录位置
 			for(var i=0; i<e.touches.length;i++) {
