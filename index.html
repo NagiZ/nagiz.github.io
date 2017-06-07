@@ -97,16 +97,16 @@
 					figstag = 0;
 
 				}else if(fingers == 2){
+					if(figstag==0){
+						figstag = 1;
+						preXY.x = dx[0];
+						preXY.y = dy[0];
+						return false; 
+					}
+
 					dx[0] = e.touches[0].pageX, dx[1] = e.touches[1].pageX;
 					dy[0] = e.touches[0].pageY, dy[1] = e.touches[1].pageY;
 
-					if(figstag==0){
-						figstag = 1;
-						preXY.x = dx[0] - initx[0];
-						preXY.y = dy[0] - inity[0];
-						alert(preXY.x+':'+preXY.y);
-						return false; 
-					}
 					var initdis = disCal(initx[0], inity[0], initx[1], inity[1]),
 						refdis = $(window).width()*2.5,
 						per = (disCal(dx[0], dy[0], dx[1], dy[1])-initdis)/refdis;
