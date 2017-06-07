@@ -11,7 +11,9 @@
 			margin: 0;
 			padding: 0;
 		}
-
+		body{
+			overflow: hidden;
+		}
 		#container{
 			width: 600px;
 			margin: 0 auto;
@@ -160,6 +162,7 @@
 							'position': 'absolute',
 							'top': ($(window).height()-$pic.height())/2,
 							'left': ($(window).width()-$pic.width())/2,
+							//'overflow': 'hidden',
 						});
 						$pic.css({
 							'webkitTransform': 'scale(' + curScale + ')',
