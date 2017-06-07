@@ -45,10 +45,9 @@
 		}
 		var toScale = $(window).width()/$('#container').width();
 		var dx = 0, dy = 0;
-		var scaletag = false, initScale = 1, curScale;
+		var scaletag = false, initScale = 1, curScale = 0;
 		touch.on('.pic', 'touchstart', function(e){
 			$(this).removeClass('fortap');
-			curScale = initScale;
 			e.preventDefault();
 		});
 
@@ -58,7 +57,7 @@
 			//this.style.webkitTransform = 'translate3d(' + curx + ', ' + cury + ', 0)';
 			var isScale = '';
 			if (scaletag) {
-				isScale = 'scale(' + curScale + ',' + curScale + ')';
+				isScale = 'scale(' + initScale + ',' + initScale + ')';
 				$(this).css({
 					'webkitTransform': 'translate3d(' + curx + ', ' + cury + ', 0)' + isScale,
 				});
@@ -91,9 +90,11 @@
 				$('#container').css({
 					'position': 'static',
 				});
+				dx = 0, dy = 0;
 				$(this).css({
-					'webkitTransform': 'scale(1, 1)',
+					'webkitTransform': 'translate3d(0, 0, 0)' + 'scale(1, 1)',
 					'zIndex': 0,
+					'position': 'static',
 				});
 				initScale = 1;
 			}
@@ -105,7 +106,8 @@
 					$(this).addClass('fortap');
 				}
 				$(this).css({
-					'webkitTransform': 'scale(3, 3)',
+					'webkitTransform': 'translate3d(' + dx + 'px, ' + dy + 'px, 0)' + 'scale(3, 3)',
+					'position': 'absolute',
 				});
 				initScale = 3;
 			}
@@ -116,11 +118,14 @@
 			if (scaletag) {
 				$(this).removeClass('fordoubeltap');
 				$(this).css({
-					'webkitTransform': 'scale(' + curScale + ',' + curScale + ')',
+					'webkitTransform': 'translate3d(' + dx + 'px, ' + dy + 'px, 0)' + 'scale(' + curScale + ',' + curScale + ')',
 					'zIndex': 1000,
 				});
 			}
 		});
+		touch.on('.pic', 'pinchend', function(){
+			initScale = curScale;
+		})
 
 		function IsPC(){  
            var userAgentInfo = navigator.userAgent;  
