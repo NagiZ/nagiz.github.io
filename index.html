@@ -102,7 +102,16 @@
 						'webkitTransform': 'translate3d(' + dx[0] + 'px, ' + dy[0]+ 'px, 0)' +  'scale(' + curScale + ')',
 					});
 				}else if(fingers == 2){
+					else if(fingers == 2){
+					dx[0] = e.touches[0].pageX, dx[1] = e.touches[1].pageX;
+					dy[0] = e.touches[0].pageY, dy[1] = e.touches[1].pageY;
 
+					var initdis = disCal(initx[0], inity[0], initx[1], inity[1]);
+					curScale = curScale*initdis/disCal(dx[0], dy[0], dx[1], dy[1]);
+					$pic.css({
+						'webkitTransform': 'translate3d(' + preXY.x + 'px, ' + preXY.y + 'px, 0)' + 'scale(' + curScale + ')',
+					});
+				}
 				}
 		}
 
@@ -190,6 +199,12 @@
            }  
            return flag;  
 		} 
+
+		function disCal( x1, y1, x2, y2){
+			var disx = parseFloat(x1-x2), disy = parseFloat(y1-y2);
+			var dis = Math.sqrt(Math.pow(disx,2) + Math.pow(disy,2));
+			return dis;
+		}
 	</script>
 </body>
 </html>
