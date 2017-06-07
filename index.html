@@ -157,6 +157,7 @@
 							'zIndex': 1000,
 							'position': 'absolute',
 						});
+						initScale = curScale;
 					}else{
 						moveflag =false;//缩小，禁止拖动
 						dx[0] = 0, dy[0] = 0;//清除位移
@@ -170,6 +171,7 @@
 							'zIndex': 0,
 						});
 						curScale = 1;
+						initScale = curScale;
 					}
 				},300);
 			}else if (dbflag==2) {
@@ -184,6 +186,7 @@
 								'position':'absolute',
 							});
 							curScale = 3;
+							initScale = curScale;
 					},200);
 				}
 				dbflag = 0;
