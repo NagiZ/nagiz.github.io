@@ -95,14 +95,12 @@
 				if (fingers == 1) { 
 					dx[0] = e.touches[0].pageX - initx[0] + preXY.x;
 					dy[0] = e.touches[0].pageY - inity[0] + preXY.y;
-					console.log(dx[0]);
 					$pic.css({
 						/*'left': dx[0],
 						'top': dy[0],*/
 						'webkitTransform': 'translate3d(' + dx[0] + 'px, ' + dy[0]+ 'px, 0)' +  'scale(' + curScale + ')',
 					});
 				}else if(fingers == 2){
-					else if(fingers == 2){
 					dx[0] = e.touches[0].pageX, dx[1] = e.touches[1].pageX;
 					dy[0] = e.touches[0].pageY, dy[1] = e.touches[1].pageY;
 
@@ -111,7 +109,6 @@
 					$pic.css({
 						'webkitTransform': 'translate3d(' + preXY.x + 'px, ' + preXY.y + 'px, 0)' + 'scale(' + curScale + ')',
 					});
-				}
 				}
 		}
 
