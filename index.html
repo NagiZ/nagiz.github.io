@@ -102,8 +102,8 @@
 
 					if(figstag==0){
 						figstag = 1;
-						preXY.x = dx[0];
-						preXY.y = dy[0];
+						preXY.x = dx[0] - initx[0];
+						preXY.y = dy[0] - inity[0];
 						return false; 
 					}
 					var initdis = disCal(initx[0], inity[0], initx[1], inity[1]),
