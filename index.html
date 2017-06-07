@@ -43,7 +43,7 @@
 		var dx = [0], dy = [0], initx = [], inity = [];
 		var preXY = {x:0, y:0};
 		var scaletag = false, moveflag = false, initScale = 0, curScale = 0, fingers = 0;
-		var timer = null, dbflag = 0;
+		var timer = null, dbflag = 0, finstag = 0;
 		var $pic = $('.pic').eq(0);
 
 		$pic.get(0).addEventListener('touchstart', touchstart, false);
@@ -91,13 +91,21 @@
 				if (fingers == 1) { 
 					dx[0] = e.touches[0].pageX - initx[0] + preXY.x;
 					dy[0] = e.touches[0].pageY - inity[0] + preXY.y;
-					console.log(dx[0]);
 					$pic.css({
 						'webkitTransform': 'translate3d(' + dx[0] + 'px, ' + dy[0] + 'px, 0)' +  'scale(' + curScale + ')',
 					});
+					finstag = 0;
+
 				}else if(fingers == 2){
 					dx[0] = e.touches[0].pageX, dx[1] = e.touches[1].pageX;
 					dy[0] = e.touches[0].pageY, dy[1] = e.touches[1].pageY;
+
+					if(figstag==0){
+						figstag = 1;
+						preXY.x = dx[0];
+						preXY.y = dy[0];
+						return false; 
+					}
 					var initdis = disCal(initx[0], inity[0], initx[1], inity[1]),
 						refdis = $(window).width()*2.5,
 						per = (disCal(dx[0], dy[0], dx[1], dy[1])-initdis)/refdis;
