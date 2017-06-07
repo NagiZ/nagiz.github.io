@@ -40,7 +40,7 @@
 			});
 		}
 		var toScale = $(window).width()/$('#container').width();
-		var dx = [0], dy = [0], initx = [], inity = [];
+		var dx = [], dy = [], initx = [], inity = [];
 		var preXY = {x:0, y:0};
 		var scaletag = false, moveflag = false, initScale = 0, curScale = 0, fingers = 0;
 		var timer = null, dbflag = 0;
@@ -89,13 +89,12 @@
 			scaletag = false;
 			//记录位移
 				if (fingers == 1) { 
-					dx[0] = e.touches[0].pageX - initx[0] + preXY.x;
-					dy[0] = e.touches[0].pageY - inity[0] + preXY.y;
-					console.log(dx[0]);
+					dx[10] = e.touches[0].pageX - initx[0] + preXY.x;
+					dy[10] = e.touches[0].pageY - inity[0] + preXY.y;
 					$pic.css({
 						/*'left': dx[0],
 						'top': dy[0],*/
-						'webkitTransform': 'translate3d(' + dx[0] + 'px, ' + dy[0] + 'px, 0)' +  'scale(' + curScale + ')',
+						'webkitTransform': 'translate3d(' + dx[10] + 'px, ' + dy[10] + 'px, 0)' +  'scale(' + curScale + ')',
 					});
 				}else if(fingers == 2){
 					dx[0] = e.touches[0].pageX, dx[1] = e.touches[1].pageX;
@@ -114,8 +113,8 @@
 		function touchend(e){
 			e = e||window.event;
 			e = e||window.event;
-			preXY.x = dx[0];
-			preXY.y = dy[0];
+			preXY.x = dx[10];
+			preXY.y = dy[10];
 			clearTimeout(timer);
 			dbflag++;
 			if (dbflag==1) {
@@ -151,7 +150,7 @@
 						});
 					}else{
 						moveflag =false;//缩小，禁止拖动
-						dx[0] = 0, dy[0] = 0;//清除位移
+						dx[10] = 0, dy[10] = 0;//清除位移
 
 						$('#container').css({
 							'position': 'static',
@@ -172,7 +171,7 @@
 							$pic.addClass('fortap');
 						}
 						$pic.css({
-							'webkitTransform': 'translate3d(' + dx[0] + 'px, ' + dy[0]+ 'px, 0)'  +  'scale(3, 3)',
+							'webkitTransform': 'translate3d(' + dx[10] + 'px, ' + dy[10]+ 'px, 0)'  +  'scale(3, 3)',
 							'position':'absolute',
 						});
 						curScale = 3;
