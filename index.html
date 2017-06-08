@@ -108,7 +108,6 @@
 
 					dx[0] = e.touches[0].pageX, dx[1] = e.touches[1].pageX;
 					dy[0] = e.touches[0].pageY, dy[1] = e.touches[1].pageY;
-					alert(dx[0]+':'+dy[0]);
 
 					var initdis = disCal(initx[0], inity[0], initx[1], inity[1]),
 						refdis = $(window).width()*2.5,
@@ -135,6 +134,9 @@
 			if (fingers == 1) {
 				preXY.x = dx[0];
 				preXY.y = dy[0];
+			}else if (fingers == 2) {}{
+				dx[0] = preXY.x;
+				dy[0] = preXY.y;
 			}
 
 			clearTimeout(timer);
