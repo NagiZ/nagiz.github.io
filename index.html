@@ -12,7 +12,7 @@
 			padding: 0;
 		}
 		body{
-			overflow: hidden;
+			overflow: hidden;/*还是对div父盒子用overflow吧，对body用，在手机屏幕上，会把浏览器之外的部分给拖出来*/
 		}
 		#container{
 			width: 600px;
@@ -194,13 +194,14 @@
 								$pic.addClass('fortap');
 							}
 							$pic.css({
-								'webkitTransform': 'translate3d(' + dx[0] + 'px, ' + dy[0]+ 'px, 0)'  +  'scale(3, 3)',
+								'webkitTransform': 'translate3d(' + preXY.x + 'px, ' + preXY.y + 'px, 0)'  +  'scale(3, 3)',
 								'position':'absolute',
 							});
 							curScale = 3;
 							initScale = curScale;
 					},200);
 				}
+				scaletag = true;
 				dbflag = 0;
 			}else{
 				dbflag = 0;
