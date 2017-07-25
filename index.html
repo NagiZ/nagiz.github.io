@@ -4,231 +4,83 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE-edge">
 	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
-	<script src="https://cdn.bootcss.com/touchjs/0.2.14/touch.js"></script>
-	<title>Touch Pic</title>
-	<style type="text/css">
-		*{
-			margin: 0;
-			padding: 0;
-		}
-		body{
-			overflow: hidden;/*还是对div父盒子用overflow吧，对body用，在手机屏幕上，会把浏览器之外的部分给拖出来*/
-		}
-		#container{
-			width: 600px;
-			margin: 0 auto;
-		}
-		.pic{
-			width: 100%;
-			z-index: 0;
-		}
-		.fortap{
-			transition: all 0.1s ease;
-			-webkit-transition: all 0.1s ease;
-		}
-	</style>
+	<title>主页</title>
 	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<link rel="stylesheet" href="./css/index-css.css">
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div id="container">
-		<img src="image/01.jpg" class="pic" />
+	<header class="navbar navbar-default navbar-static-top" style="height: 51px;">
+		<div class="container-fluid">
+			<div class="navbar-header"></div>
+				<div class="row">
+					<div class="col-md-8 col-xs-8">
+						<ul class="nav navbar-nav">
+							<li><span class="navbar-brand">Nagi 个人简介</span></li>
+							<li><span><a href="http://nagi.blog.com"><span class="hidden-xs navbar-brand">个人博客</span><span class="visible-xs-inline navbar-brand">Blog</span></a></span></li>
+						</ul>		
+					</div>
+					<div class="pull-right col-md-2 col-xs-4">
+						<ul class="nav navbar-nav">
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Demo合集<span class="caret"></span></a>
+								<ul class="dropdown-menu list-right-zero">
+								    <li><a href="./practices/roll-pic/roll.html">轮播图</a></li>
+								    <li><a href="./practices/touch/touch.html">Touch</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<!--body部分-->
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
+			<div class="container-fluid bor-bottom">
+				<div class="panel panel-default bg-grey">
+						<div class="text-center">
+							<h1>这里是一个标题介绍巴拉啦啦啦啦啦</h1>
+							<em>个人页面模板--大概</em>
+						</div>
+						<div class="text-center panel panel-default">
+							<img src="image/01.jpg" alt="background?" class="img-responsive center-block bor-radius">
+							<h2>Lucy(Nyu), </h2>
+						</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+							<h1>这里是文字内容</h1>
+							<ul class="list-unstyled">
+								<li><strong>重点：</strong><span>-重点巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</span></li>
+								<li><strong>重点：</strong><span>-重点巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</span></li>
+								<li><strong>重点：</strong><span>-重点巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</span></li>
+								<li><strong>重点：</strong><span>-重点巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</span></li>
+								<li><strong>重点：</strong><span>-重点巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</span></li>
+								<li><strong>重点：</strong><span>-重点巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</span></li>
+								<li><strong>重点：</strong><span>-重点巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</span></li>
+								<li><strong>重点：</strong><span>-重点巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</span></li>
+								<li><strong>重点：</strong><span>-重点巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</span></li>
+								<li><strong>重点：</strong><span>-重点巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉</span></li>
+							</ul>
+							<blockquote>
+								<p>
+									这里是引用巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉这里是引用巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉这里是引用巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉这里是引用巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉这里是引用巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉这里是引用巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉这里是引用巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉这里是引用巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉巴拉
+								</p>
+								<footer>
+									<cite>引用出处</cite>
+								</footer>
+							</blockquote>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="text-center">
+				</br>
+				<p>Should make full use of time instead of wasting time on gaming.</p>
+			</footer>
+		</div>
 	</div>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		if (!IsPC()) {
-			$('#container').css({
-				'width': 50+'%',
-				'height': $(window).height(),
-			});
-		}
-		var toScale = $(window).width()/$('#container').width();
-		var dx = [0], dy = [0], initx = [], inity = [];
-		var preXY = {x:0, y:0};
-		var scaletag = false, moveflag = false, initScale = 0, curScale = 0, fingers = 0;
-		var timer = null, dbflag = 0, figstag = 0;
-		var $pic = $('.pic').eq(0);
-
-		$pic.get(0).addEventListener('touchstart', touchstart, false);
-		$pic.get(0).addEventListener('touchmove', touchmove, false);
-		$pic.get(0).addEventListener('touchend', touchend, false);
-		
-		function touchstart(e){
-			e = e||window.event;
-			console.log('down');
-			$pic.removeClass('fortap');
-			//手指数
-			if (e.touches.length==1) {
-				fingers = 1;
-			}else{
-				fingers = 2;
-			}
-			//记录位置
-			for(var i=0; i<e.touches.length;i++) {
-				initx[i] = e.touches[i].pageX;
-				inity[i] = e.touches[i].pageY;
-			}
-		}
-
-		function touchmove(e){
-			if (!moveflag) {
-				scaletag = true;
-				console.log(moveflag);
-				return;
-			}
-			e = e||window.event;
-			if (initScale) {
-				curScale = initScale;
-				initScale = 0;
-			}
-			if (e.stopPropagation) {
-				e.stopPropagation();
-				e.preventDefault();
-			}else{
-				e.cancelBubble = true;
-				e.returnValue = false;
-			}
-			//使end事件不会回复原来scale
-			scaletag = false;
-			//记录位移
-				if (fingers == 1) { 
-					dx[0] = e.touches[0].pageX - initx[0] + preXY.x;
-					dy[0] = e.touches[0].pageY - inity[0] + preXY.y;
-					$pic.css({
-						'webkitTransform': 'translate3d(' + dx[0] + 'px, ' + dy[0] + 'px, 0)' +  'scale(' + curScale + ')',
-					});
-					figstag = 0;
-
-				}else if(fingers == 2){
-					if(figstag==0){
-						figstag = 1;
-						preXY.x = dx[0];
-						preXY.y = dy[0];
-						return false; 
-					}
-
-					dx[0] = e.touches[0].pageX, dx[1] = e.touches[1].pageX;
-					dy[0] = e.touches[0].pageY, dy[1] = e.touches[1].pageY;
-
-					var initdis = disCal(initx[0], inity[0], initx[1], inity[1]),
-						refdis = $(window).width()*2.5,
-						per = (disCal(dx[0], dy[0], dx[1], dy[1])-initdis)/refdis;
-					
-					var puls = (curScale + per);
-					if (puls>=4) {//限制放大缩小
-						initScale = 4;
-					}else if (puls<=0.5) {
-						initScale = 0.5;
-					}else{
-						initScale =  puls;
-					}
-					$pic.css({
-						'webkitTransform': 'translate3d(' + preXY.x + 'px, ' + preXY.y + 'px, 0)' + 'scale(' + initScale + ')',
-					});
-				}
-		}
-
-		function touchend(e){
-			e = e||window.event;
-			e = e||window.event;
-
-			if (fingers == 1) {
-				preXY.x = dx[0];
-				preXY.y = dy[0];
-			}else if (fingers == 2) {}{
-				dx[0] = preXY.x;
-				dy[0] = preXY.y;
-			}
-
-			clearTimeout(timer);
-			dbflag++;
-			if (dbflag==1) {
-				
-				timer = setTimeout(function(){
-					dbflag = 0;
-					if (scaletag==true) {
-						scaletag = false;
-					}else{
-						scaletag = true;
-					}
-					if (!$pic.hasClass('fortap')) {
-						$pic.addClass('fortap');
-					}
-					if(scaletag){//拖动的那次触摸，不触发缩小
-						if (scaletag&&moveflag) {
-							return false;
-						}
-						moveflag = true;//触摸放大，可以拖动
-						if(curScale<toScale){
-							curScale = toScale;
-						}
-						$('#container').css({
-							'position': 'absolute',
-							'top': ($(window).height()-$pic.height())/2,
-							'left': ($(window).width()-$pic.width())/2,
-							//'overflow': 'hidden',
-						});
-						$pic.css({
-							'webkitTransform': 'scale(' + curScale + ')',
-							'zIndex': 1000,
-							'position': 'absolute',
-						});
-						initScale = curScale;
-					}else{
-						moveflag =false;//缩小，禁止拖动
-						dx[0] = 0, dy[0] = 0;//清除位移
-
-						$('#container').css({
-							'position': 'static',
-						});
-						$pic.css({
-							'position': 'static',
-							'webkitTransform': 'translate3d(0, 0, 0)' + 'scale(1, 1)',
-							'zIndex': 0,
-						});
-						curScale = 1;
-						initScale = curScale;
-					}
-				},300);
-			}else if (dbflag==2) {
-				if (scaletag) {
-					moveflag = true;
-					timer = setTimeout(function(){
-							if (!$pic.hasClass('fortap')) {
-								$pic.addClass('fortap');
-							}
-							$pic.css({
-								'webkitTransform': 'translate3d(' + preXY.x + 'px, ' + preXY.y + 'px, 0)'  +  'scale(3, 3)',
-								'position':'absolute',
-							});
-							curScale = 3;
-							initScale = curScale;
-					},200);
-				}
-				scaletag = true;
-				dbflag = 0;
-			}else{
-				dbflag = 0;
-				return;
-			}
-		}
-		
-	})
-
-		function IsPC(){  
-           var userAgentInfo = navigator.userAgent;  
-           var Agents = new Array("Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod");  
-           var flag = true;  
-           for (var v = 0; v < Agents.length; v++) {  
-               if (userAgentInfo.indexOf(Agents[v]) > 0) {flag = false; break;}  
-           }  
-           return flag;  
-		} 
-
-		function disCal( x1, y1, x2, y2){
-			var disx = parseFloat(x1-x2), disy = parseFloat(y1-y2);
-			var dis = Math.sqrt(Math.pow(disx,2) + Math.pow(disy,2));
-			return dis;
-		}
-	</script>
 </body>
 </html>
