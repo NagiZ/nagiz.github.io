@@ -6,6 +6,16 @@
 .bor-radius{
 	border-radius: 5px;
 }
+/*背景*/
+#bg-white{
+	background: #fff;
+}
+.bg-white{
+	background: #fff;
+}
+.bg-grey{
+	background-color: #e8e8e8;
+}
 /*下拉列表靠左*/
 .list-right-zero{
 	left: auto;
@@ -20,12 +30,57 @@ button:focus, input:focus{
 .nav-mar-bottom{
 	margin-bottom: 51px;
 }
-.bg-grey{
-	background-color: #e8e8e8;
-}
 blockquote{
 	border-left: none;
 }
 .bor-bottom{
 	border-bottom: 1px solid #e7e7e7;
+}
+#aa:focus{
+	background-color: transparent;
+}
+/**
+	padding-sm margin-sm border-default
+*/
+.padding-sm{
+	display: block;
+	padding: 5px;
+}
+.padding-default{
+	display: block;
+	padding: 15px;
+}
+.margin-sm{
+	margin: 5px;
+}
+.margin-default{
+	margin-right: 15px;
+}
+.border-default{
+	border: 1px solid #e8e8e8;
+}
+
+/**
+	text for demo
+*/
+.text-demo{
+	font-size: 30px;
+	text-align: center;
+	color: #1a1a1a;
+	font-weight: bold;
+}
+/*totop*/
+.toTop{
+	position: fixed;
+	right: 5%;
+	bottom: 5%;
+}
+#toTop:active, #toTop:focus, #toTop:visited, #toTop:link{
+	color: #428bca;
+	text-decoration: none;
+	outline: none;
+	box-shadow: none;
+}
+#toTop:hover{
+	background-color: #e8e8e8;
 }
