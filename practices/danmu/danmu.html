@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>弹幕</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<style>
+		#main-area{
+			height: 400px;
+			border: 1px solid #e8e8e8;
+			margin-bottom: 20px;	
+			margin-top: 20px;
+			padding: 0;
+			overflow: hidden;
+		}
+		#main-area p{
+			 position: absolute;
+			float: right;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12" id="main-area"></div>
+			<div class="col-md-4 col-sm-6 col-xs-8 col-md-offset-4 col-sm-offset-3 col-xs-offset-2">
+				<form action="" class="form-inline">
+					<div class="form-group">
+						<input type="text" class="form-control" id="emissionText">
+					</div>
+					<button type="button" class="btn btn default" id="emission">发射</button>
+					<button type="button" class="btn btn-danger" id="clear">清屏</button>
+				</form>
+			</div>
+		</div>
+	</div>
+<!-- emission&clear -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var danmu,
+			colorArr = ['red', 'orange' , 'yellow', 'green', 'blue', 'purple', 'black'],
+			sizeArr = [14, 16, 20, 22, 24, 28, 30];
+
+			/*
+			*发射弹幕
+			*/
+			$('#emission').click(function() {
+				/* Act on the event */
+				vanmu = $('#main-area').children().length;
+				var eText = $('#emissionText').val();
+				if (!eText) {
+					return;
+				}
+				var fontSize = sizeArr[Math.floor(Math.random()*7)],
+					textLength = eText.length,
+				    boxHeight = $('#main-area').height(),
+					boxWidth = $('#main-area').width(),
+					fontColor = colorArr[Math.floor(Math.random()*7)];
+				var rHeight = Math.random()*boxHeight - fontSize,
+					textWidth = textLength*parseInt(fontSize);
+				var $span = $('<p>' + eText + '</p>').css({'top': rHeight, 'left': boxWidth-textWidth, 'color': fontColor, 'font-size': fontSize + 'px'});
+				$('#main-area').append($span);
+				setTimeout(function(){
+					$span.animate({
+						left: -textWidth + 'px', 
+					}, 10000 , function() {
+						/* stuff to do after animation is complete */
+						$span.remove();
+					});
+				},1000)
+			});
+
+			/*
+			* 清屏
+			*/
+			$('#clear').click(function() {
+				/* Act on the event */
+				$('#main-area').empty();
+			});
+		})
+	</script>
+</body>
+</html>
