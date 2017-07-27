@@ -61,7 +61,7 @@
 					boxWidth = $('#main-area').width(),
 					fontColor = colorArr[Math.floor(Math.random()*7)];
 				var rHeight = Math.random()*boxHeight - fontSize,
-					textWidth = textLength*parseInt(fontSize);
+					textWidth = 0.5*textLength*fontSize;
 				var $span = $('<p>' + eText + '</p>').css({'top': rHeight, 'left': boxWidth-textWidth, 'color': fontColor, 'font-size': fontSize + 'px'});
 				$('#main-area').append($span);
 				setTimeout(function(){
