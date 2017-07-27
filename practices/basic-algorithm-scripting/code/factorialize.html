@@ -15,37 +15,44 @@
 			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
 				<form action="">
 					<div class="form-group">
-						<label for="inputStr">被倒转的字符串</label>
-						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个字符串">
+						<label for="inputNum">阶乘</label>
+						<input type="number" class="form-control" id="inputNum" placeholder="请输入一个数字">
 					</div>
 					<div class="form-group">
-						<label for="outputStr">结果</label>
-						<input type="text" class="form-control" id="outputStr" placeholder="倒转结果" readonly="readonly">
+						<label for="outputNum">结果</label>
+						<input type="number" class="form-control" id="outputNum" placeholder="倒转结果" disabled="disabled">
 					</div>
-					<button type="button" id="reverseBtn">倒转</button>
+					<button type="button" id="btn">求阶乘</button>
 				</form>
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
 		window.onload = function(){
-			var btn = document.getElementById('reverseBtn');
+			var btn = document.getElementById('btn');
 			btn.onclick = ()=>{
-				var inputStr = document.getElementById('inputStr').value,
-					output = document.getElementById('outputStr'),
-					outputStr; 
-					if(!inputStr){
+				var inputNum = document.getElementById('inputNum').value,
+					output = document.getElementById('outputNum'),
+					outputNum; 
+					if(!inputNum){
 						return;
 					};
-					outputStr = reverseStr(inputStr);
-					output.value = outputStr;
+					if (inputNum<0) {}
+					outputNum = factorialize(inputNum);
+					output.value = outputNum;
 			}
 		}
 
-		function reverseStr(str){
-			str = str.split('').reverse().join('');
-			return str;
+		function factorialize(num){
+			if (num<=1) {
+				num = 1;
+			}
+			if (num>1) {
+				num = num * factorialize(num-1);
+			}
+			return num;
 		}
+		console.log(factorialize(5));
 	</script>
 </body>
 </html>
