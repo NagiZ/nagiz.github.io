@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Title Case a Sentence</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputSte">输入一个英文/数字字符串</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个不以空格开头的连续字符串">
+						<span id="helpBlockStr1" class="help-block">需要标题化的字符串</span>
+					</div>
+					<div class="form-group">
+						<label for="outputSTR">标题化结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="检测结果" disabled="disabled">
+						<span id="helpBlockStr2" class="help-block">结果</span>
+					</div>
+					<button type="button" id="btn">Tilte It</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			document.getElementById('inputStr').onchange = ()=>{
+				document.getElementById('helpBlockStr1').innerText = '请输入需要检测的字符串';
+			}
+			var btn = document.getElementById('btn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					output = document.getElementById('outputStr'),
+					outputStr;
+				if (!inputStr) {
+					document.getElementById('helpBlockStr1').innerText = '检测字符串不能为空!';
+					return;
+				}
+
+				outputStr = titleCase(inputStr);
+				output.value = outputStr;
+			}
+		}
+
+		/*title function*/
+		function titleCase(str){
+			var arr = str.split(' ');
+			arr.forEach(function(value, index){
+				var firstLittle = value.charAt(0);
+				arr[index] = firstLittle.toUpperCase() + value.substr(1).toLowerCase();
+			});
+			str = arr.join(' ');
+			return str;
+		}
+	</script>
+</body>
+</html>
