@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Split the Array</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputSte">输入一个一维数组</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个需要分割的一维数组">
+						<span id="helpBlockStr1" class="help-block">需要分割的数组</span>
+					</div>
+						<div class="form-group">
+							<label for="length">输入Number</label>
+							<input type="number" class="form-control" id="length" placeholder="length">
+							<span id="helpBlockStrlength" class="help-block">子数组长度</span>
+						</div>
+					<div class="form-group">
+						<label for="outputSTR">检测结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="检测结果" disabled="disabled">
+						<span id="helpBlockStr2" class="help-block">检测结果</span>
+					</div>
+					<button type="button" id="btn">检测</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			document.getElementById('inputStr').onchange = ()=>{
+				document.getElementById('helpBlockStr1').innerText = '请输入需要分割的一维数组';
+			};
+			document.getElementById('helpBlockStrlength').onchange = ()=>{
+				document.getElementById('helpBlockStrlength').innerText = '子数组长度';
+			};
+			var btn = document.getElementById('btn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					output = document.getElementById('outputStr'),
+					len = document.getElementById('length').value,
+					outputStr;
+				if (!inputStr) {
+					document.getElementById('helpBlockStr1').innerText = '请输入一个数字!';
+					return;
+				}
+				if (!len) {
+					return;
+				}
+
+				inputStr = inputStr.substring(1, inputStr.length-1).split(',');
+
+				outputStr =splitArr(inputStr, len);
+				console.log(outputStr);
+				output.value = '[';
+				for (var i = 0; i < outputStr.length; i++) {
+					if (i<outputStr.length-1) {
+						output.value = output.value + '[' +outputStr[i] + ']' + ',';
+					}else{
+						output.value = output.value + '[' +outputStr[i] + ']]';
+					}
+				}
+			}
+		}
+
+		/*
+		*splitArr函数
+		*/
+		function splitArr(arr, len){
+			var outputArr = [],
+				num = Math.ceil(arr.length/len);
+			for (var i = 0; i < num; i++) {
+				if (i*len<=arr.length) {
+					outputArr.push(arr.slice(i*len, (i+1)*len));
+				}else{
+					outputArr.push(arr.slice(i*len));
+				}
+			}
+			return outputArr;
+		}
+		/*需要加入多维数组的分割*/
+		// function test(str){
+		// 	var arr = str.substring(1, str.length-1).split(']');
+		// 	for (var i = 0; i < arr.length; i++) {
+		// 		arr[i]
+		// 	}
+		// }
+	</script>
+</body>
+</html>

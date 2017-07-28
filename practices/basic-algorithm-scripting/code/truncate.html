@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE-edge">
 	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
-	<title>Repeat a String</title>
+	<title>Truncate a String</title>
 	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -17,12 +17,12 @@
 					<div class="form-group">
 						<label for="inputSte">输入一个英文/数字字符串</label>
 						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个不以空格开头的连续字符串">
-						<span id="helpBlockStr1" class="help-block">需要重复的字符串</span>
+						<span id="helpBlockStr1" class="help-block">需要处理的字符串</span>
 					</div>
 						<div class="form-group">
-							<label for="times">输入Number</label>
-							<input type="number" class="form-control" id="times" placeholder="Repeat Times">
-							<span id="helpBlockStrtimes" class="help-block">重复次数</span>
+							<label for="length">输入Number</label>
+							<input type="number" class="form-control" id="length" placeholder="String Length">
+							<span id="helpBlockStrlength" class="help-block">限制长度</span>
 						</div>
 					<div class="form-group">
 						<label for="outputSTR">检测结果</label>
@@ -37,43 +37,49 @@
 	<script type="text/javascript">
 		window.onload = function(){
 			document.getElementById('inputStr').onchange = ()=>{
-				document.getElementById('helpBlockStr1').innerText = '请输入需要重复的字符串';
-			}；
-			document.getElementById('helpBlockStrtimes').onchange = ()=>{
-				document.getElementById('helpBlockStr1').innerText = '重复次数';
+				document.getElementById('helpBlockStr1').innerText = '请输入需要处理的字符串';
+			};
+			document.getElementById('helpBlockStrlength').onchange = ()=>{
+				document.getElementById('helpBlockStrlength').innerText = '限制长度';
 			};
 			var btn = document.getElementById('btn');
 			btn.onclick = ()=>{
 				var inputStr = document.getElementById('inputStr').value,
 					output = document.getElementById('outputStr'),
-					times = document.getElementById('times').value,
+					len = document.getElementById('length').value,
 					outputStr;
 				if (!inputStr) {
-					document.getElementById('helpBlockStr1').innerText = '检测字符串不能为空!';
+					document.getElementById('helpBlockStr1').innerText = '请输入一个数字!';
 					return;
 				}
-				if (!times) {
-					document.getElementById('helpBlockStrtimes').innerText = '请输入一个数字!'；
+				if (!len) {
+					return;
 				}
-				outputStr =repeatStr(inputStr, times);
+				outputStr =truncate(inputStr, len);
 				output.value = outputStr;	
 			}
 		}
 
 		/*
-		*repeat函数
+		*truncate函数
 		*/
-		function repeatStr(str, times){
-			var model = '';
-			if(!Number(times)){
-				model = '次数输入错误';
+		function truncate(str, len){
+			if (!str||len<=0) {
+				return;
 			}
-			for (var i = 0; i < times; i++) {
-				model = model + str;
+			console.log(str + len);
+			var model = '...';
+			if(len<=3){
+				if (str.length>len) {
+					str = str.substr(0, len) + model;
+				}
+			}else{
+				if (str.length>len) {
+					str = str.substr(0, len-3) + model; 
+				}
 			}
-			return model;
+			return str;
 		}
-		
 	</script>
 </body>
 </html>
