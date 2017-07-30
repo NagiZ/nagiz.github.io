@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Rot13</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputStr">被加密字符串[大写]</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个字符串">
+						<span id="helpBlockStr1" class="help-block">需要加密的字符串</span>
+					</div>
+					<div class="form-group">
+						<label for="outputStr">结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="加密结果" readonly="readonly">
+						<span id="helpBlockStr2" class="help-block">加密结果</span>
+					</div>
+					<button type="button" id="reverseBtn">加密</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			var btn = document.getElementById('reverseBtn');
+			document.getElementById('helpBlockStr1').innerText = '需要加密的字符串';
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					output = document.getElementById('outputStr'),
+					outputStr; 
+					if(!inputStr){
+						return;
+					};
+					if (inputStr.toUpperCase()!= inputStr) {
+						document.getElementById('helpBlockStr1').innerText = '密码串必须大写';
+						return;
+					}
+					outputStr = rot13(inputStr);
+					output.value = outputStr;
+			}
+		}
+
+		function rot13(str){
+			var str13 = '';
+			for(var i=0; i<str.length; i++){
+				var cc = str.charCodeAt(i);
+				console.log(cc);
+				if (cc<65||cc>90) {
+					str13 = str13 + str.charAt(i);
+					console.log('就是你了: ' + str.charAt(i));
+				}else{
+					if (cc+13>90) {
+						cc = cc-90+64;
+					}
+					str13 = str13 + String.fromCharCode(cc+13);
+				}
+			}
+			return str13;
+		}
+	</script>
+</body>
+</html>
