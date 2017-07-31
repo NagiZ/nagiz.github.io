@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE-edge">
 	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
-	<title>Largest Number in Array</title>
+	<title>Convert HTML Entities</title>
 	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -15,14 +15,14 @@
 			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
 				<form action="">
 					<div class="form-group">
-						<label for="inputStr">输入一个数列</label>
-						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个不以空格开头的连续字符串">
-						<span id="helpBlockStr1" class="help-block">需要查找的数列</span>
+						<label for="inputStr">待处理</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入">
+						<span id="helpBlockStr1" class="help-block">需要处理的字符串</span>
 					</div>
 					<div class="form-group">
-						<label for="outputStr">查找结果</label>
-						<input type="text" class="form-control" id="outputStr" placeholder="检测结果" disabled="disabled">
-						<span id="helpBlockStr2" class="help-block">结果</span>
+						<label for="outputStr">结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="处理结果" disabled="disabled">
+						<span id="helpBlockStr2" class="help-block">处理结果</span>
 					</div>
 					<button type="button" id="btn">Sort It</button>
 				</form>
@@ -32,7 +32,7 @@
 	<script type="text/javascript">
 		window.onload = function(){
 			document.getElementById('inputStr').onchange = ()=>{
-				document.getElementById('helpBlockStr1').innerText = '请输入需要查找的数列';
+				document.getElementById('helpBlockStr1').innerText = '请输入需要处理的字符串';
 			}
 			var btn = document.getElementById('btn');
 			btn.onclick = ()=>{
@@ -40,33 +40,44 @@
 					output = document.getElementById('outputStr'),
 					outputStr;
 				if (!inputStr) {
-					document.getElementById('helpBlockStr1').innerText = '检测数列不能为空';
+					document.getElementById('helpBlockStr1').innerText = '检测字符串不能为空';
 					return;
-				}
-				inputStr = inputStr.substring(1, inputStr.length-2).split(']');
-				for (var i = 0; i < inputStr.length; i++) {
-					inputStr[i] = inputStr[i].substring(1).split(',');
-				}
-
-				outputStr = largestNum(inputStr);
+				};
+				outputStr = convert(inputStr);
 				output.value = outputStr;
 			}
 		}
 
 		/*function*/
-		function largestNum(arr){
-			var maxArr = [];
-			maxArr.length = arr.length;
-			for (var i = 0; i < arr.length; i++) {
-				maxArr[i] = 0;
-				for (var j = 0; j < arr[i].length; j++) {
-					if (maxArr[i]<arr[i][j]) {
-						maxArr[i] = arr[i][j];
+		function convert(str){
+			str = str.split('');
+			var reg = /[\>\<\&\"\']+/;
+			str.forEach(function(value, index){
+				if (reg.test(value)) {
+					switch(value){
+						case '<':
+							str[index] = '&lt;';
+							break;
+						case '>':
+							str[index] = '&gt;';
+							break;
+						case '&':
+							str[index] = '&amp;';
+							break;
+						case '"':
+							str[index] = '&quot;';
+							break;
+						case "'":
+							str[index] = '&apos;';
+							break;
+						default: break;
 					}
 				}
-			}
-			return maxArr;
+			});
+			return str.join('');
 		}
+		var t = 'Stuff in "quotation marks"';
+		console.log(convert(t));
 	</script>
 </body>
 </html>

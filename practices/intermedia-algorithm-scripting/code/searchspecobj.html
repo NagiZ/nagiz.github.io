@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Where art thou</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputSte">Array of Obj：待查找</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="数组1" disabled="disabled">
+						<span id="helpBlockStr" class="help-block">Array1</span>
+					</div>
+					<div class="form-group">
+						<label for="inputSearch">Obj：查找条件</label>
+						<input type="text" class="form-control" id="inputSearch" placeholder="查找对象" disabled="disabled">
+						<span id="helpBlockStr1" class="help-block">Array2</span>
+					</div>
+					<div class="form-group">
+						<label for="outputStr">结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="结果" disabled="disabled">
+						<span id="helpBlockStr2" class="help-block">结果</span>
+					</div>
+					<button type="button" id="btn">Search</button>
+				</form>
+			</div>
+		</div>
+		<p class="panel panel-default text-center">暂时不可用（函数可用）</p>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			document.getElementById('inputStr').onchange = ()=>{
+				document.getElementById('helpBlockStr2').innerText = '结果';
+			};document.getElementById('inputSearch').onchange = ()=>{
+				document.getElementById('helpBlockStr2').innerText = '结果';
+			}
+			var btn = document.getElementById('btn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					inputSearch = document.getElementById('inputSearch').value
+					output = document.getElementById('outputStr'),
+					outputStr;
+				if (!inputStr||!inputSearch) {
+					document.getElementById('helpBlockStr2').innerText = 'Array1 和 Obj 不能为空';
+					return;
+				}
+				outputStr = searchObj(inputStr, inputSearch);
+				output.value = outputStr;
+			}
+		}
+
+		/*function*/
+		function searchObj(collcetion, source){
+			var keys = Object.keys(source);
+			var arr = [];
+			arr = collcetion.filter(function(value) {
+				var ishave = true;
+				keys.forEach(function(val) {
+					if(!value.hasOwnProperty(val)){
+						ishave = false;
+					}else{
+						if (value[val]!=source[val]) {
+							ishave = false;
+						}
+					}
+				});
+				return ishave;
+			});
+			return arr;
+		}
+	</script>
+</body>
+</html>

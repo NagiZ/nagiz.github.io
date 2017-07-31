@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Sort Union</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputStr">待查重</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入">
+						<span id="helpBlockStr1" class="help-block">需要查重的数组，数组之间以','隔开</span>
+					</div>
+					<div class="form-group">
+						<label for="outputStr">结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="检测结果" disabled="disabled">
+						<span id="helpBlockStr2" class="help-block">查重结果</span>
+					</div>
+					<button type="button" id="btn">Sort It</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			document.getElementById('inputStr').onchange = ()=>{
+				document.getElementById('helpBlockStr1').innerText = '请输入需要查重的数组';
+			}
+			var btn = document.getElementById('btn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					output = document.getElementById('outputStr'),
+					outputStr;
+				if (!inputStr) {
+					document.getElementById('helpBlockStr1').innerText = '检测数组不能为空';
+					return;
+				}
+				inputStr = inputStr.substring(0, inputStr.length-1).split('],');
+				for (var i = 0; i < inputStr.length; i++) {
+					inputStr[i] = inputStr[i].trim().substring(1).trim().split(',');
+				}
+				outputStr = uniter(inputStr);
+				output.value = outputStr;
+			}
+		}
+
+		/*function*/
+		function uniter(arr1){
+			var arglen = arr1.length;
+			if (arglen>1) {
+				arr1 = arr1.reduce(function(a, b){
+					return a.concat(b);
+				}, []);
+			}
+			arr1.forEach(function(value, index){
+				//arr1[index] = Number(value);
+				arr1[index] = value.trim();
+			});
+			console.log(arr1);
+			var arr = [];
+			arr1.forEach(function(value){
+				if (arr.indexOf(value)==-1) {
+					arr.push(value);
+				}else{
+					return;
+				}
+			})
+			console.log(arr);
+			return arr;
+		}
+		//函数逻辑
+		// function uniter(arr1, arr2, arr3){
+		// 	var arglen = arguments.length;
+		// 	if (arglen>1) {
+		// 		arr1 = [].slice.call(arguments, 0).reduce(function(a, b){
+		// 			return a.concat(b);
+		// 		}, []);
+		// 	}
+		// 	console.log(arr1);
+		// 	var arr = [];
+		// 	arr1.forEach(function(value){
+		// 		if (arr.indexOf(value)==-1) {
+		// 			arr.push(value);
+		// 		}else{
+		// 			return;
+		// 		}
+		// 	})
+		// 	console.log(arr);
+		// 	return arr;
+		// }
+	</script>
+</body>
+</html>
