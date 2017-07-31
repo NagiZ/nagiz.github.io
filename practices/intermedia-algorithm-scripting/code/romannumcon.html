@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Roman Number Converter</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputStr">数字</label>
+						<input type="number" class="form-control" id="inputStr" placeholder="请输入要转化的数字">
+						<span id="helpBlockStr" class="help-block">要转化的数字</span>
+					</div>
+					<div class="form-group">
+						<label for="outputStr">转化结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="转化结果" disabled="disabled">
+						<span id="helpBlockStr2" class="help-block">结果</span>
+					</div>
+					<button type="button" id="btn">Convert</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			document.getElementById('inputStr').onchange = ()=>{
+				document.getElementById('helpBlockStr').innerText = '要转化的数字';
+			}
+			var btn = document.getElementById('btn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					output = document.getElementById('outputStr'),
+					outputStr;
+				if (!inputStr) {
+					document.getElementById('helpBlockStr').innerText = '数字不能为空';
+					return;
+				}
+				inputStr = Number(inputStr);
+				outputStr = convert(inputStr);
+				output.value = outputStr;
+			}
+		}
+
+		/*function*/
+		var a_an = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
+		var a_ten = ['X', 'XX', 'XXX', 'XL', 'L', 'LX', 'LXX', 'LXXX', 'XC'];
+		var a_hun = ['C', 'CC', 'CCC', 'CD', 'D', 'DC', 'DCC', 'DCCC', 'CM'];
+		var a_thu = 'M';
+		function convert(num){
+			var num_a = num%10,
+				num_ten = parseInt(num%100/10),
+				num_hun = parseInt(num%1000/100),
+				num_thu = parseInt(num/1000);
+			console.log(num_a+":"+num_ten+":"+num_hun+":"+num_thu);
+			var romanArr = [];
+			romanArr[3] = num_a == 0 ? '': a_an[num_a-1];
+			romanArr[2] = num_ten == 0? '': a_ten[num_ten-1];
+			romanArr[1] = num_hun == 0? '': a_hun[num_hun-1];
+			romanArr[0] = repeatStr(a_thu, num_thu);
+			return romanArr.join('');
+		}
+
+		function repeatStr(str, times){
+			var model = '';
+			if (times < 0) {
+				return;
+			}
+			if (times == 0) {
+				return model;
+			}
+			for (var i = 0; i < times; i++) {
+				model = model + str;
+			}
+			return model;
+		}
+		var oa = convert(9);
+	</script>
+</body>
+</html>

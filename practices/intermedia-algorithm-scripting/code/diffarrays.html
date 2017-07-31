@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Diff Two Arrays</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputSte">数组1</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="数组1">
+						<span id="helpBlockStr" class="help-block">Array1</span>
+					</div>
+					<div class="form-group">
+						<label for="inputStr1">数组2</label>
+						<input type="text" class="form-control" id="inputStr1" placeholder="数组2">
+						<span id="helpBlockStr1" class="help-block">Array2</span>
+					</div>
+					<div class="form-group">
+						<label for="outputStr">结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="结果" disabled="disabled">
+						<span id="helpBlockStr2" class="help-block">结果</span>
+					</div>
+					<button type="button" id="btn">Diff</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			document.getElementById('inputStr').onchange = ()=>{
+				document.getElementById('helpBlockStr2').innerText = '结果';
+			};document.getElementById('inputStr1').onchange = ()=>{
+				document.getElementById('helpBlockStr2').innerText = '结果';
+			}
+			var btn = document.getElementById('btn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					inputStr1 = document.getElementById('inputStr1').value
+					output = document.getElementById('outputStr'),
+					outputStr;
+				if (!inputStr||!inputStr1) {
+					document.getElementById('helpBlockStr2').innerText = 'Array1 和 Array2 不能为空';
+					return;
+				}
+				inputStr = inputStr.substring(1, inputStr.length-1).split(',');
+				inputStr1 = inputStr1.substring(1, inputStr1.length-1).split(',');
+				var re = /[a-zA-Z0-9]+/;
+				inputStr = exre(inputStr, re);
+				inputStr1 = exre(inputStr1, re);
+				console.log(inputStr);
+				outputStr = '[' + diff(inputStr, inputStr1) + ']';
+				output.value = outputStr;
+			}
+		}
+
+		/*function*/
+		function diff(arr1, arr2) {
+		  var newArr = [];
+		  // Same, same; but different.
+		  var subArr1 = [],
+		      subArr2 = [];
+		  subArr1 = arr1.filter(function(value){
+		    return arr2.indexOf(value)==-1;
+		  });
+		  subArr2 = arr2.filter(function(value){
+		  	return arr1.indexOf(value)==-1;
+		  });
+		  newArr = subArr1.concat(subArr2);
+		  return newArr;
+		}
+		function exre(arr, reg){
+			for (var i = 0; i < arr.length; i++) {
+				arr[i] = reg.exec(arr[i])[0];
+			}
+			return arr;
+		}
+	</script>
+</body>
+</html>

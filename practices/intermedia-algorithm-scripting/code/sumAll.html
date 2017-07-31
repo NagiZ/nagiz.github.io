@@ -15,16 +15,16 @@
 			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
 				<form action="">
 					<div class="form-group">
-						<label for="inputStr">输入一个数列</label>
-						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个不以空格开头的连续字符串">
-						<span id="helpBlockStr1" class="help-block">需要查找的数列</span>
+						<label for="inputStr">输入累加的上下界【数组】</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入累加的上下界">
+						<span id="helpBlockStr1" class="help-block">累加的边界</span>
 					</div>
 					<div class="form-group">
-						<label for="outputStr">查找结果结果</label>
-						<input type="text" class="form-control" id="outputStr" placeholder="检测结果" disabled="disabled">
+						<label for="outputStr">累加结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="累加结果" disabled="disabled">
 						<span id="helpBlockStr2" class="help-block">结果</span>
 					</div>
-					<button type="button" id="btn">Sort It</button>
+					<button type="button" id="btn">Sum</button>
 				</form>
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 	<script type="text/javascript">
 		window.onload = function(){
 			document.getElementById('inputStr').onchange = ()=>{
-				document.getElementById('helpBlockStr1').innerText = '请输入需要查找的数列';
+				document.getElementById('helpBlockStr1').innerText = '累加的边界';
 			}
 			var btn = document.getElementById('btn');
 			btn.onclick = ()=>{
@@ -40,32 +40,29 @@
 					output = document.getElementById('outputStr'),
 					outputStr;
 				if (!inputStr) {
-					document.getElementById('helpBlockStr1').innerText = '检测数列不能为空';
+					document.getElementById('helpBlockStr1').innerText = '上下界不能为空';
 					return;
 				}
-				inputStr = inputStr.substring(1, inputStr.length-2).split(']');
+				inputStr = inputStr.substring(1, inputStr.length-1).split(',');
 				for (var i = 0; i < inputStr.length; i++) {
-					inputStr[i] = inputStr[i].substring(1).split(',');
+					inputStr[i] = Number(inputStr[i]);
 				}
 
-				outputStr = largestNum(inputStr);
+				outputStr = sumAll(inputStr);
 				output.value = outputStr;
 			}
 		}
 
 		/*function*/
-		function largestNum(arr){
-			var maxArr = [];
-			maxArr.length = arr.length;
-			for (var i = 0; i < arr.length; i++) {
-				maxArr[i] = 0;
-				for (var j = 0; j < arr[i].length; j++) {
-					if (maxArr[i]<arr[i][j]) {
-						maxArr[i] = arr[i][j];
-					}
-				}
+		function sumAll(arr){
+			var lg = Math.max.apply(null, arr),
+				sm = Math.min.apply(null, arr);
+			for(var i=sm+1; i<lg; i++){
+				arr.splice(1, 0, i);
 			}
-			return maxArr;
+			return arr.reduce(function(sum, val){
+				return sum + val;
+			});
 		}
 	</script>
 </body>
