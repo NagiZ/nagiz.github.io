@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Spinal Tap</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputStr">待处理</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入">
+						<span id="helpBlockStr1" class="help-block">需要处理的字符串</span>
+					</div>
+					<div class="form-group">
+						<label for="outputStr">结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="处理结果" disabled="disabled">
+						<span id="helpBlockStr2" class="help-block">处理结果</span>
+					</div>
+					<button type="button" id="btn">DO</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			document.getElementById('inputStr').onchange = ()=>{
+				document.getElementById('helpBlockStr1').innerText = '请输入需要处理的字符串';
+			}
+			var btn = document.getElementById('btn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					output = document.getElementById('outputStr'),
+					outputStr;
+				if (!inputStr) {
+					document.getElementById('helpBlockStr1').innerText = '检测字符串不能为空';
+					return;
+				};
+				outputStr = spinalCase(inputStr);
+				output.value = outputStr;
+			}
+		}
+
+		/*function*/
+		function spinalCase(str){
+			var reg1 = /[^a-zA-Z]/;
+			str = str.split(reg1);
+			var reg2 = /[A-Z]/g;
+			var myArray;
+			for (var i = 0; i < str.length; i++) {
+				var sub_str = '', startIndex = 0;
+				while ((myArray = reg2.exec(str[i])) !== null) {//reg.lastIndex: 下一次匹配开始的索引
+					if (reg2.lastIndex==1) continue;
+				  	sub_str = sub_str + str[i].substring(startIndex, reg2.lastIndex-1).toLowerCase() + '-';
+				  	startIndex = reg2.lastIndex - 1;
+				}
+				sub_str = sub_str + str[i].substring(startIndex).toLowerCase();
+				str[i] = sub_str;
+			}
+			//return reg.exec(str);
+			//return str.split(reg);
+			str = str.join('-');
+			return str;
+		}
+		var t = 'This Is Spinal Tap';
+		console.log(spinalCase(t));
+	</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Smallest Common Multiple</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputStr">数字数组上下限</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个数字数组上下界">
+					</div>
+					<div class="form-group">
+						<label for="outputStr">最小公倍数</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="最小公倍数" readonly="readonly">
+						<span id = 'helpBlockStr' class="helo-block">最小公倍数</span>
+					</div>
+					<button type="button" id="reverseBtn">求值</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			document.getElementById('inputStr').onchange = ()=>{
+				document.getElementById('helpBlockStr').innerText = '最小公倍数';
+			}
+			var btn = document.getElementById('reverseBtn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					output = document.getElementById('outputStr'),
+					outputStr; 
+					if(!inputStr){
+						document.getElementById('helpBlockStr').innerText = '上下界不能为空';
+						return;
+					};
+					console.log(inputStr);
+					inputStr = inputStr.substring(1, inputStr.length-1).split(',');
+					console.log(inputStr);
+					for (var i = 0; i < inputStr.length; i++) {
+						inputStr[i] = Number(inputStr[i]);
+					}
+					outputStr = smallestCommons(inputStr);
+					output.value = outputStr;
+			}
+		}
+
+		/*
+		*function
+		*/
+		function smallestCommons(arr){
+			console.log(arr);
+			arr = arr.sort(function(a, b){
+				if (a>b) {
+					return 1;
+				}
+				if (a<b) {
+					return -1;
+				}
+			});
+			console.log(arr);
+			var len = arr[1] - arr[0] + 1;
+			for (var i = 0; i < len; i++) {
+				arr[i] = i + arr[0];
+			}
+			var smallestcom = arr.reduce(function(accumulation, value){
+				return smallestCom(accumulation, value);
+			});
+			return smallestcom;
+		}
+		function smallestCom(x ,y){
+			var a = x,
+				b = y;
+			var n = a%b;
+			while(n!=0){
+				a = y;
+				b = n;
+				n = a%b;
+			}
+			return x*y/b;
+		}
+	</script>
+</body>
+</html>

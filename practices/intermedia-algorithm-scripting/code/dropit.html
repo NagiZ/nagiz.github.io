@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Drop It</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+						函数名为'dropit(arr, fuc)', 可以在控制台尝试, arr为要筛选的数组， fuc为筛选条件函数
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		/*
+		*function
+		*/
+		function dropit(arr, fuc){
+			if (!arr[0]) {
+				return;
+			}
+			if(fuc(arr[0])){
+				return arr;
+			}else{
+				arr.shift();
+				dropit(arr, fuc);
+			}
+			return arr;
+		}
+
+		var oa = dropit([1, 2, 3, 7, 4], function(n) {return n > 3;});
+	</script>
+</body>
+</html>

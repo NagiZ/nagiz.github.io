@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Sum All Odd Fibnacci Numbers</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputNum">斐波那契数列长度</label>
+						<input type="number" class="form-control" id="inputNum" placeholder="请输入数列长度">
+					</div>
+					<div class="form-group">
+						<label for="outputNum">结果</label>
+						<input type="text" class="form-control" id="outputNum" placeholder="结果" disabled="disabled">
+						<span id="helpBlockNum" class="help-block">请输入数列长度</span>
+					</div>
+					<button type="button" id="btn">求和</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			document.getElementById('inputNum').onchange = function(){
+				document.getElementById('helpBlockNum').innerText = '请输入数列长度';
+			};
+			var btn = document.getElementById('btn');
+			btn.onclick = ()=>{
+				var inputNum = document.getElementById('inputNum').value,
+					output = document.getElementById('outputNum'),
+					outputNum; 
+					if(!inputNum){
+						return;
+					};
+					if (inputNum<0) {}
+					outputNum = sumFibs(inputNum);
+					if (outputNum==Infinity) {
+						document.getElementById('helpBlockNum').innerText = '数值错误'
+					}
+					output.value = outputNum;
+			}
+		}
+
+		function sumFibs(num){
+			var arr = generateFib(num);
+			arr = arr.filter((v)=>{
+				return v%2!=0;
+			}).reduce((accumulation, value)=>{
+				return accumulation + value;
+			});
+			return arr;
+		}
+		var generateFib = function() {
+		    var cache = [1, 1];
+		    return function (n) {
+		        if (n >= cache.length) {
+		            for (var i = cache.length; i < n ; i++ ) {//从数组终点开始，添加
+		                cache[i] = cache[i - 2] + cache[i - 1];
+		            }
+		        }
+		        return cache;
+		    }
+		}();
+	</script>
+</body>
+</html>

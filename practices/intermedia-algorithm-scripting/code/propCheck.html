@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Check Properties of an Object</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputStr">对象集合</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="对象集合">
+						<span id="helpBlockStr1" class="help-block">包含多个对象的数组</span>
+					</div>
+					<div class="form-group">
+						<label for="tocheck">目标属性</label>
+						<input type="text" class="form-control" id="tocheck" placeholder="要检测的属性">
+						<span id="helpBlockStrtocheck1" class="help-block">要检测的属性</span>
+					</div>
+					<div class="form-group">
+						<label for="outputStr">结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="检测结果" disabled="disabled">
+						<span id="helpBlockStr2" class="help-block">结果</span>
+					</div>
+					<button type="button" id="btn">检测</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			document.getElementById('inputStr').onchange = ()=>{
+				document.getElementById('helpBlockStr2').innerText = '请输入需要检测的字符串';
+			}
+			var btn = document.getElementById('btn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					output = document.getElementById('outputStr'),
+					tocheck = document.getElementById('tocheck').value,
+					outputStr;
+				if (!inputStr||!tocheck) {
+					document.getElementById('helpBlockStr2').innerText = '需要处理的字符串/目标属性不能为空!';
+					return;
+				}
+				console.log(inputStr);
+				inputStr = JSON.parse(inputStr);
+				outputStr = everyProp(inputStr, tocheck);
+				output.value = outputStr;	
+			}
+		}
+
+		/*
+		*confrim函数
+		*/
+		function everyProp(collection, prop){
+			var pass = 	collection.every(function(ele){
+							if(ele.hasOwnProperty(prop)&&ele[prop]){
+								return true;
+							}else{
+								return false;
+							};
+						});
+			return pass;
+		}
+		var oa = everyProp([{"single": "double"}, {"single": ''}], "single");
+	</script>
+</body>
+</html>
