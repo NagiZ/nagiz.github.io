@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE-edge">
 	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
-	<title>Boolean</title>
+	<title>Validate US Telephone Numbers</title>
 	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -15,8 +15,8 @@
 			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
 				<form action="">
 					<div class="form-group">
-						<label for="inputStr">被处理的字符串(用双引号包裹，true/false 除外)</label>
-						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个字符串">
+						<label for="inputStr"></label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个电话号码">
 					</div>
 					<div class="form-group">
 						<label for="outputStr">结果</label>
@@ -42,13 +42,8 @@
 						document.getElementById('helpBlockStr').innerText = '字符串不能为空';
 						return;
 					};
-					if (inputStr.trim() == 'true') {
-						inputStr = true;
-					}else if(inputStr.trim() == 'false'){
-						inputStr = false;
-					}
 					console.log(inputStr);
-					outputStr = boo(inputStr);
+					outputStr = telephoneCheck(inputStr);
 					output.value = outputStr;
 			}
 		}
@@ -56,8 +51,12 @@
 		/*
 		*function
 		*/
-		function boo(bool){
-			if(bool===false||bool===true){
+		function telephoneCheck(str){
+			var reg1 = /^1?\s?\(\d{3}\)\s?\d{3}\s?\d{4}$/,
+				reg2 = /^1?\s?\(\d{3}\)\s?\d{3}-\d{4}$/,
+				reg3 = /^(1\s)?\d{3}\s?\d{3}\s?\d{4}$/,
+				reg4 = /^(1\s)?\d{3}-\d{3}-\d{4}$/;
+			if (reg1.test(str)||reg2.test(str)||reg3.test(str)||reg4.test(str)) {
 				return true;
 			}else{
 				return false;
