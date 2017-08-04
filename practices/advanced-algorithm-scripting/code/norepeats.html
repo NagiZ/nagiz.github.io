@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>No Repeats</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputStr">待处理</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个字符串" size="10">
+					</div>
+					<div class="form-group">
+						<label for="outputStr">结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="处理结果" readonly="readonly">
+						<span id = 'helpBlockStr' class="helo-block">处理结果</span>
+					</div>
+					<button type="button" id="reverseBtn">处理</button>
+				</form>
+			</div>
+		</div>
+		<br/>
+		<div class="panel panel-default text-center">
+			<p class="text-danger"><b>很遗憾，当字符串长度超过10的js栈溢出，浏览器会。。。亟需优化</b>></p>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			var btn = document.getElementById('reverseBtn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					output = document.getElementById('outputStr'),
+					outputStr; 
+				if (!inputStr) {
+					return;
+				}
+				outputStr = permAlone(inputStr);
+				output.value = outputStr;
+				console.log(outputStr);
+				
+			}
+		}
+
+		/*
+		*function 未去重全排列
+		*/
+		// function perAlone(str){
+		// 	var arr = permutation(str)(str);
+		// 	console.log(arr);
+		// 	var reg = /(.)\1+/g;//'\n'在正则中是反向引用，代表正则表达式中第n个括号匹配的子字符串
+		// 	return arr.filter(function(v){
+		// 		return !reg.test(v);
+		// 	}).length;
+		// }
+		// function permutation(str){
+		// 	var len = str.length;
+		// 	if (len==0) {
+		// 		return;
+		// 	};
+		// 	return function(){
+		// 		if (len==1) {
+		// 			return;
+		// 		}
+		// 		var arr = [],
+		// 			str_copy = str;
+		// 		for(var i=0; i<len; i++){
+		// 			var temp = str.charAt(0);
+		// 				sub_arr = str.split('');
+		// 			sub_arr[0] = sub_arr[i];
+		// 			sub_arr[i] = temp;
+		// 			str_copy = sub_arr.join('');
+		// 			var sub_str = str_copy.substring(1);
+		// 			if (sub_str.length==1) {
+		// 				arr.push(sub_arr[0] + sub_str);
+		// 			}else{
+		// 				var a = permutation(sub_str)();
+		// 				for (var j = 0; j < a.length; j++) {
+		// 					arr.push(str_copy.charAt(0) + a[j]);
+		// 				}
+		// 			}
+		// 		}
+		// 		return arr;
+		// 	}
+		// }
+		// var ar = perAlone('abcdeghij');
+		function permAlone(str) {
+ 
+		 
+		    var regex = /(.)\1+/g;
+		 
+		    var permutate=function(str) {
+		 
+		        var result=[];
+		        if(str.length==1){
+		            return [str];   
+		        }else{
+		             
+		                var preResult=permutate(str.slice(1));
+		                for (var j = 0; j < preResult.length; j++) {
+		                    for (var k = 0; k < preResult[j].length+1; k++) {
+		                        var temp=preResult[j].slice(0,k)+str[0]+preResult[j].slice(k);                  
+		                        result.push(temp);
+		 
+		                    }
+		                }
+		 
+		            return result;
+		        }  
+		    };
+		 
+		    var permutations= permutate(str);
+		 
+		 
+		    var filtered = permutations.filter(function(string) {
+		        return !string.match(regex);
+		    });
+		 
+		 
+		    return filtered.length;
+		}
+
+		var ar = permAlone('abc');
+	</script>
+</body>
+</html>

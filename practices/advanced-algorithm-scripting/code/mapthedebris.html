@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Map the Debris</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputStr">天体名称（数组）</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入需要计算的天体名称">
+					</div>
+					<div class="form-group">
+						<label for="inputStrto">轨道平均的航渡（数组）</label>
+						<input type="text" class="form-control" id="inputStrto" placeholder="对应的轨道平均高度">
+					</div>
+					<div class="form-group">
+						<label for="outputStr">结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="计算结果" readonly="readonly">
+						<span id = 'helpBlockStr' class="helo-block">结果</span>
+					</div>
+					<button type="button" id="reverseBtn">计算</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			var btn = document.getElementById('reverseBtn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					inputStrto = document.getElementById('inputStrto').value,
+					output = document.getElementById('outputStr'),
+					outputStr; 
+				if (!inputStr||!inputStrto) {
+					return;
+				}
+				inputStr = inputStr.trim().split(/\,\s*/);
+				inputStrto = inputStrto.trim().split(/\,\s*/);
+				if (inputStr.length!=inputStrto.length) {
+					return;
+				}
+				for (var i = 0; i < inputStr.length; i++) {
+					inputStr[i] = {name: inputStr[i].trim(), avgAlt: Number(inputStrto[i].trim())};
+				};
+				outputStr = orbitalPeriod(inputStr);
+				output.value = JSON.stringify(outputStr);
+			}
+		}
+
+		/*
+		*function
+		*/
+		function orbitalPeriod(arr, centerM, centerRadius){
+			var outarr = [],
+				M = centerM ||5.965e+24,
+				R = centerRadius||6367.4447,
+				G = 6.67408e-11,
+				pi = Math.PI;
+			var GM = G*M;
+			arr.forEach((v)=>{
+				var a = (v.avgAlt + R)*1000;
+				console.log(a);
+				var T = parseInt(2*pi*Math.sqrt(Math.pow(a, 3)/GM));
+				outarr.push({name: v.name, orbitalPeriod: T});
+			});
+			return outarr;
+		}
+		orbitalPeriod([{name: "iss", avgAlt: 413.6}, {name: "hubble", avgAlt: 556.7}, {name: "moon", avgAlt: 378632.553}]);
+	</script>
+</body>
+</html>

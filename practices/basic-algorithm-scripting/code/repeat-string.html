@@ -38,7 +38,7 @@
 		window.onload = function(){
 			document.getElementById('inputStr').onchange = ()=>{
 				document.getElementById('helpBlockStr1').innerText = '请输入需要重复的字符串';
-			}；
+			};
 			document.getElementById('helpBlockStrtimes').onchange = ()=>{
 				document.getElementById('helpBlockStr1').innerText = '重复次数';
 			};
@@ -53,7 +53,7 @@
 					return;
 				}
 				if (!times) {
-					document.getElementById('helpBlockStrtimes').innerText = '请输入一个数字!'；
+					document.getElementById('helpBlockStrtimes').innerText = '请输入一个数字!';
 				}
 				outputStr =repeatStr(inputStr, times);
 				output.value = outputStr;	

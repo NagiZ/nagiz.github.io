@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Make A Person</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<div class="panel panel-default">
+					<code>
+						<pre>
+var Person = function(firstAndLast){
+	this.fullName = firstAndLast;
+	this.firstName = this.fullName.split(' ')[0];
+	this.lastName = this.fullName.split(' ')[1];
+	this.getFullName = function(){
+		return this.fullName;
+	};
+	this.getFirstName = function(){
+		return this.firstName;
+	};
+	this.getLastName = function(){
+		return this.lastName;
+	};
+	this.setFullName = function(fname){
+		this.fullName = fname;
+		this.firstName = this.fullName.split(' ')[0];
+		this.lastName = this.fullName.split(' ')[1];
+	};
+	this.setFirstName = function(finame){
+		this.firstName = finame;
+		this.fullName = this.firstName + ' ' + this.lastName;
+	};
+	this.setLastName = function(lname){
+		this.lastName = lname;
+		this.fullName = this.firstName + ' ' + this.lastName;
+	}
+}</pre>
+<p class="text-center">这样可以做到同时更新fullName，lastName和firstName。但实际不理想，对于由多个属性的对象来说这样不是理想的解决方法。可以考虑用get和set来实现（猜想，待验证）</p>
+					</code>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			
+		}
+
+		/*
+		*function
+		*/
+		var Person = function(firstAndLast){
+			this.fullName = firstAndLast;
+			this.firstName = this.fullName.split(' ')[0];
+			this.lastName = this.fullName.split(' ')[1];
+			this.getFullName = function(){
+				return this.fullName;
+			};
+			this.getFirstName = function(){
+				return this.firstName;
+			};
+			this.getLastName = function(){
+				return this.lastName;
+			};
+			this.setFullName = function(fname){
+				this.fullName = fname;
+				this.firstName = this.fullName.split(' ')[0];
+				this.lastName = this.fullName.split(' ')[1];
+			};
+			this.setFirstName = function(finame){
+				this.firstName = finame;
+				this.fullName = this.firstName + ' ' + this.lastName;
+			};
+			this.setLastName = function(lname){
+				this.lastName = lname;
+				this.fullName = this.firstName + ' ' + this.lastName;
+			}
+		}
+		var bob = new Person('Bob Ross');
+	</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Friendly Date Ranges</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputStr">待处理日期</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个不以空格开头的连续字符串数组">
+						<span id="helpBlockStr1" class="help-block">数组形式：如 ["2002-12-20", "2001-12-20"]</span>
+					</div>
+					<div class="form-group">
+						<label for="outputStr">检测结果</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="检测结果" disabled="disabled">
+						<span id="helpBlockStr2" class="help-block">检测结果</span>
+					</div>
+					<button type="button" id="btn">检测</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			document.getElementById('inputStr').onchange = ()=>{
+				document.getElementById('helpBlockStr1').innerText = '请输入需要处理的日期';
+			};
+			
+			var btn = document.getElementById('btn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					output = document.getElementById('outputStr'),
+					outputStr;
+				if (!inputStr||inputStr.startsWith(' ')) {
+					document.getElementById('helpBlockStr1').innerText = '日期格式错误';
+					return;
+				}
+				inputStr = inputStr.substring(1, inputStr.length-1).split(/\,\s*/);
+				console.log(inputStr);
+				inputStr.forEach((v, i)=>{
+					inputStr[i] = v.trim().substring(1, v.length-1);
+				});
+				outputStr = makeFriendlyDates(inputStr);
+				output.value = outputStr;	
+			}
+		}
+
+		/*
+		*function
+		*/
+		function makeFriendlyDates(arr){
+			var dateStart = [],
+				dateEnd = [],
+				yearNow = new Date().getFullYear();
+			arr[0].trim().split('-').forEach(function(v){
+				v = Number(v.trim());
+				dateStart.push(v);
+			});
+			arr[1].trim().split('-').forEach(function(v){
+				v = Number(v.trim());
+				dateEnd.push(v);
+			});
+			/*
+			*dateAll小于10000大于100：年份相同月份不同；
+			*dateAll小于100： 年份月份都相同
+			*/
+			var dateAll = Number(arr[1].trim().split('-').join('')) - Number(arr[0].trim().split('-').join(''));
+			if (dateAll<0) {
+				return;
+			}
+			var dateArr = ['1st', '2nd', '3rd'],
+				ds = '',
+				de = '';
+			dateArr.length = 31;
+			dateArr[20] = '21st';
+			dateArr[21] = '22nd';
+			dateArr[22] = '23rd';
+			dateArr[30] = '31st';
+			for (var i = 0; i < dateArr.length; i++) {
+				if (!dateArr[i]) {
+					dateArr[i] = i + 1 + 'th'; 
+				}
+			};
+			var monthArr = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+			dateStart[1] = monthArr[dateStart[1]-1];
+			dateStart[2] = dateArr[dateStart[2]-1];
+			dateEnd[1] = monthArr[dateEnd[1]-1];
+			dateEnd[2] = dateArr[dateEnd[2]-1];
+			if(dateAll<10000){
+				if (dateStart[0]==yearNow) {
+					dateStart.shift();
+				}
+				if (dateAll>=100) {
+					dateEnd.shift();
+				}else if(dateAll<100){
+					dateEnd.shift();
+					dateEnd.shift();
+				}
+			}
+			if (dateAll==0) {
+				return [dateStart.slice(1).join(' ') + ', ' + dateStart[0]];
+			}
+			switch (dateStart.length){
+				case 3:{
+					ds = dateStart.slice(1).join(' ') + ', ' + dateStart[0];
+					if (dateEnd.length==3) {
+						de = dateEnd.slice(1).join(' ') + ', ' + dateEnd[0];
+					}else{
+						de = dateEnd.join(' ');
+					}
+					break;
+				}
+				case 2:
+					ds = dateStart.join(' ');
+					de = dateEnd.join(' ');
+					break;
+				default: break;
+			}
+			var arr = [ds, de];
+			return arr;
+		}
+	</script>
+</body>
+</html>
