@@ -20,7 +20,7 @@
 				console.log('change');
 				/* Act on the event */
 				var fileInput = document.getElementById('upload');
-				if(fileInput.value) console.log(fileInput.files);
+				if(fileInput.value) console.log(fileInput.files[0].name);
 			});
 		})
 	</script>
