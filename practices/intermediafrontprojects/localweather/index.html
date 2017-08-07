@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Show Local Weather</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<script type="text/javascript" src="./javascript/javascript.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">
+				<div class="heading bord-bottom">
+					<p class="logo text-center">
+						<a href="https://www.juhe.cn" id="juhe">
+							<img src="./images/loginlogo.png" alt="聚合天气" class="img-responsive">
+						</a>
+						天气应用
+					</p>
+				</div>
+				<!-- 顶部结束 -->
+				<div class="city-select">
+					<form class="form-inline">
+						<div class="form-group" style="float: left;margin-right: 5px;">
+							<label for="city">城市</label>
+							<input type="text" name="city" class="form-control" id="city" placeholder="输入要查询的城市">
+						</div>
+						<button class="btn btn-default" id="search">查询</button>
+					</form>
+				</div>
+				<div class="weather-msg bord-bottom text-center">
+					<h4><span id="h-city">广州</span>今日天气</h4>
+					<p>温度: <span id="temp"></span></p>
+					<p>穿衣指数: <span id="dressing-advice"></span></p>
+					<p>洗车指数: <span id="wash-advice"></span></p>
+					<p>旅行指数: <span id="travel-advice"></span></p>
+					<p>锻炼指数: <span id="exercise-advice"></span></p>
+					<p>紫外线指数: <span id="uv-index"></span></p>
+				</div>
+				<!-- 天气内容区结束 -->
+				<div class="bottom-end text-center">
+					<h4>未来6天天气</h4>
+					<table class="table future-weather-table" id="future-weather-table">
+							<tr class="weather-future">
+								<td class="date"></td>
+								<td class="day"></td>
+								<td class="temperature"></td>
+								<td class="weather"></td>
+								<td class="wind"></td>
+							</tr>
+							<tr class="weather-future">
+								<td class="date"></td>
+								<td class="day"></td>
+								<td class="temperature"></td>
+								<td class="weather"></td>
+								<td class="wind"></td>
+							</tr>
+							<tr class="weather-future">
+								<td class="date"></td>
+								<td class="day"></td>
+								<td class="temperature"></td>
+								<td class="weather"></td>
+								<td class="wind"></td>
+							</tr>
+							<tr class="weather-future">
+								<td class="date"></td>
+								<td class="day"></td>
+								<td class="temperature"></td>
+								<td class="weather"></td>
+								<td class="wind"></td>
+							</tr>
+							<tr class="weather-future">
+								<td class="date"></td>
+								<td class="day"></td>
+								<td class="temperature"></td>
+								<td class="weather"></td>
+								<td class="wind"></td>
+							</tr>
+							<tr class="weather-future">
+								<td class="date"></td>
+								<td class="day"></td>
+								<td class="temperature"></td>
+								<td class="weather"></td>
+								<td class="wind"></td>
+							</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

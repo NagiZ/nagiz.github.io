@@ -1,0 +1,28 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+#juhe{
+	display: inline;
+}
+.img-responsive{	display: inline-block;
+}
+.logo{
+	height: 50px;
+	line-height: 39px;
+	font-size: 35px;
+	color: #ffaa00;
+}
+.bord-bottom{
+	border-bottom: 1px solid #e8e8e8;
+}
+.future-weather-table{
+	display: none;
+}
+.city-select{
+	width: 145px;
+	margin: 0 auto;
+}
+#city{
+	width: 54px;
+}
