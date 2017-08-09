@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>A Pomodoro Clock</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<script type="text/javascript" src="./js/javascript.js"></script>
+</head>
+<body>
+	<div class="numClock">
+		<div class="break-length">
+			<p>BREAK LENGTH</p>
+			<div class="break-range">
+				<button class="minus1" onclick="changeBreakLength(-1)">-</button>
+				<span class="break-times">5</span>
+				<button class="plus1" onclick="changeBreakLength(1)">+</button>
+			</div>
+		</div>
+		<div class="session-length">
+			<p>SESSION LENGTH</p>
+			<div class="session-range">
+				<button class="minus1" onclick="changeSessionLength(-1)">-</button>
+				<span class="session-time">25</span>
+				<button class="plus1" onclick="changeSessionLength(1)">+</button>
+			</div>
+		</div>
+	</div>
+	<div class="pic-clock">
+		<div class="session">Session</div>
+		<p style="margin-top: 30px; font-size: 65px;" id="leftTime">25</p>
+		<span class="session-time-pic"></span>
+	</div>
+</body>
+</html>

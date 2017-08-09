@@ -1,0 +1,68 @@
+*{
+	margin: 0;
+	padding: 0;
+	color: #fff;
+}
+body{
+	background: #cc1199;
+}
+button{
+	background: transparent;
+	margin-left: 10px;
+	margin-right: 10px;
+	border: none;
+	padding: 0 5px 0 5px;
+}
+button:focus, button:active{
+	text-decoration: none;
+	box-shadow: none;
+	outline: none;
+}
+.numClock, .pic-clock{
+	width: 304px;
+	margin: 0 auto;
+	padding: 15px;
+}
+.numClock{
+	margin-top: 100px;
+	height: 101px;
+	padding: 20px;
+	text-align: center;
+
+}
+.break-length{
+	float: left;
+}
+.session-length{
+	float: right;
+}
+.break-range, .session-range{
+	font-size: 30px;
+}
+.pic-clock{
+	position: relative;
+	padding: 0;
+	height: 304px;
+	text-align: center;	
+	font-size: 50px;
+	border:2px solid #00ff00;
+	border-radius: 304px;
+	overflow: hidden;
+	z-index: 10;
+	cursor: pointer;
+}
+.session{
+	height: 152px;
+	padding: 50px;
+	padding-top: 65px;
+	z-index: 10;
+}
+.session-time-pic{
+	position: absolute;
+	bottom: 0;
+	background: #f00;
+	height: 0;
+	display: block;
+	width: 304px;
+	z-index: -1;
+}
