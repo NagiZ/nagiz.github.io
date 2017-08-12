@@ -6,7 +6,7 @@ $(document).ready(function() {
 			appkey = '2c498c3e9b0e17145960e692e01423f9';
 		$.ajax({
 			type: "GET",
-			url: "http://v.juhe.cn/weather/index",
+			url: "https://v.juhe.cn/weather/index",
 			data: {format: 2, cityname: city, key: appkey},
 			dataType: "jsonp",
 			jsonp: "callback",

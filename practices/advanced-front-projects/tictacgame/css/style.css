@@ -1,0 +1,47 @@
+*{
+	margin: 0;
+	padding: 0
+}
+.container-fluid{
+	height: 500px;
+	margin-top: 100px;
+}
+.main-box{
+	margin: 0 auto;
+	padding: 20px;
+	width: 500px;
+	height: 100%;
+	background: #000;
+	overflow: hidden;
+}
+.one-third{
+	position: relative;
+	float: left;
+	height: 33.33%;
+	width: 33.33%;
+	border-right: 1px solid #ff0;
+	border-bottom: 1px solid #ff0;
+}
+.one-third>span{
+	font-size: 50px;
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.bottom{
+	border-bottom: none;
+}
+.right{
+	border-right: none;
+}
+.clearBoth{
+	clear: both;
+}
+@media screen and (max-width: 480px) {
+	.main-box{
+		width: 320px;
+		height: 320px;
+	}
+}

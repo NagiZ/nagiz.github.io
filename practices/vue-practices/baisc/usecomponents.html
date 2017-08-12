@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Components</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/vue"></script>
+<body>
+<div id="example" style="color: red;">
+	<my-component></my-component>
+	<child my-message="hello!"></child>
+</div>
+<table id="example1">
+	<tr is="myl-component"></tr>
+</table>
+	<script type="text/javascript">
+		Vue.component('child', {
+		// camelCase in JavaScript
+			props: ['myMessage'],
+			template: '<span>{{ myMessage }}</span>'
+		})
+		Vue.component('my-component',{
+			template: '<div>A custom components!{{message}}</div>',
+			data: function(){
+				return {
+					message: 'hello!'
+				}
+			}
+		})
+
+		new Vue({
+			el:'#example'
+		});
+		new Vue({
+			el:'#example1',
+			components: {
+				'myl-component': {template: '<div>limadin</div>'}
+			}
+		})
+	</script>
+</body>
+</html>
