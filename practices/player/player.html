@@ -8,20 +8,50 @@
 	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<!-- 	<script type="text/javascript" src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script> -->
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/controller.js"></script>
 </head>
 <body>
-	<audio src="" controls="controls">
+	<!-- <audio src="" controls="controls">
 		Your browser does not support the audio element.
 	</audio>
-	<button class="btn btn-default"><input type="file" id="upload"></button>
+	<div id="controller">
+		<div></div>
+	</div>
+	<button class="btn btn-default"><input type="file" id="upload"></button> -->
+	<div class="container-fluid">
+		<div class="player-box">
+			<div class="controller">
+				<button id="last-song" class="glyphicon glyphicon-backward" title="上一曲"></button>
+				<button id="play"  class="glyphicon glyphicon-play" title="播放"></button>
+				<button id="pause" class="glyphicon glyphicon-pause hide" title="暂停"></button>
+				<button id="next-song"  class="glyphicon glyphicon-forward" title="下一曲"></button>
+
+				<input type="file" accept="audio" name="new-song" id="new-song" class="hide" multiple="multiple">
+
+				<button id="song-list" class="glyphicon glyphicon-list" title="歌曲列表"></button>
+				<div id="volumn" class="volumn"></div>
+				<div class="song-list">
+					<span id="add-song" class="glyphicon glyphicon-plus" title="添加歌曲"></span>
+					<ul class="list-group">
+				
+					</ul>
+				</div>
+			</div>
+			<audio src="D:/音乐/Spitz - 空も飞べるはず(Album Version).mp3" id="player"></audio>
+		</div>
+	</div>
 	<script type="text/javascript">
-		$(document).ready(function(){
-			$('#upload').change(function(event) {
-				console.log('change');
-				/* Act on the event */
-				var fileInput = document.getElementById('upload');
-				if(fileInput.value) console.log(fileInput.files[0].name);
-			});
-		})
+		// $(document).ready(function(){
+		// 	$('#upload').change(function(event) {
+		// 		console.log('change');
+		// 		/* Act on the event */
+		// 		var fileInput = document.getElementById('upload');
+		// 		if(fileInput.value) console.log(fileInput.files[0].name);
+		// 	});
+		// })
+
 	</script>
 </html>

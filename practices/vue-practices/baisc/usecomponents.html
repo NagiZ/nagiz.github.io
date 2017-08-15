@@ -12,11 +12,23 @@
 <body>
 <div id="example" style="color: red;">
 	<my-component></my-component>
-	<child my-message="hello!"></child>
+	<child v-bind:my-message="parentMsg"></child>
 </div>
 <table id="example1">
 	<tr is="myl-component"></tr>
 </table>
+
+<form id="formvue" action="#">
+	<input type="text" v-model="itext" v-on:change="con">
+</form>
+<!-- 动态组件 -->
+<div id="dynamicCom">
+	<component v-bind:is="currentView">
+  <!-- 组件在 vm.currentview 变化时改变！ -->
+	</component>
+	<p v-text="texxxt"></p>
+</div>
+<!--  -->
 	<script type="text/javascript">
 		Vue.component('child', {
 		// camelCase in JavaScript
@@ -33,7 +45,10 @@
 		})
 
 		new Vue({
-			el:'#example'
+			el:'#example',
+			data: {
+				parentMsg: 'sdadsaf1'
+			}
 		});
 		new Vue({
 			el:'#example1',
@@ -41,6 +56,31 @@
 				'myl-component': {template: '<div>limadin</div>'}
 			}
 		})
+
+		/*表单*/
+		var forv = new Vue({
+			el: "#formvue",
+			data: {
+				itext: 'abcdefg'
+			},
+			methods: {
+				con: function(){
+					console.log(this.itext);
+				}
+			}
+		});
+		/*动态*/
+		var vm = new Vue({
+			el: "#dynamicCom",
+			data: {
+				currentView: "home",
+				texxxt: 'this is a sentence!'
+			},
+			components:{
+				home:{ template: '<p>Welcome home!</p>'},
+				cace: { template: '<p>Welcome cace!</p>'}
+			}
+		});
 	</script>
 </body>
 </html>

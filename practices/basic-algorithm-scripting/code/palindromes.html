@@ -39,8 +39,8 @@
 				var inputStr = document.getElementById('inputStr').value,
 					output = document.getElementById('outputStr'),
 					outputStr,
-					// re1 = /[^\x00-\x88]/,
-					// re2 = /\s/;
+					re1 = /[^\x00-\x88]/,
+					re2 = /\s/;
 				if (!inputStr||re1.test(inputStr)||re2.test(inputStr)) {
 					document.getElementById('helpBlockStr1').innerText = '输入一个英文/数字连续字符串';
 					return;
