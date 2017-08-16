@@ -36,18 +36,46 @@
 	height: 350px;
 	transform: translateY(10%);
 	border: 1px solid #e8e8e8;
+	font-size: 12px;
 	padding: 10px;
-	overflow: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
 	color: #a8a8a8;
+}
+.song-list::-webkit-scrollbar{
+	display: none;
 }
 .song-list >ul{
 	list-style: none;
 }
 .song-item{
-	padding: 8px 0;
+	position: relative;
+	padding: 10px;
+	overflow: hidden;
+	float: left;
+	cursor: pointer;
+	width: 100%;
+	transition: background-color 0.8s;
+	-webkit-transition: background-color 0.8s;
 }
-.song-item:hover{
+.song-item:hover, .auto-trans{
 	background-color: #fa15aa;
+}
+.song-item:hover .del-song{
+	display: block;
+}
+.song-name{
+	display: block;
+	font-size: 16px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	word-break: break-all;
+	height: 100%;
+	line-height: 100%;
+	float: left;
+	width: 180px;
+	margin-right: 20px;
 }
 #add-song{
 	display: block;
@@ -55,9 +83,20 @@
 	cursor: pointer;
 	padding-bottom: 5px;
 }
-#add-song:hover{
-	text-decoration: none;
-	background: #ff00dd;
+
+.del-song{
+	position: absolute;
+	right: 0;
+	margin-right: 5px;
+	display: none;
+	text-align: center;
+	width: 15px;
+	border-radius: 15px;
+	cursor: pointer;
+	background-color: #fff;
+}
+.del-song:hover{
+	background-color: #a00;
 }
 .hide{
 	display: none;

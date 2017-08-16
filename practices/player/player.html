@@ -29,18 +29,19 @@
 				<button id="pause" class="glyphicon glyphicon-pause hide" title="暂停"></button>
 				<button id="next-song"  class="glyphicon glyphicon-forward" title="下一曲"></button>
 
-				<input type="file" accept="audio" name="new-song" id="new-song" class="hide" multiple="multiple">
+				<input type="file" accept="audio/*" name="new-song" id="new-song" class="hide" multiple="multiple">
 
 				<button id="song-list" class="glyphicon glyphicon-list" title="歌曲列表"></button>
 				<div id="volumn" class="volumn"></div>
-				<div class="song-list">
+				<div class="song-list hide">
 					<span id="add-song" class="glyphicon glyphicon-plus" title="添加歌曲"></span>
-					<ul class="list-group">
-				
+					<ul class="list-group" id="songs">
+						
 					</ul>
 				</div>
 			</div>
-			<audio src="D:/音乐/Spitz - 空も飞べるはず(Album Version).mp3" id="player"></audio>
+			<!-- crossOrigin="anonymous" 解决跨域-->
+			<audio src="" id="player"></audio>
 		</div>
 	</div>
 	<script type="text/javascript">
