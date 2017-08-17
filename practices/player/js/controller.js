@@ -8,40 +8,120 @@ $(document).ready(function(){
 			pause: $('#pause'),
 			add_song: $('#add-song'),
 			song_list: $('#song-list'),
-			volumn: $('#volumn'),
 			songsUl: $('#songs'),
 			isPlay: false,//是否正在播放
 			lastSongPlay: '', 
-			currentSongIndex: 0
+			currentSongIndex: 0,
+			song_name: $('#song-name'),
+			playedTime: $('#time'),
+			cTimeCtrl: {
+				duration: $('#duration'),
+				cTime: $('#currentTime'),
+				initX: $('#duration').offset().left,
+				curX: $('#duration').offset().left,
+				flag: false
+			},
+			vCtrl: {
+				volumn: $('#volumn'),
+				curV: $('#v-ctrl'),
+				initX: $('#volumn').offset().left,
+				vAll: $('#volumn').width(),
+				flag: false
+			}
 		},
 		songArr = [];//存放所有曲目
-
+	/*
+	*=========================================================================>audio 事件
+	*/
+	player.get(0).addEventListener('seeked', function(){
+		if (!controller.play.hasClass('hide')) {
+			controller.play.click();
+		}else{
+			player.get(0).play();
+		}
+	});
+	player.get(0).addEventListener('timeupdate', timeUpdate.bind(player.get(0), player.get(0), controller), false);
+	player.get(0).addEventListener('ended', function(){
+		songNextPrev(songArr, controller, 1);
+		updateSrc(player, songArr, controller);
+	});
+	/*
+	*=========================================================================>audioapi, 主要用于可视化
+	*/
 	var ac = new (window.AudioContext||window.webkitAudioContext)();
 	var sr1 = ac.createAnalyser();
-	console.log(sr1);
 	var source = ac.createMediaElementSource(player.get(0));
 	var gainNODE = ac.createGain();
 	source.connect(gainNODE);
 	gainNODE.connect(ac.destination);
-	console.log(source);
 	
-	controller.volumn.click(function(event) {
-		/* Act on the event */
-		gainNODE.gain.value = 5;
-	});
+	/*
+	*=========================================================================>音量调节
+	*/
 	window.onkeyup = (e)=>{
 		if (e.keyCode==38) {
-			if (gainNODE.gain.value>=5) {
-				gainNODE.gain.value==5
+			if (gainNODE.gain.value>=4.8) {
+				gainNODE.gain.value = 5
 			}else{
-				gainNODE.gain.value+=0.2;
+				gainNODE.gain.value += 0.2;
+			}
+		}else if (e.keyCode == 40) {
+			if (gainNODE.gain.value<=0.2) {
+				gainNODE.gain.value = 0
+			}else{
+				gainNODE.gain.value -= 0.2
 			}
 		}
+		if (gainNODE.gain.value>=2) {
+			calPer(1, 1, controller.vCtrl.curV, 'width');
+		}else{
+			calPer(gainNODE.gain.value, 2, controller.vCtrl.curV, 'width');
+		}
 	}
+	//左键点击
+	controller.vCtrl.volumn.mousedown(function(e) {
+		if (!e.which==1) {
+			return;
+		}
+		controller.vCtrl.flag = true;
+		controller.vCtrl.initX = $('#volumn').offset().left;
+	});
+	controller.vCtrl.volumn.mouseleave(function(e) {
+		controller.vCtrl.flag = false;
+	});
+	//拖动
+	controller.vCtrl.volumn.mousemove(function(e) {
+		if (!controller.vCtrl.flag) {
+			return;
+		}
+		var startX = controller.vCtrl.initX,
+			v_all = controller.vCtrl.vAll,
+			diff = (e.clientX - startX) < 0.95*v_all ? e.clientX - startX : v_all;
+		calPer(diff, v_all, controller.vCtrl.curV, 'width');
+		diff = 2*diff/v_all;
+		gainNODE.gain.value = diff;
+	});
+
+	//end click
+	controller.vCtrl.volumn.mouseup(function(e) {
+		if (!controller.vCtrl.flag) {
+			return;
+		}
+		controller.vCtrl.flag = false;
+		var startX = controller.vCtrl.initX,
+			v_all = controller.vCtrl.vAll,
+			diff = (e.clientX - startX) < 0.95*v_all ? e.clientX - startX : v_all;
+		calPer(diff, v_all, controller.vCtrl.curV, 'width');
+		diff = 2*diff/v_all;
+		gainNODE.gain.value = diff;
+	});
+
 
 	controller.body.click(function(event) {
-		/* Act on the event */
-		console.log(event.target.id);
+		if (player.get(0).currentTime) {
+			console.log(player.get(0).currentTime);
+			console.log(player.get(0).duration);
+		}
 	});
 
 
@@ -76,11 +156,11 @@ $(document).ready(function(){
 		/*删除曲目*/
 		if ($(targetEle).hasClass('del-song')) {
 			var del_id = $('.del-song').index($(targetEle));
-			console.log($('.del-song').index($(targetEle)));
 			$(targetEle).parent('li').remove();
 			if (player.attr('src')==songArr[del_id].songSrc) {
 				player.attr('src', '');
 			}
+			window.URL.revokeObjectURL(songArr[del_id].songSrc);
 			songArr.splice(del_id, 1);
 			updateSrc(player, songArr, controller);
 			return;
@@ -95,8 +175,7 @@ $(document).ready(function(){
 				controller.play.click();
 			}
 			return;
-		}
-		console.log(targetSong);
+		};
 		songArr.forEach((v, i)=>{
 			if (v.songName == targetSong) {
 				controller.isPlay = true;
@@ -138,24 +217,56 @@ $(document).ready(function(){
 	*=========================================================================>上一曲
 	*/
 	controller.prev_one.click(()=>{
-		if (!songArr.length) {
-			return;
-		}
-		var curId = controller.currentSongIndex;
-		controller.currentSongIndex = curId == 0 ? songArr.length - 1 : curId - 1;
+		songNextPrev(songArr, controller, -1);
 		updateSrc(player, songArr, controller);
 	});
 
 	/*
-	*=========================================================================>上一曲
+	*=========================================================================>下一曲
 	*/
 	controller.next_one.click(()=>{
-		if (!songArr.length) {
+		songNextPrev(songArr, controller, 1);
+		updateSrc(player, songArr, controller);
+	});
+	/*
+	*=========================================================================>播放进度控制
+	*/
+	controller.cTimeCtrl.duration.mousedown(function(e){
+		if (!player.attr('src')||e.which!=1) {
 			return;
 		}
-		var curId = controller.currentSongIndex;
-		controller.currentSongIndex = curId == songArr.length-1 ? 0 : curId + 1;
-		updateSrc(player, songArr, controller);
+		controller.cTimeCtrl.flag = true;
+		controller.cTimeCtrl.initX = $('#duration').offset().left,
+		controller.cTimeCtrl.curX = e.clientX;
+	});
+	$(document).mousemove(function(e) {
+		if (!controller.cTimeCtrl.flag) {
+			return;
+		}
+		var startX = controller.cTimeCtrl.initX;
+		    endX = controller.cTimeCtrl.initX + controller.cTimeCtrl.duration.width(),
+		    durEle = controller.cTimeCtrl.duration;
+		if(e.clientX<startX){
+			controller.cTimeCtrl.curX = startX;
+		}else if(e.clientX>endX){
+			controller.cTimeCtrl.curX = endX;
+		}else{
+			controller.cTimeCtrl.curX = e.clientX;
+		}
+		var diff = controller.cTimeCtrl.curX - startX;
+		var per = diff/durEle.width();
+		calTime(per*player.get(0).duration, player.get(0).duration, controller.playedTime);
+		calPer(diff, durEle.width(), controller.cTimeCtrl.cTime, 'width');
+	});
+	$(document).mouseup(function(e) {
+		if (controller.cTimeCtrl.flag) {
+			controller.cTimeCtrl.flag = false;
+			var per = (controller.cTimeCtrl.curX - controller.cTimeCtrl.initX)/controller.cTimeCtrl.duration.width();
+			controller.cTimeCtrl.cTime.css({
+				'width': 100*per + '%'
+			});
+			player.get(0).currentTime = player.get(0).duration * per;
+		}
 	});
 });
 
@@ -169,8 +280,6 @@ function addSong(songArr, player){
 	newSongs.change(function() {
 		/* Act on the event */
 		var songs = [].slice.call(newSongs.get(0).files, null);
-		console.log(newSongs.get(0).files[0]);
-		console.log(songs);
 		//生成列表条目
 		songs.forEach((v)=>{
 			if (true) {}
@@ -183,7 +292,6 @@ function addSong(songArr, player){
 			last_index++;
 		});
 		$('#new-song').val('');
-		console.log(songArr);
 	});
 }
 
@@ -192,11 +300,16 @@ function addSong(songArr, player){
 */
 function updateSrc(audio, srcArray, controller){
 	if (!srcArray.length) {
+		calPer(0, 1, controller.cTimeCtrl.cTime, 'width');
+		controller.song_name.text('Song Playing');
+		controller.playedTime.text('Time');
 		return;
 	}
 	var curSong = srcArray[controller.currentSongIndex];
 	controller.lastSongPlay = curSong.songName;
 	audio.attr('src', curSong.songSrc);
+	controller.song_name.text(curSong.songName);//设置曲目名
+	controller.playedTime.text('Time');//初始化播放时显示
 	controller.songsUl.children('li').each(function(index, el) {
 		if (index == controller.currentSongIndex) {
 			$(el).addClass('auto-trans');
@@ -206,5 +319,53 @@ function updateSrc(audio, srcArray, controller){
 	});
 	if (controller.isPlay) {
 		audio.get(0).play();
+	}
+}
+/*
+*计算播放时间
+*/
+function calTime(ptime, dtime, timeEle){
+	var pts = Math.floor(ptime%60)>=10 ? Math.floor(ptime%60) : '0' + Math.floor(ptime%60),
+		ptm = Math.floor(ptime/60)>=10 ? Math.floor(ptime/60) : '0' + Math.floor(ptime/60),
+		dts = Math.floor(dtime%60)>=10 ? Math.floor(dtime%60) : '0' + Math.floor(dtime%60),
+		dtm = Math.floor(dtime/60)>=10 ? Math.floor(dtime/60) : '0' + Math.floor(dtime/60);
+	var timetext = `${ptm}:${pts} / ${dtm}:${dts}`;
+	timeEle.text(timetext);
+}
+/*
+*=======================================>计算当前播放百分比，并目标元素设定宽/高百分比
+*prop 如果不放在数组里则无效，目前的解决方法就是放在数组里
+*/
+function calPer(v1, v2, ele, prop){
+	var per = v1/v2;
+	ele.css({
+		[prop]: 100*per + '%'
+	});
+}
+
+//timeupdate事件，更新进度条
+function timeUpdate(audio, controller){
+	if (!controller.cTimeCtrl.flag) {
+		calPer(audio.currentTime, audio.duration, controller.cTimeCtrl.cTime, 'width');
+		if (audio.currentTime>=1) {
+			calTime(audio.currentTime, audio.duration, controller.playedTime);
+		}
+	}
+}
+//tag用于表示上/下一曲
+function songNextPrev(arr, controller, tag){
+	if (!arr.length) {
+		return;
+	}
+	calPer(0, 1, controller.cTimeCtrl.cTime, 'width');
+	var curId = controller.currentSongIndex;
+	switch(tag){
+		case -1:
+			curId = controller.currentSongIndex = curId == 0 ? arr.length - 1 : curId - 1;
+			break;
+		case 1:
+			controller.currentSongIndex = curId == arr.length-1 ? 0 : curId + 1;
+			break;
+		default: break;
 	}
 }

@@ -23,6 +23,11 @@
 	<button class="btn btn-default"><input type="file" id="upload"></button> -->
 	<div class="container-fluid">
 		<div class="player-box">
+			<div class="text-center" style="margin-top: 10px;"><span id="song-name">Song Playing</span></div>
+			<div id="duration">
+				<span id="currentTime"></span>
+			</div>
+			<div class="text-center border-btm" style="margin-top: -10px; padding-bottom: 10px;"><span id="time">Time</span></div>
 			<div class="controller">
 				<button id="last-song" class="glyphicon glyphicon-backward" title="上一曲"></button>
 				<button id="play"  class="glyphicon glyphicon-play" title="播放"></button>
@@ -32,7 +37,9 @@
 				<input type="file" accept="audio/*" name="new-song" id="new-song" class="hide" multiple="multiple">
 
 				<button id="song-list" class="glyphicon glyphicon-list" title="歌曲列表"></button>
-				<div id="volumn" class="volumn"></div>
+				<div id="volumn" class="volumn" title="voice">
+					<span id="v-ctrl"></span>
+				</div>
 				<div class="song-list hide">
 					<span id="add-song" class="glyphicon glyphicon-plus" title="添加歌曲"></span>
 					<ul class="list-group" id="songs">
@@ -53,6 +60,5 @@
 		// 		if(fileInput.value) console.log(fileInput.files[0].name);
 		// 	});
 		// })
-
 	</script>
 </html>
