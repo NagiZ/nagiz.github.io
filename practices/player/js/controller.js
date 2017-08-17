@@ -117,12 +117,12 @@ $(document).ready(function(){
 	});
 
 
-	controller.body.click(function(event) {
-		if (player.get(0).currentTime) {
-			console.log(player.get(0).currentTime);
-			console.log(player.get(0).duration);
-		}
-	});
+	// controller.body.click(function(event) {
+	// 	if (player.get(0).currentTime) {
+	// 		console.log(player.get(0).currentTime);
+	// 		console.log(player.get(0).duration);
+	// 	}
+	// });
 
 
 	/*
@@ -155,20 +155,29 @@ $(document).ready(function(){
 
 		/*删除曲目*/
 		if ($(targetEle).hasClass('del-song')) {
+			if (event.stopPropagation) {
+				event.stopPropagation();
+			}else{
+				event.cancelBubble();
+			}
 			var del_id = $('.del-song').index($(targetEle));
 			$(targetEle).parent('li').remove();
 			if (player.attr('src')==songArr[del_id].songSrc) {
 				player.attr('src', '');
+				updateSrc(player, songArr, controller);
 			}
 			window.URL.revokeObjectURL(songArr[del_id].songSrc);
 			songArr.splice(del_id, 1);
-			updateSrc(player, songArr, controller);
+			if (controller.currentSongIndex>del_id) {
+				controller.currentSongIndex--;
+			}
 			return;
 		};
 
 		/*播放点击曲目*/
 		var targetSong = $.trim($(targetEle).text());
-		if (targetSong==controller.lastSongPlay) {
+		var play_id = $('.song-item').index($(targetEle))==-1? $('.song-name').index($(targetEle)) : $('.song-item').index($(targetEle));
+		if (play_id==controller.currentSongIndex) {
 			if (controller.isPlay) {
 				controller.pause.click();
 			}else{
@@ -176,16 +185,22 @@ $(document).ready(function(){
 			}
 			return;
 		};
-		songArr.forEach((v, i)=>{
-			if (v.songName == targetSong) {
-				controller.isPlay = true;
-				controller.currentSongIndex = i;
-				updateSrc(player, songArr, controller);
-				if (!controller.play.hasClass('hide')) {
-					controller.play.click();
-				}
-			}
-		});
+		controller.isPlay = true;
+		controller.currentSongIndex = play_id;
+		updateSrc(player, songArr, controller);
+		if (!controller.play.hasClass('hide')) {
+			controller.play.click();
+		}
+		// songArr.forEach((v, i)=>{
+		// 	if (v.songName == targetSong) {
+		// 		controller.isPlay = true;
+		// 		controller.currentSongIndex = i;
+		// 		updateSrc(player, songArr, controller);
+		// 		if (!controller.play.hasClass('hide')) {
+		// 			controller.play.click();
+		// 		}
+		// 	}
+		// });
 	});
 
 
@@ -282,7 +297,6 @@ function addSong(songArr, player){
 		var songs = [].slice.call(newSongs.get(0).files, null);
 		//生成列表条目
 		songs.forEach((v)=>{
-			if (true) {}
 			var span = '<span class="del-song" title="删除">x</span>',
 				name_span = `<span class="song-name">${v.name}</span>`;
 			$('#songs').append(`<li class="song-item">${name_span}${span}</li>`);
@@ -318,6 +332,9 @@ function updateSrc(audio, srcArray, controller){
 		}
 	});
 	if (controller.isPlay) {
+		if (arguments[3]) {
+			audio.get(0).currentTime = arguments[3];
+		}
 		audio.get(0).play();
 	}
 }
