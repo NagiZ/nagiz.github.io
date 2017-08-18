@@ -16,312 +16,313 @@ var _CAF = (function(){
 })();
 
 $(document).ready(function(){
-	var player = $('#player'),
-		controller = {
-			body: $('.controller'),
-			prev_one: $('#last-song'),
-			next_one: $('#next-song'),
-			play: $('#play'),
-			pause: $('#pause'),
-			add_song: $('#add-song'),
-			song_list: $('#song-list'),
-			songsUl: $('#songs'),
-			isPlay: false,//是否正在播放
-			lastSongPlay: '', 
-			currentSongIndex: 0,
-			song_name: $('#song-name'),
-			playedTime: $('#time'),
-			cTimeCtrl: {
-				duration: $('#duration'),
-				cTime: $('#currentTime'),
-				initX: $('#duration').offset().left,
-				curX: $('#duration').offset().left,
-				flag: false
-			},
-			vCtrl: {
-				volumn: $('#volumn'),
-				curV: $('#v-ctrl'),
-				initX: $('#volumn').offset().left,
-				vAll: $('#volumn').width(),
-				flag: false
-			}
-		},
-		songArr = [];//存放所有曲目
-	/*
-	*=========================================================================>audioapi, 主要用于可视化
-	*/
-	var ac = new (window.AudioContext||window.webkitAudioContext)();
-	// var spliter = ac.createChannelSplitter(2);
-	// console.log(spliter);
-	var analyser = ac.createAnalyser(),
-		source = ac.createMediaElementSource(player.get(0)),
-		gainNODE = ac.createGain();
-	source.connect(analyser);
-	analyser.connect(gainNODE);
-	gainNODE.connect(ac.destination);
-	var canvas = document.getElementById('myCanvas');
-	var ctx = canvas.getContext('2d');
-	var drawVisual = null;
-		// startTime = null;
-	/*
-	*=========================================================================>audio 事件
-	*/
+	// var player = $('#player'),
+	// 	controller = {
+	// 		body: $('.controller'),
+	// 		prev_one: $('#last-song'),
+	// 		next_one: $('#next-song'),
+	// 		play: $('#play'),
+	// 		pause: $('#pause'),
+	// 		add_song: $('#add-song'),
+	// 		song_list: $('#song-list'),
+	// 		songsUl: $('#songs'),
+	// 		isPlay: false,//是否正在播放
+	// 		lastSongPlay: '', 
+	// 		currentSongIndex: 0,
+	// 		song_name: $('#song-name'),
+	// 		playedTime: $('#time'),
+	// 		cTimeCtrl: {
+	// 			duration: $('#duration'),
+	// 			cTime: $('#currentTime'),
+	// 			initX: $('#duration').offset().left,
+	// 			curX: $('#duration').offset().left,
+	// 			flag: false
+	// 		},
+	// 		vCtrl: {
+	// 			volumn: $('#volumn'),
+	// 			curV: $('#v-ctrl'),
+	// 			initX: $('#volumn').offset().left,
+	// 			vAll: $('#volumn').width(),
+	// 			flag: false
+	// 		}
+	// 	},
+	// 	songArr = [];//存放所有曲目
+	// /*
+	// *=========================================================================>audioapi, 主要用于可视化
+	// */
+	// var ac = new (window.AudioContext||window.webkitAudioContext)();
+	// // var spliter = ac.createChannelSplitter(2);
+	// // console.log(spliter);
+	// var analyser = ac.createAnalyser(),
+	// 	source = ac.createMediaElementSource(player.get(0)),
+	// 	gainNODE = ac.createGain();
+	// source.connect(analyser);
+	// analyser.connect(gainNODE);
+	// gainNODE.connect(ac.destination);
+	// var canvas = document.getElementById('myCanvas');
+	// var ctx = canvas.getContext('2d');
+	// var drawVisual = null;
+	// 	// startTime = null;
+	// /*
+	// *=========================================================================>audio 事件
+	// */
 	
-	player.get(0).addEventListener('playing', function(){
-		// console.log(_RAF);
-		// startTime = window.mozAnimationStartTime||Date.now();
-		$('#freq>span').eq(1).text(songArr[0].songSrc);
-		(function rafDraw(timestamp){
-			draw(canvas, ctx, analyser);
-			console.log(drawVisual);
-			$('#freq>span').eq(0).text(player.get(0).currentTime);
-			drawVisual = _RAF(rafDraw);
-		})();
-	});
-	player.get(0).addEventListener('seeked', function(){
-		if (!controller.play.hasClass('hide')) {
-			controller.play.click(drawVisual);
-		}else{
-			player.get(0).play();
-		}
-	});
-	player.get(0).addEventListener('pause', function(){
-		console.log(drawVisual);
-		_CAF(drawVisual);
-	});
-	player.get(0).addEventListener('timeupdate', timeUpdate.bind(player.get(0), player.get(0), controller), false);
-	player.get(0).addEventListener('ended', function(){
-		songNextPrev(songArr, controller, 1);
-		updateSrc(player, songArr, controller);
-	});
-	/*
-	*=========================================================================>音量调节
-	*/
-	window.onkeyup = (e)=>{
-		if (e.keyCode==38) {
-			if (gainNODE.gain.value>=4.8) {
-				gainNODE.gain.value = 5
-			}else{
-				gainNODE.gain.value += 0.2;
-			}
-		}else if (e.keyCode == 40) {
-			if (gainNODE.gain.value<=0.2) {
-				gainNODE.gain.value = 0
-			}else{
-				gainNODE.gain.value -= 0.2
-			}
-		}
-		if (gainNODE.gain.value>=2) {
-			calPer(1, 1, controller.vCtrl.curV, 'width');
-		}else{
-			calPer(gainNODE.gain.value, 2, controller.vCtrl.curV, 'width');
-		}
-	}
-	//左键点击
-	controller.vCtrl.volumn.mousedown(function(e) {
-		if (!e.which==1) {
-			return;
-		}
-		controller.vCtrl.flag = true;
-		controller.vCtrl.initX = $('#volumn').offset().left;
-	});
-	controller.vCtrl.volumn.mouseleave(function(e) {
-		controller.vCtrl.flag = false;
-	});
-	//拖动
-	controller.vCtrl.volumn.mousemove(function(e) {
-		if (!controller.vCtrl.flag) {
-			return;
-		}
-		var startX = controller.vCtrl.initX,
-			v_all = controller.vCtrl.vAll,
-			diff = (e.clientX - startX) < 0.95*v_all ? e.clientX - startX : v_all;
-		calPer(diff, v_all, controller.vCtrl.curV, 'width');
-		diff = 2*diff/v_all;
-		gainNODE.gain.value = diff;
-	});
-
-	//end click
-	controller.vCtrl.volumn.mouseup(function(e) {
-		if (!controller.vCtrl.flag) {
-			return;
-		}
-		controller.vCtrl.flag = false;
-		var startX = controller.vCtrl.initX,
-			v_all = controller.vCtrl.vAll,
-			diff = (e.clientX - startX) < 0.95*v_all ? e.clientX - startX : v_all;
-		calPer(diff, v_all, controller.vCtrl.curV, 'width');
-		diff = 2*diff/v_all;
-		gainNODE.gain.value = diff;
-	});
-
-
-	// controller.body.click(function(event) {
-	// 	if (player.get(0).currentTime) {
-	// 		console.log(player.get(0).currentTime);
-	// 		console.log(player.get(0).duration);
+	// player.get(0).addEventListener('playing', function(){
+	// 	// console.log(_RAF);
+	// 	// startTime = window.mozAnimationStartTime||Date.now();
+	// 	$('#freq>span').eq(1).text(songArr[0].songSrc);
+	// 	(function rafDraw(timestamp){
+	// 		draw(canvas, ctx, analyser);
+	// 		console.log(drawVisual);
+	// 		$('#freq>span').eq(0).text(player.get(0).currentTime);
+	// 		drawVisual = _RAF(rafDraw);
+	// 	})();
+	// });
+	// player.get(0).addEventListener('seeked', function(){
+	// 	if (!controller.play.hasClass('hide')) {
+	// 		controller.play.click(drawVisual);
+	// 	}else{
+	// 		player.get(0).play();
 	// 	}
+	// });
+	// player.get(0).addEventListener('pause', function(){
+	// 	console.log(drawVisual);
+	// 	_CAF(drawVisual);
+	// });
+	// player.get(0).addEventListener('timeupdate', timeUpdate.bind(player.get(0), player.get(0), controller), false);
+	// player.get(0).addEventListener('ended', function(){
+	// 	songNextPrev(songArr, controller, 1);
+	// 	updateSrc(player, songArr, controller);
+	// });
+	// /*
+	// *=========================================================================>音量调节
+	// */
+	// window.onkeyup = (e)=>{
+	// 	if (e.keyCode==38) {
+	// 		if (gainNODE.gain.value>=4.8) {
+	// 			gainNODE.gain.value = 5
+	// 		}else{
+	// 			gainNODE.gain.value += 0.2;
+	// 		}
+	// 	}else if (e.keyCode == 40) {
+	// 		if (gainNODE.gain.value<=0.2) {
+	// 			gainNODE.gain.value = 0
+	// 		}else{
+	// 			gainNODE.gain.value -= 0.2
+	// 		}
+	// 	}
+	// 	if (gainNODE.gain.value>=2) {
+	// 		calPer(1, 1, controller.vCtrl.curV, 'width');
+	// 	}else{
+	// 		calPer(gainNODE.gain.value, 2, controller.vCtrl.curV, 'width');
+	// 	}
+	// }
+	// //左键点击
+	// controller.vCtrl.volumn.mousedown(function(e) {
+	// 	if (!e.which==1) {
+	// 		return;
+	// 	}
+	// 	controller.vCtrl.flag = true;
+	// 	controller.vCtrl.initX = $('#volumn').offset().left;
+	// });
+	// controller.vCtrl.volumn.mouseleave(function(e) {
+	// 	controller.vCtrl.flag = false;
+	// });
+	// //拖动
+	// controller.vCtrl.volumn.mousemove(function(e) {
+	// 	if (!controller.vCtrl.flag) {
+	// 		return;
+	// 	}
+	// 	var startX = controller.vCtrl.initX,
+	// 		v_all = controller.vCtrl.vAll,
+	// 		diff = (e.clientX - startX) < 0.95*v_all ? e.clientX - startX : v_all;
+	// 	calPer(diff, v_all, controller.vCtrl.curV, 'width');
+	// 	diff = 2*diff/v_all;
+	// 	gainNODE.gain.value = diff;
+	// });
+
+	// //end click
+	// controller.vCtrl.volumn.mouseup(function(e) {
+	// 	if (!controller.vCtrl.flag) {
+	// 		return;
+	// 	}
+	// 	controller.vCtrl.flag = false;
+	// 	var startX = controller.vCtrl.initX,
+	// 		v_all = controller.vCtrl.vAll,
+	// 		diff = (e.clientX - startX) < 0.95*v_all ? e.clientX - startX : v_all;
+	// 	calPer(diff, v_all, controller.vCtrl.curV, 'width');
+	// 	diff = 2*diff/v_all;
+	// 	gainNODE.gain.value = diff;
 	// });
 
 
-	/*
-	*=========================================================================>列表隐现
-	*/
-	controller.song_list.click(()=>{
-		$('.song-list').toggleClass('hide');
-	});
+	// // controller.body.click(function(event) {
+	// // 	if (player.get(0).currentTime) {
+	// // 		console.log(player.get(0).currentTime);
+	// // 		console.log(player.get(0).duration);
+	// // 	}
+	// // });
 
 
-	/*
-	*=========================================================================>添加歌曲
-	*/
-	controller.add_song.click(()=>{
-		addSong(songArr, player);
-	});
+	// /*
+	// *=========================================================================>列表隐现
+	// */
+	// controller.song_list.click(()=>{
+	// 	$('.song-list').toggleClass('hide');
+	// });
 
 
-	/*
-	*=========================================================================>点击曲目播放
-	*对点击事件冒泡，判断是否含有del-song类。若有=>删除该li；否则播放。
-	*可以尝试分开？
-	*/
-	controller.songsUl.click(function(event) {
-		var songsLen = controller.songsUl.children('li').length;
-		if (songsLen<=0) {
-			return;
-		};
-		var targetEle = event.target;
-
-		/*删除曲目*/
-		if ($(targetEle).hasClass('del-song')) {
-			if (event.stopPropagation) {
-				event.stopPropagation();
-			}else{
-				event.cancelBubble();
-			}
-			var del_id = $('.del-song').index($(targetEle));
-			$(targetEle).parent('li').remove();
-			if (player.attr('src')==songArr[del_id].songSrc) {
-				player.attr('src', '');
-				updateSrc(player, songArr, controller);
-			}
-			window.URL.revokeObjectURL(songArr[del_id].songSrc);
-			songArr.splice(del_id, 1);
-			if (controller.currentSongIndex>del_id) {
-				controller.currentSongIndex--;
-			}
-			return;
-		};
-
-		/*播放点击曲目*/
-		var targetSong = $.trim($(targetEle).text());
-		var play_id = $('.song-item').index($(targetEle))==-1? $('.song-name').index($(targetEle)) : $('.song-item').index($(targetEle));
-		if (play_id==controller.currentSongIndex) {
-			if (controller.isPlay) {
-				controller.pause.click();
-			}else{
-				controller.play.click();
-			}
-			return;
-		};
-		controller.isPlay = true;
-		controller.currentSongIndex = play_id;
-		updateSrc(player, songArr, controller);
-		if (!controller.play.hasClass('hide')) {
-			controller.play.click();
-		}
-		// songArr.forEach((v, i)=>{
-		// 	if (v.songName == targetSong) {
-		// 		controller.isPlay = true;
-		// 		controller.currentSongIndex = i;
-		// 		updateSrc(player, songArr, controller);
-		// 		if (!controller.play.hasClass('hide')) {
-		// 			controller.play.click();
-		// 		}
-		// 	}
-		// });
-	});
+	// /*
+	// *=========================================================================>添加歌曲
+	// */
+	// controller.add_song.click(()=>{
+	// 	addSong(songArr, player);
+	// });
 
 
-	/*
-	*=========================================================================>播放/暂停
-	*/
-	controller.play.click(function() {
-		if (songArr.length) {
-			if (!player.attr('src')) {
-				updateSrc(player, songArr, controller);
-			}
-			controller.isPlay = true;
-			player.get(0).play();
-			controller.pause.toggleClass('hide');
-			$(this).toggleClass('hide');
-		}else{
-			console.log('no song!');
-		}
-	});
-	controller.pause.click(function() {
-		controller.isPlay = false;
-		player.get(0).pause();
-		controller.play.toggleClass('hide');
-		$(this).toggleClass('hide');
-	});
+	// /*
+	// *=========================================================================>点击曲目播放
+	// *对点击事件冒泡，判断是否含有del-song类。若有=>删除该li；否则播放。
+	// *可以尝试分开？
+	// */
+	// controller.songsUl.click(function(event) {
+	// 	var songsLen = controller.songsUl.children('li').length;
+	// 	if (songsLen<=0) {
+	// 		return;
+	// 	};
+	// 	var targetEle = event.target;
+
+	// 	/*删除曲目*/
+	// 	if ($(targetEle).hasClass('del-song')) {
+	// 		if (event.stopPropagation) {
+	// 			event.stopPropagation();
+	// 		}else{
+	// 			event.cancelBubble();
+	// 		}
+	// 		var del_id = $('.del-song').index($(targetEle));
+	// 		$(targetEle).parent('li').remove();
+	// 		if (player.attr('src')==songArr[del_id].songSrc) {
+	// 			player.attr('src', '');
+	// 			updateSrc(player, songArr, controller);
+	// 		}
+	// 		window.URL.revokeObjectURL(songArr[del_id].songSrc);
+	// 		songArr.splice(del_id, 1);
+	// 		if (controller.currentSongIndex>del_id) {
+	// 			controller.currentSongIndex--;
+	// 		}
+	// 		return;
+	// 	};
+
+	// 	/*播放点击曲目*/
+	// 	var targetSong = $.trim($(targetEle).text());
+	// 	var play_id = $('.song-item').index($(targetEle))==-1? $('.song-name').index($(targetEle)) : $('.song-item').index($(targetEle));
+	// 	if (play_id==controller.currentSongIndex) {
+	// 		if (controller.isPlay) {
+	// 			controller.pause.click();
+	// 		}else{
+	// 			controller.play.click();
+	// 		}
+	// 		return;
+	// 	};
+	// 	controller.isPlay = true;
+	// 	controller.currentSongIndex = play_id;
+	// 	updateSrc(player, songArr, controller);
+	// 	if (!controller.play.hasClass('hide')) {
+	// 		controller.play.click();
+	// 	}
+	// 	// songArr.forEach((v, i)=>{
+	// 	// 	if (v.songName == targetSong) {
+	// 	// 		controller.isPlay = true;
+	// 	// 		controller.currentSongIndex = i;
+	// 	// 		updateSrc(player, songArr, controller);
+	// 	// 		if (!controller.play.hasClass('hide')) {
+	// 	// 			controller.play.click();
+	// 	// 		}
+	// 	// 	}
+	// 	// });
+	// });
 
 
-	/*
-	*=========================================================================>上一曲
-	*/
-	controller.prev_one.click(()=>{
-		songNextPrev(songArr, controller, -1);
-		updateSrc(player, songArr, controller);
-	});
+	// /*
+	// *=========================================================================>播放/暂停
+	// */
+	// controller.play.click(function() {
+	// 	if (songArr.length) {
+	// 		if (!player.attr('src')) {
+	// 			updateSrc(player, songArr, controller);
+	// 		}
+	// 		controller.isPlay = true;
+	// 		player.get(0).play();
+	// 		controller.pause.toggleClass('hide');
+	// 		$(this).toggleClass('hide');
+	// 	}else{
+	// 		console.log('no song!');
+	// 	}
+	// });
+	// controller.pause.click(function() {
+	// 	controller.isPlay = false;
+	// 	player.get(0).pause();
+	// 	controller.play.toggleClass('hide');
+	// 	$(this).toggleClass('hide');
+	// });
 
-	/*
-	*=========================================================================>下一曲
-	*/
-	controller.next_one.click(()=>{
-		songNextPrev(songArr, controller, 1);
-		updateSrc(player, songArr, controller);
-	});
-	/*
-	*=========================================================================>播放进度控制
-	*/
-	controller.cTimeCtrl.duration.mousedown(function(e){
-		if (!player.attr('src')||e.which!=1) {
-			return;
-		}
-		controller.cTimeCtrl.flag = true;
-		controller.cTimeCtrl.initX = $('#duration').offset().left,
-		controller.cTimeCtrl.curX = e.clientX;
-	});
-	$(document).mousemove(function(e) {
-		if (!controller.cTimeCtrl.flag) {
-			return;
-		}
-		var startX = controller.cTimeCtrl.initX;
-		    endX = controller.cTimeCtrl.initX + controller.cTimeCtrl.duration.width(),
-		    durEle = controller.cTimeCtrl.duration;
-		if(e.clientX<startX){
-			controller.cTimeCtrl.curX = startX;
-		}else if(e.clientX>endX){
-			controller.cTimeCtrl.curX = endX;
-		}else{
-			controller.cTimeCtrl.curX = e.clientX;
-		}
-		var diff = controller.cTimeCtrl.curX - startX;
-		var per = diff/durEle.width();
-		calTime(per*player.get(0).duration, player.get(0).duration, controller.playedTime);
-		calPer(diff, durEle.width(), controller.cTimeCtrl.cTime, 'width');
-	});
-	$(document).mouseup(function(e) {
-		if (controller.cTimeCtrl.flag) {
-			controller.cTimeCtrl.flag = false;
-			var per = (controller.cTimeCtrl.curX - controller.cTimeCtrl.initX)/controller.cTimeCtrl.duration.width();
-			controller.cTimeCtrl.cTime.css({
-				'width': 100*per + '%'
-			});
-			player.get(0).currentTime = player.get(0).duration * per;
-		}
-	});
+
+	// /*
+	// *=========================================================================>上一曲
+	// */
+	// controller.prev_one.click(()=>{
+	// 	songNextPrev(songArr, controller, -1);
+	// 	updateSrc(player, songArr, controller);
+	// });
+
+	// /*
+	// *=========================================================================>下一曲
+	// */
+	// controller.next_one.click(()=>{
+	// 	songNextPrev(songArr, controller, 1);
+	// 	updateSrc(player, songArr, controller);
+	// });
+	// /*
+	// *=========================================================================>播放进度控制
+	// */
+	// controller.cTimeCtrl.duration.mousedown(function(e){
+	// 	if (!player.attr('src')||e.which!=1) {
+	// 		return;
+	// 	}
+	// 	controller.cTimeCtrl.flag = true;
+	// 	controller.cTimeCtrl.initX = $('#duration').offset().left,
+	// 	controller.cTimeCtrl.curX = e.clientX;
+	// });
+	// $(document).mousemove(function(e) {
+	// 	if (!controller.cTimeCtrl.flag) {
+	// 		return;
+	// 	}
+	// 	var startX = controller.cTimeCtrl.initX;
+	// 	    endX = controller.cTimeCtrl.initX + controller.cTimeCtrl.duration.width(),
+	// 	    durEle = controller.cTimeCtrl.duration;
+	// 	if(e.clientX<startX){
+	// 		controller.cTimeCtrl.curX = startX;
+	// 	}else if(e.clientX>endX){
+	// 		controller.cTimeCtrl.curX = endX;
+	// 	}else{
+	// 		controller.cTimeCtrl.curX = e.clientX;
+	// 	}
+	// 	var diff = controller.cTimeCtrl.curX - startX;
+	// 	var per = diff/durEle.width();
+	// 	calTime(per*player.get(0).duration, player.get(0).duration, controller.playedTime);
+	// 	calPer(diff, durEle.width(), controller.cTimeCtrl.cTime, 'width');
+	// });
+	// $(document).mouseup(function(e) {
+	// 	if (controller.cTimeCtrl.flag) {
+	// 		controller.cTimeCtrl.flag = false;
+	// 		var per = (controller.cTimeCtrl.curX - controller.cTimeCtrl.initX)/controller.cTimeCtrl.duration.width();
+	// 		controller.cTimeCtrl.cTime.css({
+	// 			'width': 100*per + '%'
+	// 		});
+	// 		player.get(0).currentTime = player.get(0).duration * per;
+	// 	}
+	// });
+	$('#player').get(0).play();
 });
 
 
