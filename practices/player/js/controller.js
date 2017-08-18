@@ -1,3 +1,20 @@
+var _RAF = (function(){
+	return	window.requestAnimationFrame||
+			window.webkitRequestAnimationFrame||
+			window.mozRequestAnimationFrame||
+			window.msRequestAnimationFrame||
+			function(callback){
+				window.setTimeout(callback, 1000/60);
+			};
+})();
+var _CAF = (function(){
+	return  window.cancelAnimationFrame ||
+		    window.mozCancelAnimationFrame||
+		    function(timer){
+		    	window.clearTimeout(timer);
+		   };
+})();
+
 $(document).ready(function(){
 	var player = $('#player'),
 		controller = {
@@ -31,30 +48,50 @@ $(document).ready(function(){
 		},
 		songArr = [];//存放所有曲目
 	/*
+	*=========================================================================>audioapi, 主要用于可视化
+	*/
+	var ac = new (window.AudioContext||window.webkitAudioContext)();
+	// var spliter = ac.createChannelSplitter(2);
+	// console.log(spliter);
+	var analyser = ac.createAnalyser(),
+		source = ac.createMediaElementSource(player.get(0)),
+		gainNODE = ac.createGain();
+	source.connect(analyser);
+	analyser.connect(gainNODE);
+	gainNODE.connect(ac.destination);
+	var canvas = document.getElementById('myCanvas');
+	var ctx = canvas.getContext('2d');
+	var drawVisual = null;
+		// startTime = null;
+	/*
 	*=========================================================================>audio 事件
 	*/
+	
+	player.get(0).addEventListener('playing', function(){
+		// console.log(_RAF);
+		// startTime = window.mozAnimationStartTime||Date.now();
+		(function rafDraw(timestamp){
+			draw(canvas, ctx, analyser);
+			console.log(drawVisual);
+			drawVisual = _RAF(rafDraw);
+		})();
+	});
 	player.get(0).addEventListener('seeked', function(){
 		if (!controller.play.hasClass('hide')) {
-			controller.play.click();
+			controller.play.click(drawVisual);
 		}else{
 			player.get(0).play();
 		}
+	});
+	player.get(0).addEventListener('pause', function(){
+		console.log(drawVisual);
+		_CAF(drawVisual);
 	});
 	player.get(0).addEventListener('timeupdate', timeUpdate.bind(player.get(0), player.get(0), controller), false);
 	player.get(0).addEventListener('ended', function(){
 		songNextPrev(songArr, controller, 1);
 		updateSrc(player, songArr, controller);
 	});
-	/*
-	*=========================================================================>audioapi, 主要用于可视化
-	*/
-	var ac = new (window.AudioContext||window.webkitAudioContext)();
-	var sr1 = ac.createAnalyser();
-	var source = ac.createMediaElementSource(player.get(0));
-	var gainNODE = ac.createGain();
-	source.connect(gainNODE);
-	gainNODE.connect(ac.destination);
-	
 	/*
 	*=========================================================================>音量调节
 	*/
@@ -367,6 +404,15 @@ function timeUpdate(audio, controller){
 		if (audio.currentTime>=1) {
 			calTime(audio.currentTime, audio.duration, controller.playedTime);
 		}
+		// ana.fftSize = 256;
+		// var dataarr = new Uint8Array(ana.frequencyBinCount);
+		// ana.getByteFrequencyData(dataarr);
+		// var obj = {
+		// 	fft: ana.fftSize,
+		// 	unit8a: dataarr
+		// }
+		// draw(canvas, ctx, dataarr);
+		// console.log(obj);
 	}
 }
 //tag用于表示上/下一曲
@@ -386,3 +432,30 @@ function songNextPrev(arr, controller, tag){
 		default: break;
 	}
 }
+
+// draw
+function draw(canvas, ctx, analyser){
+	analyser.fftSize = 256;
+	var W = canvas.width,
+		H = canvas.height,
+		dataArr = new Uint8Array(analyser.frequencyBinCount);
+	analyser.getByteFrequencyData(dataArr);
+	ctx.fillStyle = 'rgb(0,0,0)';
+	ctx.fillRect(0,0, 720,480);
+	ctx.font = '48px arial';
+	ctx.fillStyle = 'rgb(255,255,255)';
+	ctx.fillText('My Canvas', 10, 48);
+	// ctx.lineWidth = 2;
+	// ctx.strokeStyle = 'rgb(255, 255, 255)';
+	// ctx.beginPath();
+	var sliceWidth = W/dataArr.length;
+	var x = 0;
+	for (var i = 0; i < dataArr.length; i++) {
+		var y = dataArr[i];
+		ctx.fillStyle = 'rgb(' + (y+100) + ',50,50)';
+		ctx.fillRect(x, H - y, sliceWidth, y)
+		x += sliceWidth;
+	}
+	ctx.lineTo(W, H/2);
+	ctx.stroke();
+};
