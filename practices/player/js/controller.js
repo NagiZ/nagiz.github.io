@@ -70,9 +70,11 @@ $(document).ready(function(){
 	player.get(0).addEventListener('playing', function(){
 		// console.log(_RAF);
 		// startTime = window.mozAnimationStartTime||Date.now();
+		$('#freq>span').eq(1).text(songArr[0].songSrc);
 		(function rafDraw(timestamp){
 			draw(canvas, ctx, analyser);
 			console.log(drawVisual);
+			$('#freq>span').eq(0).text(player.get(0).currentTime);
 			drawVisual = _RAF(rafDraw);
 		})();
 	});
