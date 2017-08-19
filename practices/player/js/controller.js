@@ -75,7 +75,7 @@ $(document).ready(function(){
 		player.get(0).addEventListener('playing', function(){
 			// console.log(_RAF);
 			// startTime = window.mozAnimationStartTime||Date.now();
-			$('#freq>span').eq(1).text(songArr[0].songSrc);
+			$('#freq>span').eq(1).text(player.attr('src'));
 			(function rafDraw(timestamp){
 				draw(canvas, ctx, analyser);
 				$('#freq>span').eq(0).text(player.get(0).currentTime);
