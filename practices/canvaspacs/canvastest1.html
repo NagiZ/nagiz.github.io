@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#cvs{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			border: 1px solid #000;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="cvs" width="720px" height="480px">
+		123
+	</canvas>
+	<script type="text/javascript">
+		var _RAF = (function(){
+			return	window.requestAnimationFrame||
+					window.webkitRequestAnimationFrame||
+					window.mozRequestAnimationFrame||
+					window.msRequestAnimationFrame||
+					function(callback){
+						window.setTimeout(callback, 1000/60);
+					};
+		})();
+		var _CAF = (function(){
+			return  window.cancelAnimationFrame ||
+				    window.mozCancelAnimationFrame||
+				    function(timer){
+				    	window.clearTimeout(timer);
+				   };
+		})();
+		var cvs = document.getElementById('cvs');
+		var ctx = cvs.getContext('2d');
+	</script>
+</body>
+</html>

@@ -8,18 +8,9 @@
 	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
 	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<!-- 	<script type="text/javascript" src="https://unpkg.com/vue"></script>
-    <script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script> -->
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-	<!-- <audio src="" controls="controls">
-		Your browser does not support the audio element.
-	</audio>
-	<div id="controller">
-		<div></div>
-	</div>
-	<button class="btn btn-default"><input type="file" id="upload"></button> -->
 	<div id="freq"><span>Time</span><br/><span>路径</span></div>
 	<div class="container-fluid p-box">
 		<div class="player-box">
@@ -51,19 +42,11 @@
 			<audio src="" id="player"></audio>
 		</div>
 	</div>
-	<canvas width="720px" height="480px" id="myCanvas">
+	<canvas width="300" height="200" id="myCanvas">
 		您的设备不支持canvas...
 	</canvas>
+	<script src="./js/visible.js"></script>
 	<script src="./js/controller.js"></script>
-	<!-- <script src="./js/visible.js"></script> -->
 	<script type="text/javascript">
-		// $(document).ready(function(){
-		// 	$('#upload').change(function(event) {
-		// 		console.log('change');
-		// 		/* Act on the event */
-		// 		var fileInput = document.getElementById('upload');
-		// 		if(fileInput.value) console.log(fileInput.files[0].name);
-		// 	});
-		// })
 	</script>
 </html>

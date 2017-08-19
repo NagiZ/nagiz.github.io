@@ -61,8 +61,8 @@ $(document).ready(function(){
 	gainNODE.connect(ac.destination);
 	var canvas = document.getElementById('myCanvas');
 	var ctx = canvas.getContext('2d');
+		
 	var drawVisual = null;
-		// startTime = null;
 	/*
 	*=========================================================================>audio 事件
 	*/
@@ -73,7 +73,6 @@ $(document).ready(function(){
 		$('#freq>span').eq(1).text(songArr[0].songSrc);
 		(function rafDraw(timestamp){
 			draw(canvas, ctx, analyser);
-			console.log(drawVisual);
 			$('#freq>span').eq(0).text(player.get(0).currentTime);
 			drawVisual = _RAF(rafDraw);
 		})();
@@ -442,22 +441,25 @@ function draw(canvas, ctx, analyser){
 		H = canvas.height,
 		dataArr = new Uint8Array(analyser.frequencyBinCount);
 	analyser.getByteFrequencyData(dataArr);
+	var  gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+	gradient.addColorStop(0, '#f00');
+	gradient.addColorStop(0.40, '#df0');
+	gradient.addColorStop(0.49, '#0f0');
+	gradient.addColorStop(0.5, '#fff');
+	gradient.addColorStop(0.51, '#0f0');
+	gradient.addColorStop(0.60, '#df0');
+	// // gradient.addColorStop(0.75, '#ff0');
+	gradient.addColorStop(1, '#f00');
+	ctx.clearRect(0,0, W, H);
 	ctx.fillStyle = 'rgb(0,0,0)';
-	ctx.fillRect(0,0, 720,480);
-	ctx.font = '48px arial';
-	ctx.fillStyle = 'rgb(255,255,255)';
-	ctx.fillText('My Canvas', 10, 48);
-	// ctx.lineWidth = 2;
-	// ctx.strokeStyle = 'rgb(255, 255, 255)';
-	// ctx.beginPath();
+	ctx.fillRect(0,0, W, H);
 	var sliceWidth = W/dataArr.length;
 	var x = 0;
 	for (var i = 0; i < dataArr.length; i++) {
 		var y = dataArr[i];
-		ctx.fillStyle = 'rgb(' + (y+100) + ',50,50)';
-		ctx.fillRect(x, H - y, sliceWidth, y)
+		ctx.fillStyle = gradient;
+		ctx.fillRect(x, (H - y)/2, sliceWidth, y)
 		x += sliceWidth;
 	}
-	ctx.lineTo(W, H/2);
 	ctx.stroke();
 };
