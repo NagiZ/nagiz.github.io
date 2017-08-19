@@ -16,6 +16,10 @@ var _CAF = (function(){
 })();
 
 $(document).ready(function(){
+	if (!window.URL||!window.URL.createObjectURL) {
+		alert('I\'M SORRY');
+		return;
+	}
 	var player = $('#player'),
 		controller = {
 			body: $('.controller'),
@@ -416,7 +420,7 @@ function timeUpdate(audio, controller){
 		// console.log(obj);
 	}
 }
-//tag用于表示上/下一曲
+//@param tag用于表示上/下一曲
 function songNextPrev(arr, controller, tag){
 	if (!arr.length) {
 		return;
