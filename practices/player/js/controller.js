@@ -17,7 +17,7 @@ var _CAF = (function(){
 
 $(document).ready(function(){
 	try{
-		if (!window.URL||!window.URL.createObjectURL) {
+		if (!window.URL||!window.URL.createObjectURL||!AudioContext) {
 			alert('I\'M SORRY');
 			return;
 		}
@@ -343,6 +343,7 @@ function addSong(songArr, player){
 		var songs = [].slice.call(newSongs.get(0).files, null);
 		//生成列表条目
 		songs.forEach((v)=>{
+			console.log(typeof v);
 			var span = '<span class="del-song" title="删除">x</span>',
 				name_span = `<span class="song-name">${v.name}</span>`;
 			$('#songs').append(`<li class="song-item">${name_span}${span}</li>`);
