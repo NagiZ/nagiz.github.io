@@ -63,11 +63,16 @@ blockquote{
 /**
 	text for demo
 */
+
 .text-demo{
 	font-size: 30px;
 	text-align: center;
 	color: #1a1a1a;
 	font-weight: bold;
+}
+#demos a:hover, #demos a:hover p{
+	text-decoration: none;
+	color: #f00;
 }
 /*totop*/
 .toTop{
@@ -89,4 +94,9 @@ blockquote{
 .main{
 	position: relative;
 	z-index: 0;
+}
+@media screen and (min-width: 768px) {
+	.img-demos{
+		height: 250px;
+	}
 }

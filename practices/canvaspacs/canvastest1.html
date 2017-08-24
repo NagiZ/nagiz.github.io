@@ -36,6 +36,35 @@
 		})();
 		var cvs = document.getElementById('cvs');
 		var ctx = cvs.getContext('2d');
+		ctx.translate(360, 240);
+		ctx.fillStyle = '#fda';
+		ctx.fillRect(-100, -100, 200, 200);
+		var s = Math.sin(Math.PI/3),
+			c = Math.cos(Math.PI/3);
+		ctx.transform(c, s, -s, c, 0, 0);
+		ctx.fillStyle = '#0f0';
+		ctx.fillRect(-100, -100, 200, 200);
+		var sc = 1.0,
+			scTag = true;
+		var angle = Math.PI/180;
+		// function rot(){
+		// 	var rDt = _RAF(rot);
+		// 	if (sc>=2) {
+		// 		scTag = false;
+		// 	}else if (sc<=0.5) {
+		// 		scTag = true;
+		// 	}
+		// 	ctx.save();
+		// 	ctx.clearRect(-150, -150, 300, 300);
+		// 	ctx.rotate(angle);
+		// 	ctx.scale(1/sc, 1/sc);
+		// 	var step = scTag? 0.01 : -0.01;
+		// 	sc += step;
+		// 	ctx.scale(sc, sc);
+		// 	console.log(sc);
+		// 	ctx.fillRect(-100, -100, 200, 200);
+		// }
+		// rot();
 	</script>
 	<?
 	?>
