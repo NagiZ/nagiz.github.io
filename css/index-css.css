@@ -65,14 +65,17 @@ blockquote{
 */
 
 .text-demo{
-	font-size: 30px;
+	font-size: 20px;
 	text-align: center;
-	color: #1a1a1a;
+	color: #0bf;
 	font-weight: bold;
 }
 #demos a:hover, #demos a:hover p{
 	text-decoration: none;
 	color: #f00;
+}
+.img-demos{
+	border: 2px solid #e8e8e8;
 }
 /*totop*/
 .toTop{

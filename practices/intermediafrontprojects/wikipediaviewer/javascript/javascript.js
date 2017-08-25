@@ -1,8 +1,17 @@
 $(document).ready(function(){
 	$icon = $("#search-icon");
 	$text = $("#search");
+	$(window).click(function(event) {
+		/* Act on the event */
+		if (!$text.val()) {
+			$text.removeClass('search-visible');
+			$icon.removeClass('icon-in');
+			return;
+		};
+	});
 	$icon.click(function(event) {
 		/* Act on the event */
+		event.stopPropagation();
 		if (!$text.val()) {
 			$text.toggleClass('search-visible');
 			$icon.toggleClass('icon-in');
