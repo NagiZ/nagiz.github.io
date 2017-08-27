@@ -103,3 +103,9 @@ blockquote{
 		height: 250px;
 	}
 }
+@media screen and (max-width: 767px) {
+	#bg-white{
+		background: #fff;
+		float: right;
+	}
+}
