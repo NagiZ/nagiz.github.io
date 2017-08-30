@@ -53,9 +53,7 @@ blockquote{
 .margin-sm{
 	margin: 5px;
 }
-.margin-default{
-	margin-right: 15px;
-}
+
 .border-default{
 	border: 1px solid #e8e8e8;
 }
@@ -70,9 +68,8 @@ blockquote{
 	color: #0bf;
 	font-weight: bold;
 }
-#demos a:hover, #demos a:hover p{
+#demos a:hover, #demos a:hover p, #demos a:visited{
 	text-decoration: none;
-	color: #f00;
 }
 .img-demos{
 	border: 2px solid #e8e8e8;
@@ -107,5 +104,16 @@ blockquote{
 	#bg-white{
 		background: #fff;
 		float: right;
+	}
+	.main{
+		position: relative;
+		z-index: 0;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+	}
+	.margin-default{
+		margin-right: 5px;
+		margin-left: 5px;
 	}
 }
