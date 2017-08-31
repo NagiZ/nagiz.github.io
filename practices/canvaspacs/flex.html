@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>Display Flex Pracs</title>
+	<style>
+		.con{
+			display: flex;
+			justify-content: space-between;
+			width: 1000px;
+			height: 1000px;
+			border: 1px solid #e8e8e8;
+			box-shadow: 0 0 5px 5px #f00;
+		}
+		.item{
+			flex: 1;
+			margin: 0 10px;
+			height: 100px;
+			background-color: #f00;
+		}
+		.item:nth-child(1){
+			flex: 0 0 33.33%;
+		}
+		.item:nth-child(3){
+			flex: 0 0 50%;
+		}
+		.item:nth-child(2){
+			flex: 0 0 100%;
+		}
+	</style>
+</head>
+<body>
+	<div class="con">
+		<div class="item"></div>
+		<div class="item"></div>
+		<div class="item"></div>
+	</div>
+</body>
+</html>

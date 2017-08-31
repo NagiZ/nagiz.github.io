@@ -78,7 +78,7 @@
 			var outputArr = [],
 				num = Math.ceil(arr.length/len);
 			for (var i = 0; i < num; i++) {
-				if (i*len<=arr.length) {
+				if ((1+i)*len<=arr.length) {
 					outputArr.push(arr.slice(i*len, (i+1)*len));
 				}else{
 					outputArr.push(arr.slice(i*len));
