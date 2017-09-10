@@ -3,10 +3,23 @@ $(document).ready(function(){
 	$text = $("#search");
 	$(window).click(function(event) {
 		/* Act on the event */
+		if (event.target == $text.get(0)) {
+			return;
+		}
 		if (!$text.val()) {
 			$text.removeClass('search-visible');
 			$icon.removeClass('icon-in');
 			return;
+		};
+	});
+	$(window).keypress(function(event) {
+		event.stopPropagation();
+		event.preventDefault();
+		if (event.keyCode===13) {
+			if (!$text.val()) {
+				return;
+			}
+			$icon.click();
 		};
 	});
 	$icon.click(function(event) {

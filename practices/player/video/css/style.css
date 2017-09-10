@@ -1,0 +1,76 @@
+.container-box{
+	position: relative;
+	width: 720px;
+	height: 480px;
+	margin: 0 auto;
+}
+#cvs{
+	position: absolute;
+	display: none;
+	border: 1px solid #000;
+}
+#myVideo{
+	border: 1px solid #000;
+	object-fit: fill;
+	display: none;
+}
+.cvsbor{
+	position: absolute;
+}
+.hide{
+	display: none;
+}
+.controller{
+	position: absolute;
+	background: #e8e8e8;
+	width: 100%;
+	bottom: -20px;
+	left: 0;
+	z-index: 1000;
+}
+.fun{
+	display: inline-block;
+	margin: 3px 10px;
+	cursor: pointer;
+}
+.fun:hover{
+	color: #f00;
+}
+
+#volumn{
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	width: 39px;
+	height: 4px;
+	margin-bottom: 3px;
+	background-color: #0f0;
+	cursor: pointer;
+}
+#v-ctrl{
+	display: block;
+	position: absolute;
+	left: 0;
+	vertical-align: middle;
+	width: 50%;
+	height: 4px;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	background-color: #f00;
+}
+
+.curtime{
+	position: relative;
+	display: inline-block;
+	width: 70%;
+	opacity: 0.8;
+}
+#curtime{
+	display: block;
+	margin: 3px 10px;
+	width: 90%;
+	height: 5px;
+	background-color: #f00;
+	cursor: pointer;
+	border-radius: 5px;
+}

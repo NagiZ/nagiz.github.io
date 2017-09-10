@@ -1,6 +1,8 @@
 $(document).ready(function() {
 	// Stuff to do as soon as the DOM is ready;
-
+	$("#dmlinks").click(function(){
+		$('#options').removeClass('in');
+	})
 	var	$nav_ul = $("#nav-ul").children();
 	$(window).scroll(function(){
 		var wHeight = 0.5*$(window).height();
@@ -14,7 +16,9 @@ $(document).ready(function() {
 		}else{
 			exchangeClass($nav_ul, 0);
 		}
-
+		if ($("#dmlinks").hasClass('open')) {
+			$("#dmlinks").removeClass('open');
+		}
 	})
 
 });

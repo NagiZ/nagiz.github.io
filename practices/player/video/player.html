@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>视频分割</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+	<p>2*2的分割数下还能正常播放，超过则会开始之后。requestAnimationFrame会超时违规, 暂时没有解决方案</p>
+	<input type="file" accept="video/*" multiple="multiple" name="new-video" id="new-video" class="hide">
+	<div id="video-list">
+		<span class="glyphicon glyphicon-plus"></span>
+		<span>添加视频</span>
+	</div>
+	<video src="./cygwy.mp4"  width="720px" height="480px" id="myVideo" controls="controls"></video>
+	<div class="container-box">
+		<canvas id="cvs" height="480px" width="720px">
+			您的浏览器不支持canvas。
+		</canvas>
+
+		<div class="controller" id="controller">
+			<span id="backward" class="glyphicon glyphicon-backward fun" title="后退5s"></span>
+			<span id="play" class="glyphicon glyphicon-play fun" title="播放"></span>
+			<span id="pause" class="glyphicon glyphicon-pause fun hide" title="暂停"></span>
+			<span id="forward" class="glyphicon glyphicon-forward fun" title="前进5s"></span>
+			<div id="banner" class="curtime"><span id="curtime"></span></div>
+			<div id="volumn" class="volumn" title="voice">
+				<span id="v-ctrl"></span>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="./js/controller.js"></script>
+	<script type="text/javascript" src="./js/javascript.js"></script>
+</body>
+</html>
