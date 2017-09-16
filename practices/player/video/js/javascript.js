@@ -127,7 +127,6 @@ for(var i=0; i<Nx; i++){
 function rmv(){
 	var nD = new Date();
 	timestamp = _RAF(rmv);
-	console.log(mv.duration);
 	if (nD - lD > 30) {
 		lD = nD;
 		ctx.drawImage(mv, 0, 0, W, H);

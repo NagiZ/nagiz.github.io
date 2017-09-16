@@ -11,24 +11,35 @@
 <body>
 	<p>2*2的分割数下还能正常播放，超过则会开始之后。requestAnimationFrame会超时违规, 暂时没有解决方案</p>
 	<input type="file" accept="video/*" multiple="multiple" name="new-video" id="new-video" class="hide">
-	<div id="video-list">
-		<span class="glyphicon glyphicon-plus"></span>
-		<span>添加视频</span>
-	</div>
-	<video src="./cygwy.mp4"  width="720px" height="480px" id="myVideo" controls="controls"></video>
-	<div class="container-box">
-		<canvas id="cvs" height="480px" width="720px">
-			您的浏览器不支持canvas。
-		</canvas>
+	<video src=""  width="720px" height="480px" id="myVideo"></video>
+	<div class="container-fluid">
+		<div class="container-box" id="container-box" >
+			<canvas id="cvs" height="480px" width="720px">
+				您的浏览器不支持canvas。
+			</canvas>
 
-		<div class="controller" id="controller">
-			<span id="backward" class="glyphicon glyphicon-backward fun" title="后退5s"></span>
-			<span id="play" class="glyphicon glyphicon-play fun" title="播放"></span>
-			<span id="pause" class="glyphicon glyphicon-pause fun hide" title="暂停"></span>
-			<span id="forward" class="glyphicon glyphicon-forward fun" title="前进5s"></span>
-			<div id="banner" class="curtime"><span id="curtime"></span></div>
-			<div id="volumn" class="volumn" title="voice">
-				<span id="v-ctrl"></span>
+			<div class="controller" id="controller">
+				<span id="step-backward" class="glyphicon glyphicon-step-backward fun" title="last video"></span>
+				<span id="backward" class="glyphicon glyphicon-backward fun" title="后退5s"></span>
+				<span id="play" class="glyphicon glyphicon-play fun" title="播放"></span>
+				<span id="pause" class="glyphicon glyphicon-pause fun hide" title="暂停"></span>
+				<span id="forward" class="glyphicon glyphicon-forward fun" title="前进5s"></span>
+				<span id="step-forward" class="glyphicon glyphicon-step-forward fun" title="next-video"></span>
+				
+				<div id="duration" class="curtime"><span id="curtime"></span></div>
+				
+				<div id="volumn" class="volumn" title="voice">
+					<span id="v-ctrl"></span>
+				</div>
+				<span id="list-show" class="glyphicon glyphicon-list fun" title="视频列表"></span>
+			</div>
+			<div id="video-list" class="">
+				<div id="upload">
+					<span class="glyphicon glyphicon-plus"></span>
+					<span>添加视频</span>
+				</div>
+				<ul class="list-group no-style" id="videos">
+				</ul>
 			</div>
 		</div>
 	</div>
