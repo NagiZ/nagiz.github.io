@@ -12,7 +12,7 @@
 	height: 480px;
 	margin: 0 auto;
 	border: 1px solid #e8e8e8;
-	border-right: : none;
+	border-right: none;
 }
 #cvs{
 	position: absolute;
@@ -45,12 +45,38 @@
 }
 .fun:hover{
 	color: #f00;
+	text-shadow: 0 0 5px #ff0;
 }
 #list-show{
 	margin-left: 15px;
 }
-
-
+.play-icon{
+	border: 3px solid #e8e8e8;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	padding: 8px;
+	border-radius: 36px;
+	font-size: 50px;
+	color: #888888;
+	text-shadow: 0 0 10px #f00;
+	box-shadow: 0 0 10px #f00;
+	z-index: 10000;
+}
+#full-screen{
+	font-size: 16px;
+	height: 16px;
+	line-height: 16px;
+}
+.forFullScreen{
+	width: 100%;
+	height: 100%;
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+/*volumn/currentTime control*/
 #volumn{
 	display: inline-block;
 	position: relative;

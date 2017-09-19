@@ -26,7 +26,10 @@ var controller = {
 	listShow: gele('list-show'),
 	addV: gele('upload'),
 	videoList: gele('video-list'),
+	fullScreen: gele('full-screen'),
 	currentIndex: 0,
+	split: false,
+	isFullscreen: false,
 	vCtrl: {
 		volumn: $('#volumn'),
 		curV: $('#v-ctrl'),
@@ -53,11 +56,35 @@ gainNODE.connect(audioCtx.destination);
 
 window.onload = ctrlStart;
 function ctrlStart(){
-	
+	var cvsbor = document.getElementsByClassName('cvsbor')[0];
+	gele('container-box').onclick = function(e){
+		e = e||window.event;
+		pdf(e);
+		var tar = $(e.target||e.srcElement);
+		if (!tar.hasClass('cvsbor')&&!tar.hasClass('play-icon')) {
+
+			return;
+		}
+		if (controller.isPlay) {
+			controller.pause.click();
+		}else{
+			controller.play.click();
+		}
+	}
+//==============================================================>> 全屏
+	controller.fullScreen.onclick = function(e){
+		e = e||window.event;
+		pdf(e);
+		fullScr(gele('container-box'));
+	}
 //==============================================================>> 列表样式
 	controller.videoList.style.height = (controller.controller.offsetHeight + gele('container-box').offsetHeight) + 'px';
 //==============================================================>> bing eventlistener
 	player.addEventListener('timeupdate', updateProBar.bind(player, player, controller), false);
+	document.addEventListener('webkitfullscreenchange', fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller), false);
+	document.addEventListener('fullscreenchange', fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller), false);
+	document.addEventListener("msfullscreenchange", fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller), false);
+	document.addEventListener("mozfullscreenchange", fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller), false);
 //==============================================================>> 播放/暂停
 	controller.play.onclick = function(e){
 		e = e||window.event;
@@ -68,16 +95,18 @@ function ctrlStart(){
 		}
 		player.play();
 		controller.isPlay = true;
-		$(controller.pause).toggleClass('hide');
-		$(this).toggleClass('hide');
+		$(controller.pause).removeClass('hide');
+		$(this).addClass('hide');
+		$('#play-icon').addClass('hide');
 	};
 	controller.pause.onclick = function(e){
 		e = e||window.event;
 		pdf(e);
 		player.pause();
 		controller.isPlay = false;
-		$(controller.play).toggleClass('hide');
-		$(this).toggleClass('hide');
+		$(controller.play).removeClass('hide');
+		$(this).addClass('hide');
+		$('#play-icon').removeClass('hide');
 	};
 
 //==============================================================>> 进度条
@@ -154,22 +183,32 @@ function ctrlStart(){
 
 
 /*
-*=========================================================================>音量调节
+*=========================================================================>音量调节/进度控制
 */
 
 	window.onkeyup = (e)=>{
-		if (e.keyCode==38) {
-			if (gainNODE.gain.value>=4.8) {
-				gainNODE.gain.value = 5
-			}else{
-				gainNODE.gain.value += 0.2;
-			}
-		}else if (e.keyCode == 40) {
-			if (gainNODE.gain.value<=0.2) {
-				gainNODE.gain.value = 0
-			}else{
-				gainNODE.gain.value -= 0.2
-			}
+		switch(e.keyCode){
+			case 38:
+				if (gainNODE.gain.value>=4.8) {
+					gainNODE.gain.value = 5
+				}else{
+					gainNODE.gain.value += 0.2;
+				}
+				break;
+			case 40:
+				if (gainNODE.gain.value<=0.2) {
+					gainNODE.gain.value = 0
+				}else{
+					gainNODE.gain.value -= 0.2
+				}
+				break;
+			case 37:
+				controller.backward.click();
+				break;
+			case 39:
+				controller.forward.click();
+				break;
+			default: break;
 		}
 		if (gainNODE.gain.value>=2) {
 			calPer(1, 1, controller.vCtrl.curV, 'width');
@@ -237,26 +276,26 @@ function ctrlStart(){
 	controller.stepForward.onclick = function(e){
 		e = e||window.event;
 		pdf(e);
-		videoNextPrev(videos, controller, 1);
+		videoNextPrev(videos, controller, 1, player);
 	};
 	controller.stepBackward.onclick = function(e){
 		e = e||window.event;
 		pdf(e);
-		videoNextPrev(videos, controller, 1);
+		videoNextPrev(videos, controller, -1, player);
 	}
 //==============================================================>>点击视频列表播放
 	controller.videoList.onclick = function(e){
 		e = e||window.event;
 		pdf(e);
 		var targetE = e.target||e.srcElement;
-		if (targetE.className == 'del'||!videos.length) {
+		if (targetE.className != 'video-name'||!videos.length) {
 			return;
 		};
 		var targetIndex = [].indexOf.call(gele('videos').children, targetE.parentNode);
 		controller.currentIndex = targetIndex;
 		controller.isPlay = false;
 		updateSrc(player, videos, controller);
-		player.play();
+		controller.play.click();
 	}
 }
 
@@ -286,18 +325,18 @@ function addVideo(videolist, player, controller){
 }
 
 //@param tag:用于表示上/下
-function videoNextPrev(arr, controller, tag, player, videolist){
-	if (!arr.length) {
+function videoNextPrev(videolist, controller, tag, player){
+	if (!videolist.length) {
 		return;
 	}
 	// calPer(0, 1, controller.cTimeCtrl.cTime, 'width');
 	var curId = controller.currentIndex;
 	switch(tag){
 		case -1:
-			controller.currentIndex = curId == 0 ? arr.length - 1 : curId - 1;
+			controller.currentIndex = curId == 0 ? videolist.length - 1 : curId - 1;
 			break;
 		case 1:
-			controller.currentIndex = curId == arr.length-1 ? 0 : curId + 1;
+			controller.currentIndex = curId == videolist.length-1 ? 0 : curId + 1;
 			break;
 		default: break;
 	}
@@ -336,5 +375,31 @@ function updateProBar(player, controller){
 	if (!controller.tCtrl.flag) {
 		var percent = player.currentTime/player.duration;
 		calPer(percent, 1, controller.tCtrl.curT, 'width');
+	}
+}
+
+//fullscreen
+function fullScr(element){
+	if (element.requestFullscreen) {
+		element.requestFullscreen();
+	}else if (element.msRequestFullscreen) {
+		element.msRequestFullscreen();
+	}else if (element.mozRequestFullscreen) {
+		element.mozRequestFullscreen();
+	}else if (element.webkitRequestFullscreen) {
+		element.webkitRequestFullscreen();
+	}
+}
+
+function fullScreenChnage(box, element, controller){
+	if (!controller.isFullscreen) {
+		controller.isFullscreen = true;
+		$(controller.videoList).addClass('hide');
+		$(box).addClass('forFullScreen');
+		$(element).addClass('forFullScreen');
+	}else if (controller.isFullscreen) {
+		controller.isFullscreen = false;
+		$(box).removeClass('forFullScreen');
+		$(element).removeClass('forFullScreen');
 	}
 }

@@ -26,8 +26,8 @@ var ctx = cvs.getContext('2d');
 var mv = document.getElementById('myVideo');
 var lD = new Date();//预渲染用
 //分割块数，x：横向； y：纵向
-var Nx = 2,
-	Ny = 2;
+var Nx = 1,
+	Ny = 1;
 //视频源是720P，为1280*720像素
 var W = cvs.width,
 	H = cvs.height,
@@ -74,35 +74,35 @@ tCanvas.prototype = {
 		this.cs.style.left = this.x + this.disTomove.x + 'px';
 		this.cs.style.top = this.y + this.disTomove.y + 'px';
 	},
-	events: function(){
-		var that = this;
-		this.cs.onmousedown = function(e){
-			e = e||window.event;
-			var dis = that.disTomove;
-			that.isMove = true;
-			that.disTomove.x = e.clientX;
-			that.disTomove.y = e.clientY;
-			window.onmousemove = function(e){
-				if (!that.isMove) {
-					return;
-				}
-				e = e||window.event;
-				that.disTomove = {
-					x: e.clientX - dis.x,
-					y: e.clientY - dis.y
-				};
-				that.updatePos();
-			};
-			window.onmouseup = function(){
-				if (that.isMove) {
-					that.x += that.disTomove.x;
-					that.y += that.disTomove.y;
-				};
-				this.onmousemove = null;
-				that.isMove = false;
-			}
-		};
-	},
+	// events: function(){
+	// 	var that = this;
+	// 	this.cs.onmousedown = function(e){
+	// 		e = e||window.event;
+	// 		var dis = that.disTomove;
+	// 		that.isMove = true;
+	// 		that.disTomove.x = e.clientX;
+	// 		that.disTomove.y = e.clientY;
+	// 		window.onmousemove = function(e){
+	// 			if (!that.isMove) {
+	// 				return;
+	// 			}
+	// 			e = e||window.event;
+	// 			that.disTomove = {
+	// 				x: e.clientX - dis.x,
+	// 				y: e.clientY - dis.y
+	// 			};
+	// 			that.updatePos();
+	// 		};
+	// 		window.onmouseup = function(){
+	// 			if (that.isMove) {
+	// 				that.x += that.disTomove.x;
+	// 				that.y += that.disTomove.y;
+	// 			};
+	// 			this.onmousemove = null;
+	// 			that.isMove = false;
+	// 		}
+	// 	};
+	// },
 	//@source: https://github.com/whxaxes/canvas-test/blob/master/src/Game-demo/vedioPintu.html
 	//关键，在分割画布数量多的情况下，则requestAnimationFrame会超时违规, 暂时没有解决方案
 	drawVideo: function(){
@@ -118,7 +118,7 @@ for(var i=0; i<Nx; i++){
 		var canvas = new tCanvas(i*cboxW/Nx, j*cboxH/Ny, cboxW/Nx, cboxH/Ny, i, j);
 		canvasArr.push(canvas);
 		canvas.create();
-		canvas.events();
+		// canvas.events();//设置好事件监听
 	}
 };
 
