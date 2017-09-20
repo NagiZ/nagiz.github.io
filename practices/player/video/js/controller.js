@@ -30,6 +30,8 @@ var controller = {
 	currentIndex: 0,
 	split: false,
 	isFullscreen: false,
+	isControlling: false,
+	isListShowing: false,
 	vCtrl: {
 		volumn: $('#volumn'),
 		curV: $('#v-ctrl'),
@@ -78,7 +80,34 @@ function ctrlStart(){
 		fullScr(gele('container-box'));
 	}
 //==============================================================>> 列表样式
-	controller.videoList.style.height = (controller.controller.offsetHeight + gele('container-box').offsetHeight) + 'px';
+	controller.controller.onmouseover = function(e){
+		e = e||window.event;
+		pdf(e);
+		controller.isControlling = true;
+	}
+	controller.controller.onmouseleave = function(e){
+		e = e||window.event;
+		pdf(e);
+		controller.isControlling = false;
+	}
+	gele('container-box').onmousemove = function(e){
+		if (controller.isControlling) {
+			return;
+		}
+		$(controller.controller).addClass('controller-bottom-zero');
+		var timer = null;
+		timer = setTimeout(function(){
+			if (!controller.isControlling&&!controller.isListShowing) {
+				$(controller.controller).removeClass('controller-bottom-zero');
+			}else{
+				clearTimeout(timer);
+			}
+		}, 2000);
+	}
+	gele('container-box').onmouseleave = function(e){
+		$(controller.controller).removeClass('controller-bottom-zero');
+	}
+	controller.videoList.style.height = (-controller.controller.offsetHeight + gele('container-box').offsetHeight) + 'px';
 //==============================================================>> bing eventlistener
 	player.addEventListener('timeupdate', updateProBar.bind(player, player, controller), false);
 	document.addEventListener('webkitfullscreenchange', fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller), false);
@@ -264,7 +293,8 @@ function ctrlStart(){
 	controller.listShow.onclick = function(e){
 		e = e||window.event;
 		pdf(e);
-		$(controller.videoList).toggleClass('hide');
+		$(controller.videoList).toggleClass('vl-right');
+		controller.isListShowing = ~controller.isListShowing;
 	}
 //==============================================================>> 添加视频
 	controller.addV.onclick = function(e){
@@ -297,8 +327,14 @@ function ctrlStart(){
 		updateSrc(player, videos, controller);
 		controller.play.click();
 	}
+
+	controller.videoList.onmousemove = function(e){
+		e = e||window.event;
+		pdf(e);
+	}
 }
 
+	
 
 
 //=================================================================================>>methods
@@ -394,7 +430,6 @@ function fullScr(element){
 function fullScreenChnage(box, element, controller){
 	if (!controller.isFullscreen) {
 		controller.isFullscreen = true;
-		$(controller.videoList).addClass('hide');
 		$(box).addClass('forFullScreen');
 		$(element).addClass('forFullScreen');
 	}else if (controller.isFullscreen) {
