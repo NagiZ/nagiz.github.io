@@ -36,7 +36,7 @@
 	width: 100%;
 	bottom: -23px;
 	left: 0;
-	z-index: 1000;
+	z-index: 3000;
 	transition: bottom 0.3s;
 }
 .controller-bottom-zero{
@@ -44,7 +44,7 @@
 }
 .fun{
 	display: inline-block;
-	margin: 3px 10px;
+	margin: 3px;
 	cursor: pointer;
 }
 .fun:hover{
@@ -109,7 +109,7 @@
 	margin: 3px;
 	margin-left: 10px;
 	margin-right: 10px;
-	width: 50%;
+	min-width: 50%;
 	/*height: 5px;*/
 	background-color: #0f0;
 	opacity: 0.8;
@@ -123,7 +123,13 @@
 	cursor: pointer;
 	border-radius: 5px;
 }
-
+.toggle-curt{
+	width: 72%;
+}
+/*time-show*/
+#time-show{
+	font-size: 12px;
+}
 /*upload list*/
 #upload{
 	cursor: pointer;
@@ -137,6 +143,7 @@
 	padding-left: 3%;
 	top: -1px;
 	width: 30%;
+	height: 100%;
 	border-left: 1px solid #e8e8e8;
 	overflow: auto;
 	transition: right 0.3s;

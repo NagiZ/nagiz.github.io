@@ -27,6 +27,8 @@ var controller = {
 	addV: gele('upload'),
 	videoList: gele('video-list'),
 	fullScreen: gele('full-screen'),
+	timeplayed: gele('time-played'),
+	timeduration: gele('time-duration'),
 	currentIndex: 0,
 	split: false,
 	isFullscreen: false,
@@ -107,13 +109,12 @@ function ctrlStart(){
 	gele('container-box').onmouseleave = function(e){
 		$(controller.controller).removeClass('controller-bottom-zero');
 	}
-	controller.videoList.style.height = (-controller.controller.offsetHeight + gele('container-box').offsetHeight) + 'px';
 //==============================================================>> bing eventlistener
 	player.addEventListener('timeupdate', updateProBar.bind(player, player, controller), false);
-	document.addEventListener('webkitfullscreenchange', fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller), false);
-	document.addEventListener('fullscreenchange', fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller), false);
-	document.addEventListener("msfullscreenchange", fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller), false);
-	document.addEventListener("mozfullscreenchange", fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller), false);
+	document.addEventListener('webkitfullscreenchange', fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller, gele('duration')), false);
+	document.addEventListener('fullscreenchange', fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller, gele('duration')), false);
+	document.addEventListener("msfullscreenchange", fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller, gele('duration')), false);
+	document.addEventListener("mozfullscreenchange", fullScreenChnage.bind(document, gele('container-box'), cvsbor, controller, gele('duration')), false);
 //==============================================================>> 播放/暂停
 	controller.play.onclick = function(e){
 		e = e||window.event;
@@ -127,6 +128,8 @@ function ctrlStart(){
 		$(controller.pause).removeClass('hide');
 		$(this).addClass('hide');
 		$('#play-icon').addClass('hide');
+		$(controller.videoList).removeClass('vl-right');
+		controller.isListShowing = false;
 	};
 	controller.pause.onclick = function(e){
 		e = e||window.event;
@@ -411,7 +414,24 @@ function updateProBar(player, controller){
 	if (!controller.tCtrl.flag) {
 		var percent = player.currentTime/player.duration;
 		calPer(percent, 1, controller.tCtrl.curT, 'width');
+		var duration = initTime(player.duration),
+			curt = initTime(player.currentTime);
+		if (!isNaN(player.duration)) {
+			console.log(player.duration);
+			controller.timeplayed.innerText = curt;
+			controller.timeduration.innerText = duration;
+		}
 	}
+}
+
+function initTime(time){
+	var hs = parseInt(time/3600),
+		mins = parseInt((time%3600)/60),
+		secs = parseInt(time%60);
+	hs = hs < 10 ? '0' + hs : hs;
+	mins = mins < 10 ? '0' + mins : mins;
+	secs = secs < 10 ? '0' + secs : secs;
+	return `${hs}:${mins}:${secs}`;
 }
 
 //fullscreen
@@ -427,7 +447,7 @@ function fullScr(element){
 	}
 }
 
-function fullScreenChnage(box, element, controller){
+function fullScreenChnage(box, element, controller, curt){
 	if (!controller.isFullscreen) {
 		controller.isFullscreen = true;
 		$(box).addClass('forFullScreen');
@@ -437,4 +457,6 @@ function fullScreenChnage(box, element, controller){
 		$(box).removeClass('forFullScreen');
 		$(element).removeClass('forFullScreen');
 	}
+	console.log(curt);
+	$(curt).toggleClass('toggle-curt');
 }
