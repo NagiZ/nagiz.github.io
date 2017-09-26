@@ -20,7 +20,7 @@ $(document).ready(function() {
 			$("#dmlinks").removeClass('open');
 		}
 	})
-
+	// initRoll();
 });
 
 function exchangeClass($eleArr, index){

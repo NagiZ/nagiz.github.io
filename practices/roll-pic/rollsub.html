@@ -28,42 +28,39 @@
 			overflow: hidden;
 		}
 		.rollpic{
-			/*width: 100%;*/
-			/*position: absolute;*/	
 			float: left;
 			display: block;
-			margin: 0 auto;
-		}
-		.rollpic_sub{
-			position: absolute;
 			width: 100%;
-			display: block;
+			height: 100%;
+			margin: 0 auto;
 		}
 		.banner{
 			width: 100000px;
 			position: relative;
 			left: -1000px;
 		}
-		.sc{
-			width: 375px;
-			height: 235px;
-		}
-		.lc{
-			width: 1000px;
-			height: 625px;
+		.link-box{
+			display: block;
+			float: left;
+			margin: 0 auto;
+			/*border-radius: 50px;无效*/
+			/*-webkit-transform:rotate(0deg);*/
 		}
 	</style>
 </head>
 <body>
 	<div class="picD" id="picDiv">
 		<div id="container" class="banner">
-			<img src="image/pic1.jpg" class="rollpic" style="width: 375px;" />
-			<img src="image/pic2.jpg" class="rollpic" style="width: 375px;"/>
-			<img src="image/pic3.jpg" class="rollpic" style="width: 375px;"/>
-			<img src="../../image/danmu.png" alt="弹幕墙" class="img-responsive img-demos center-block rollpic" style="width: 375px;">
-			<img src="../../image/calculator.png" alt="简易计算器" class="img-responsive img-demos center-block rollpic" style="width: 375px; height: ">
+			<a href="http://www.baidu.com" class="link-box"><img src="image/pic1.jpg" class="rollpic"/></a>
+			<a href="http://www.baidu.com" class="link-box"><img src="image/pic2.jpg" class="rollpic" /></a>
+			<a href="http://www.baidu.com" class="link-box"><img src="image/pic3.jpg" class="rollpic"/></a>
+			<a href="http://www.baidu.com" class="link-box"><img src="image/pic2.jpg" class="rollpic" /></a>
+			<a href="http://www.baidu.com" class="link-box"><img src="image/pic3.jpg" class="rollpic"/></a>
+			<a href="http://www.baidu.com" class="link-box"><img src="image/pic2.jpg" class="rollpic" /></a>
+			<a href="http://www.baidu.com" class="link-box"><img src="image/pic3.jpg" class="rollpic"/></a>
+
 		</div>
 	</div>
-	<script type="text/javascript" src="js/rollpic2.js"></script>
+	<script type="text/javascript" src="js/rolls.js"></script>
 </body>
 </html>

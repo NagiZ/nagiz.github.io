@@ -50,18 +50,6 @@ window.onload = function(){
 		picDiv.addEventListener("touchend", touche, false);
 		picDiv.addEventListener("touchmove", touchm, false);
 	}else{
-		//鼠标悬停在图片上则停止轮播
-		/*picDiv.onmouseover = function(){
-			clearTimeout(timer);
-		}
-		picDiv.onmouseout = function(){
-			timer = setTimeout(function cycle(){
-				sliding(imgs,"left");
-				clearTimeout(timer);
-				timer = setTimeout(cycle, 2000);
-			},2000);
-		}*/
-
 		//左键按下则开始监听
 		picDiv.onmousedown = function(e){
 			console.log(timer);

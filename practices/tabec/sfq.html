@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<title>选项卡效果-手风琴</title>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		#sfq-box{
+			width: 100%;
+			padding: 2%;
+			margin: 0 auto;
+			box-sizing: border-box;
+			overflow: hidden;
+		}
+		.inscale{
+			display: inline-block;
+			padding: 5px;
+			float: left;
+			width: 16%;
+			border: 1px solid #e8e8e8;
+			transition: width 0.2s;
+			-webkit-transition: width 0.2s;
+			border-top: none;
+			border-bottom: none;
+			box-sizing: border-box;
+		}
+		.ho{
+			width: 26%;
+		}
+		.hos{
+			width: 14%
+		}
+		#mycvs{
+			display: block;
+			margin: 0 auto;
+			border: 1px solid #e8e8e8;
+			border-radius: 10px;
+		}
+		/*.inscale:hover{
+			width: 19%;
+		}*/
+	</style>
+</head>
+<body>
+<!-- 还可以完善：固定总宽度 -->
+	<div id="sfq-box">
+		<div class="sfq-items"><img src="images/01.png" class="inscale" alt="蛆娘"></div>
+		<div class="sfq-items"><img src="images/02.png" class="inscale" alt="克总"></div>
+		<div class="sfq-items"><img src="images/03.png" class="inscale" alt="假哭"></div>
+		<div class="sfq-items"><img src="images/04.png" class="inscale" alt="王位"></div>
+		<div class="sfq-items"><img src="images/05.png" class="inscale" alt="女王"></div>
+		<div class="sfq-items"><img src="images/06.png" class="inscale" alt="双子"></div>
+	</div>
+	<canvas id="mycvs" width="720" height="480"></canvas>
+	<script>
+		var cvs = $('#mycvs').get(0);
+		var ctx = cvs.getContext('2d');
+		$('.inscale').each(function(index, el) {
+			el.onmouseenter = function(e){
+				$('.inscale').each(function(i, e) {
+					$(e).removeClass('ho').addClass('hos');
+				});
+				$(this).addClass('ho').removeClass('hos');
+				ctx.clearRect(0, 0, 720, 480);
+				ctx.drawImage(el, 0, 0, 720, 480);
+			}
+		});
+		$('#sfq-box').mouseleave(function(e) {
+			$('.inscale').each(function(index, el) {
+				$(el).removeClass('ho').removeClass('hos');
+			})
+		});
+		
+	</script>
+</body>
+</html>
