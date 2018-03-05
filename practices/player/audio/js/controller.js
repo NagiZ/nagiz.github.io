@@ -21,7 +21,7 @@ $(document).ready(function(){
 			alert('I\'M SORRY');
 			return;
 		}
-		var player = $('#player'),
+		var player = $('#play'),
 			controller = {
 				body: $('.controller'),
 				prev_one: $('#last-song'),
