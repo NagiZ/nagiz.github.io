@@ -14,7 +14,7 @@ $(document).ready(function(){
 	});
 	$(window).keypress(function(event) {
 		event.stopPropagation();
-		event.preventDefault();
+		// event.preventDefault();
 		if (event.keyCode===13) {
 			if (!$text.val()) {
 				return;
