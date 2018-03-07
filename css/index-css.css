@@ -95,6 +95,13 @@ blockquote{
 	position: relative;
 	z-index: 0;
 }
+.profile{
+	color: #e1a230;
+	text-decoration: none;
+}
+.profile:hover, .profile:active, .profile:visited{
+	text-decoration: none;
+}
 @media screen and (min-width: 768px) {
 	.img-demos{
 		height: 250px;

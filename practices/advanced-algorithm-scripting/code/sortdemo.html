@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE-edge">
+  <meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+  <title>Validate US Telephone Numbers</title>
+  <script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  <style>
+    .banner{
+      display: block;
+      width: 500px;
+      overflow-x: auto;
+    }
+    .banner::-webkit-scrollbar{
+      width: 300px;
+      height: 5px;
+    }
+    .banner::-webkit-scrollbar-thumb{
+      background-color: #f00;
+      height: 5px;
+      border-radius: 10px;
+    }
+    .banner::-webkit-scrollbar-track{
+      background-color: #0f0;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <input type="text" id="ipa">
+    <code>
+      <pre>
+function quickSort(arr){
+  if (arr.length<=1) {
+    return arr;
+  }
+  var arrL = [],
+    arrR = [],
+      num = Math.floor(arr.length/2);
+  var mid = [arr[num]];
+  for(var i = 0; i &lt; arr.length; i++){
+    if (arr[i] < mid[0]) {
+      arrL.push(arr[i]);
+    }else if (arr[i] > mid[0]) {
+      arrR.push(arr[i])
+    }
+  }
+  return quickSort(arrL).concat(mid.concat(quickSort(arrR)))
+}
+      </pre>
+    </code>
+  </div>
+  <script>
+    var input = document.getElementById('ipa');
+    input.onchange = function () {
+      var arr = input.value;
+      console.log(arr);
+    }
+    // methods
+    function quickSort(arr){
+      if (arr.length<=1) {
+        return arr;
+      }
+      var arrL = [],
+        arrR = [],
+          num = Math.floor(arr.length/2);
+      var mid = [arr[num]];
+      for(var i = 0; i<arr.length; i++){
+        if (arr[i] < mid[0]) {
+          arrL.push(arr[i]);
+        }else if (arr[i] > mid[0]) {
+          arrR.push(arr[i])
+        }
+      }
+      return quickSort(arrL).concat(mid.concat(quickSort(arrR)))
+    }
+    var arr = [3,9,5,151,35,132,130,581,78];
+    console.log(quickSort(arr));
+  </script>
+</body>
+</html>
