@@ -51,7 +51,7 @@ $(document).ready(function(){
 					flag: false
 				}
 			},
-			songArr = [{songSrc:'./01.mp3', songName:'富士山下'}];//存放所有曲目
+			songArr = [];//存放所有曲目
 		/*
 		*=========================================================================>audioapi, 主要用于可视化
 		*/
