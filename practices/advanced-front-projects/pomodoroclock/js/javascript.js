@@ -56,7 +56,7 @@ function calTime(){
 		if (backPercent>100) {
 			bgPercent = 100;
 		}
-		$('.session-time-pic')({
+		$('.session-time-pic').css({
 			'height': bgPercent + '%',
 			'background': '#0f0'
 		});
