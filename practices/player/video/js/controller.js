@@ -124,6 +124,7 @@ function ctrlStart(){
 			player.src = videos[0].videoSrc;
 		}
 		player.play();
+		console.log(player.attribute);
 		controller.isPlay = true;
 		$(controller.pause).removeClass('hide');
 		$(this).addClass('hide');
