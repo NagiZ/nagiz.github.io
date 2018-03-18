@@ -1,0 +1,35 @@
+=================>获取上传文件的大小等信息
+使用multer==>koa-multer
+
+var multer = require('koa-multer');
+var upload = multer({dest: 'uploads/'});
+
+router.post(#path, upload.single(targetname), async (ctx, next)=>{
+	//得到的文件信息在nodejs的request对象里，i 即对应koa里的ctx.req.targetname
+	//可查询属性
+	fieldname: 由表单指定；
+	originalname：用户计算机上的文件名；
+	encoding：文件编码；
+	mimetype：文件的mime类型；
+	size： 文件大小/字节；
+	destination：保存路径；//diskstorage
+	filename：保存在destination中的文件名；//diskstorage
+	path：上传的完整路径；//diskstorage
+	buffer：一个存放了整个文件的buffer；//memorystorage
+})
+
+
+//====================>
+koa中，ctx在每个request中被创建，在response中作为接收器调用。
+异步函数中通过this来引用ctx。ctx代理了ctx.request/ctx.response的方法。
+
+
+
+//===========================>
+web audio api 里，createMediaElementSouce(selector)在本地无法工作，原因是：
+大多数浏览器对于本地文件的读取都默认是跨域的？当直接在浏览器中打开该html文件时，开头是f://；
+如果挂载在服务器上，则因为没跨域，所以可以正常读取，工作。
+
+//=======================>
+使用vue-router，则内部的链接跳转会被vue-router拦截，由vue-router分发，因此a标签如果跳转的src是在‘/’下会
+失效。但是外链则不影响。因此若使用vue-router，则尽量所有内链都用vue-router完成。

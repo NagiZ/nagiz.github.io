@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" id="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <title>Upload</title>
+    <style>
+
+ 
+    </style>
+</head>
+<body>
+    <form action="/data/upload" method="post" id="myform" enctype="multipart/form-data"> 
+        <input type="file" multiple id="file" name="file">
+        <input type="submit" value="Submit" id="upload">
+    </form>
+    <script>
+        var file = document.getElementById("file"),
+            btn = document.getElementById("upload"),
+            myform = document.getElementById("myform");
+        btn.onclick = function(e){
+            e = e||window.event;
+            if(e.stopPropagation){
+                e.stopPropagation();
+                e.preventDefault();
+            }else{
+                e.cancelBubble();
+                e.returnValue = false;
+            };
+            if(!file.value||file.files.length<1){
+                return;
+            };
+            
+            console.log(file.files[0].size);
+            console.log(file.files[0].name);
+            myform.submit();
+        }
+    </script>
+</body>
+</html>
