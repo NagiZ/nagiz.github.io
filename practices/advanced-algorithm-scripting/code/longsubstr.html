@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE-edge">
+	<meta id="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+	<title>No Repeats</title>
+	<script src="https://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css"> 
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-xs-12 col-md-offset-3 col-sm-offset-2">
+				<form action="">
+					<div class="form-group">
+						<label for="inputStr">待处理</label>
+						<input type="text" class="form-control" id="inputStr" placeholder="请输入一个字符串" size="10">
+					</div>
+					<div class="form-group">
+						<label for="outputStr">最长子串长度</label>
+						<input type="text" class="form-control" id="outputStr" placeholder="处理结果" readonly="readonly">
+						<span id = 'helpBlockStr' class="helo-block">处理结果</span>
+					</div>
+					<button type="button" id="reverseBtn">处理</button>
+				</form>
+			</div>
+		</div>
+		<br/>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			var btn = document.getElementById('reverseBtn');
+			btn.onclick = ()=>{
+				var inputStr = document.getElementById('inputStr').value,
+					output = document.getElementById('outputStr'),
+					outputStr; 
+				if (!inputStr) {
+					return;
+				}
+				outputStr = npp(inputStr);
+				output.value = outputStr;
+				console.log(outputStr);
+				
+			}
+		}
+
+		function npp(str){
+		var arr = [],
+			arr_sub = [],
+			arr_str = str.split(''),
+			max = 0,
+			dot = 0;
+		for(var i = 0; i < arr_str.length; i++){
+			if (arr_sub.indexOf(arr_str[i]) == -1) {
+				arr_sub.push(arr_str[i]);
+			}else{
+				dot += (arr_sub.indexOf(arr_str[i]) + 1);
+				arr.push(arr_sub.join(''));
+				arr_sub = str.substring(dot, i+1).split('');
+			}
+		}
+		arr.push(arr_sub.join(''));
+		return arr.map(v =>{
+			return v.length;
+		}).sort(function(a, b){
+			return b - a;
+		})[0]
+	}
+	</script>
+</body>
+</html>

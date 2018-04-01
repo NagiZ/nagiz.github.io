@@ -26,6 +26,7 @@
 				<li class="list-group-item"><a href="./code/pairwise.html">Pairwise</a></li>
 				<li class="list-group-item"><a href="./code/sortdemo.html">Sort</a></li>
 				<li class="list-group-item"><a href="./code/fll.html">Find The First-Least Letter</a></li>
+				<li class="list-group-item"><a href="./code/fmp.html">Find The First Missing Positive</a></li>
 				</ul>
 			</div>
 		</div>
@@ -34,5 +35,96 @@
 		</br>
 		<p>Should make full use of time instead of wasting time on gaming.</p>
 	</footer>
+	<script>
+		function minWindow(s, t){
+			if (t.length == 1) {
+				if (s.split('').indexOf(t) != -1) {
+					return t;
+				}else{
+					return ''
+				}
+			}else if(t.length == 0){
+				return '';
+			}
+			var sa = s.split(''),
+				ta = t.split(''),
+				sa_sub = [],
+				result = '',
+				count = 0;
+			sa_sub = sa.map((v, i) => {
+				if(ta.indexOf(v)==-1){
+					return null;
+				} else {
+					return {ele: v, index: i}
+				}
+			}).filter(v => v!=null)
+			console.log(sa_sub);
+			if (sa_sub.length < t.length) {
+				return '';
+			}
+			var slen = sa_sub.length,
+				tlen = t.length,
+				min = s.length,
+				toFind = {},
+				curFind = {};
+			for(var i = 0; i < tlen; i++){
+				toFind[ta[i]] = toFind[ta[i]] || 0;
+				toFind[ta[i]]++;
+			}
+			// @param {integer} i : leftside
+			// @param {inteaer} j : rightside
+			for(var i = 0, j = 0; j < slen; j++){
+				curFind[sa_sub[j].ele] = curFind[sa_sub[j].ele] || 0;
+				curFind[sa_sub[j].ele]++ 
+				console.log(curFind);
+				if (curFind[sa_sub[j].ele] <= toFind[sa_sub[j].ele]) {
+					count++;
+					// console.log('This is count =======================> ' + count);
+				}
+				if (count == tlen) {
+					console.log('Enter While');
+					while(curFind[sa_sub[i].ele] > toFind[sa_sub[i].ele]){
+						curFind[sa_sub[i].ele]--;
+						i++
+					}
+					var curLen = sa_sub[j].index - sa_sub[i].index + 1;
+					// console.log('Thi is current length =======================> '+ curLen);
+					if (curLen <= min) {
+						console.log(min);
+						min = curLen;
+						result = s.substr(sa_sub[i].index, sa_sub[j].index - sa_sub[i].index + 1);
+						console.log('Thi is current result =======================> '+ result);
+					}
+				}
+			}
+			return count == tlen ? result : '';
+			// outer: for(var i=0; i <= slen - t.length; i++){
+			// 	var ta_sub = t.split('');
+			// 	inter: for(var j = i; j < slen; j++){
+			// 		console.log(sa_sub[j]);
+			// 		if (ta_sub.length > 0) {
+			// 			var id = ta_sub.indexOf(sa_sub[j].ele);
+			// 			if (id != -1) {
+			// 				ta_sub.splice(id, 1);
+			// 			}
+			// 			if (ta_sub.length == 0) {
+			// 				console.log('This turn End=======================>');
+			// 				result.push({start: sa_sub[i].index, end: sa_sub[j].index});
+			// 				break inter;
+			// 			}
+			// 		}
+			// 	}
+			// }
+			// console.log(result);
+			// result = result.map(v => {
+   //      		return sa.slice(v.start, v.end + 1).join('');
+		 //    }).sort(function(a, b){
+		 //       return a.length - b.length;
+		 //    })[0];
+		 //    return result == undefined ? '' : result;
+		}
+		var t = minWindow("cabwefgewcwaefgcf", "cae");
+		var t = 2^2;
+	</script>
 </body>
 </html>
