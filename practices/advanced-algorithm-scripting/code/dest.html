@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	// var maximumGap = function(nums) {
+	//     if(nums.length < 2){
+	//         return 0;
+	//     }
+	//     var nums = quickSort(nums),
+	//         hash = [],
+	//         temp = 0,
+	//         result = 0;
+	//     console.log(nums);
+	//     for(var i = 0; i < nums.length; i++){
+	//         hash[nums[i]] = 1;
+	//     }
+	//     for(var i = 0; i < hash.length; i++){
+	//     	if (hash[i] != 1) {
+	//     		temp++;
+	//     	}else{
+	//     		if(temp > result){
+	//     			result = temp;
+	//     		}
+	//     		temp = 0;
+	//     	}
+	//     }
+	//     console.log(result + 1);
+	//     console.log(temp)
+	// };
+	// function quickSort(a1){
+	//     if(a1.length<=1){return a1;}
+	//     var arr = a1.slice(0);
+	//     var pivotIndex=Math.floor(arr.length/2);
+	//     var pivot=arr.splice(pivotIndex,1)[0];
+	//     var left=[];
+	//     var right=[];
+	//     for(var i=0;i<arr.length;i++){
+	//         if(arr[i]<pivot){
+	//             left.push(arr[i]);
+	//         }
+	//         else{
+	//             right.push(arr[i]);
+	//         }
+	//     }
+	//     return quickSort(left).concat([pivot],quickSort(right));
+	// }
+	// var t = [1,2,4,7,8];
+	// maximumGap(t);
+	
+	//115 
+	var numDistinct = function(s, t) {
+	    if(!t.length){
+	        return 1;
+	    }
+	    if(!s.length){
+	        return 0;
+	    }
+	    var ls = s.length,
+	        lt = t.length,
+	        matching = [];
+	    matching[0] = [];
+	    matching[0][0] = 1;
+	    for(var i = 1; i <= lt; i++){
+	        matching[i] = [];
+	        matching[i][0] = 0;
+	    }
+	    for(var i = 0; i <= ls; i++){
+	        matching[0][i] = 1;
+	    }
+	    for(var i = 1; i <= lt; i++){
+	        for(var j = 1; j <= ls; j++){
+	            if(s.charAt(j - 1) == t.charAt(i - 1)){
+	                matching[i][j] = matching[i - 1][j - 1] + matching[i][j - 1];
+	            }else{
+	                matching[i][j] = matching[i][j - 1]
+	            }
+	        }
+	    }
+	    return matching[lt][ls]
+	}; 
+	// numDistinct('b','a');
+
+	// 42
+		function trap(height){
+			if (height.length < 3) {
+				return 0;
+			}
+			var len = height.length,
+				train = 0,
+				min = height[0],
+				minIndex = 0;
+			for(var i = 1; i < len; i++){
+				if (height[i] >= min) {
+					for(var j = minIndex + 1; j < i; j++){
+						train += min - height[j];
+					}
+					min = height[i];
+					minIndex = i;
+				}
+			}
+			if (minIndex == (len - 1)) {
+				return train;
+			}else{
+				var subH = height.slice(minIndex).reverse();
+				return train + trap(subH);
+			}
+		}
+		// 316
+		var removeDuplicateLetters = function(s) {
+		    if(s.trim().length == 0){
+		        return s;
+		    }
+		    var subarr = s.split(''),
+		        result = [];
+		    var arr =  [...new Set(subarr)].sort(function(s1, s2){
+		        var x1 = s1.toUpperCase(),
+		            x2 = s2.toUpperCase();
+		        if(x1 < x2){
+		            return -1;
+		        }
+		        if(x1 > x2){
+		            return 1;
+		        }
+		        return 0;
+		    })
+		    result = sb(arr, subarr);
+		    console.log(result);
+		};
+		function sb(a1, a2){
+			if(a1.length == 1){
+				return a1[0];
+			}
+			var i = 0,
+				result = '';
+			while(i < a1.length){
+				var index = a2.indexOf(a1[i]),
+		            temp = [...new Set(a2.slice(index))];
+		        if(temp.length == a1.length){
+		            result = a1[i];
+		            a1.splice(i, 1)
+		            a2 = a2.slice(index + 1).filter(v => v != result);
+		            i = a1.length + 1;
+		            console.log(a1);
+		            console.log(a2);
+		        }else {
+		            i++;
+		        }
+			}
+			return result + sb(a1, a2);
+		}
+
+		// 5
+		var longestPalindrome = function(s) {
+		    s = smoothS(s);
+		    var result = {
+		        point: 0,
+		        radius: 0
+		    },
+		        lenarr = [0],
+		        pos = 0,
+		        mx = 0,
+		        arr = s.split('');
+		    for(var i = 1, len = s.length; i < len - 1; i++){
+		        if(i < mx){
+		            lenarr[i] = Math.min(lenarr[2*pos - i], mx - i);
+		        }else{
+		            lenarr[i] = 1
+		        }
+		        while(arr[i-lenarr[i]] == arr[i+lenarr[i]] && (i-lenarr[i]) >= 0 && (i+lenarr[i]) < s.length){
+		            lenarr[i]++
+		        }
+		        if(mx < lenarr[i] + i){
+		            pos = i;
+		            mx = i + lenarr[i];
+		        }
+		        result = result.radius >= (lenarr[i]-1) ? result : {point: i, radius: lenarr[i] - 1 };
+		    }
+		    console.log(result)
+		    console.log(arr.slice(result.point - result.radius, result.point + result.radius + 1).filter(v => v != '#').join(''));
+		    return arr.slice(result.point - result.radius, result.point + result.radius + 1).filter(v => v != '#').join('');
+		};
+
+		function smoothS (s) {
+		   return '#' + s.split('').map(v => v + '#').join('');
+		}
+
+		// 316
+		removeDuplicateLetters("caccabad");
+		var t = sb(['a','b','c','d'],['c','a','c','c','a','b','a','d']);
+		var largestRectangleArea = function(heights) {
+		    var max = 0,
+		        len = heights.length;
+		    for(var i = 0; i < len; i++){
+		        var temp = sum(heights.slice(i), heights[i]);
+		        max = max < temp ? temp : max;
+		    }
+		    return max;
+		};
+
+		function sum(arr, a){
+		    arr = arr.map(v => v-a);
+		    var index = 0,
+		        len = arr.length;
+		    for(var i = 0; i < len; i++){
+		        if(arr[i] < 0){
+		            index = i;
+		            i = len;
+		        }
+		    }
+		    console.log(index);
+		    index = index == 0 ? len : index;
+		    return index * a;
+		}
+	// =================================>670
+	var maximumSwap = function(num) {
+		num = String(num);
+    	var arr = num.split('');
+	    var subArr = quickSort(arr);
+	        len = arr.length,
+	        i = 0;
+	        console.log(arr)
+	        console.log(subArr)
+	    while(arr[i] == subArr[i] && i < len){
+	        i++;
+	    }
+	    if(i != len){
+	        var index = arr.lastIndexOf(subArr[i]);
+	        arr[index] = arr[i];
+	        arr[i] = subArr[i];
+	    }
+	    console.log(arr);
+	    return Number(arr.join(''));
+	};
+	function quickSort(a1){
+	    if(a1.length<=1){return a1;}
+	    var arr = a1.slice(0);
+	    var pivotIndex=Math.floor(arr.length/2);
+	    var pivot=arr.splice(pivotIndex,1)[0];
+	    var left=[];
+	    var right=[];
+	    for(var i=0;i<arr.length;i++){
+	        if(arr[i]>pivot){
+	            left.push(arr[i]);
+	        }
+	        else{
+	            right.push(arr[i]);
+	        }
+	    }
+	    return quickSort(left).concat([pivot],quickSort(right));
+	} 
+	maximumSwap(654321); 
+	</script>
+</body>
+</html>
